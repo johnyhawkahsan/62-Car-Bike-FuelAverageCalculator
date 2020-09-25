@@ -40,5 +40,15 @@
             android:textSize="16sp"
             android:textColor="@color/colorPrimaryDark"/>
 
+    <TextView
+        android:id="@+id/tv_lastAverage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:lines="1"
+        tools:text="Last average = 12 km "
+        android:textSize="16sp"
+        android:textColor="@color/colorAccent"/>
+
     </LinearLayout>
 

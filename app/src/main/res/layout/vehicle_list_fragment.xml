@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/RootLayout.Vertical"
+    tools:context=".activities.MainActivity"
+    android:id="@+id/main_activity">
+
+    <LinearLayout
+        style="@style/RootLayout">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewVehicle"
+            style="@style/DataContainer"
+            tools:listitem="@layout/recycler_item_car_bike" />
+
+    </LinearLayout>
+
+    <include layout="@layout/empty_vehicle_profile"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabAddVehicle"
+        style="@style/Item.Fab"
+        app:srcCompat="@drawable/ic_add_black_24dp" />
+
+</FrameLayout>

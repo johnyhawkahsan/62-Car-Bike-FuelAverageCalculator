@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
+    tools:context=".activities.MainActivity"
     tools:showIn="@layout/activity_main">
 
     <TextView
@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:textSize="40sp"
         android:gravity="center"
-        android:text="No Car/Bike Found!"
+        android:text="No Vehicle Found!"
         android:drawableTop="@drawable/ic_car"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"

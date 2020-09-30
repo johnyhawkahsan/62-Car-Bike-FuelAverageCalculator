@@ -11,12 +11,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="2"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:gravity="center_horizontal">
 
             <Button
-                android:layout_width="match_parent"
-                android:layout_height="150dp"
-                android:layout_margin="@dimen/activity_margin"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 android:background="@drawable/ic_car"
                 android:focusable="true" />
         </LinearLayout>
@@ -25,12 +25,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="2"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:gravity="center_horizontal">
 
             <Button
-                android:layout_width="match_parent"
-                android:layout_height="150dp"
-                android:layout_margin="@dimen/activity_margin"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 android:background="@drawable/ic_bike"
                 android:focusable="true" />
         </LinearLayout>
@@ -40,38 +40,67 @@
 
 
     <RadioGroup
-        android:id="@+id/maptype"
-        style="@style/RootLayout.Horizontal">
+        android:id="@+id/radioButtonGroupVehicle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/activity_margin"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal">
+
 
         <RadioButton
-            android:id="@+id/map"
-            android:layout_width="wrap_content"
-            android:layout_height="150dp"
+            android:id="@+id/radioButton_car"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="2"
-            android:layout_margin="@dimen/activity_margin"
-            android:background="@drawable/ic_car"
-            android:button="@android:color/transparent"/>
+            android:background="@drawable/button_selector"
+            android:button="@android:color/transparent"
+            android:checked="true"
+            android:gravity="center"
+            android:padding="@dimen/big_padding"
+            android:text="Car"
+            android:textColor="@drawable/text_color_selector" />
 
         <RadioButton
-            android:id="@+id/satellite"
-            android:layout_width="wrap_content"
-            android:layout_height="150dp"
+            android:id="@+id/radioButton_bike"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="2"
-            android:layout_margin="@dimen/activity_margin"
-            android:background="@drawable/ic_bike"
-            android:button="@android:color/transparent" />
+            android:background="@drawable/button_selector"
+            android:button="@android:color/transparent"
+            android:gravity="center"
+            android:padding="@dimen/big_padding"
+            android:text="Bike"
+            android:textColor="@drawable/text_color_selector" />
+
     </RadioGroup>
 
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_small">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/textInputMakeModel"
+            android:id="@+id/textInputMake"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Input Make and Model"
+            android:hint="Input Make and Company"
+            android:inputType="text"
+            android:lines="1" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_small">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/textInputModel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Input Model"
             android:inputType="text"
             android:lines="1" />
 

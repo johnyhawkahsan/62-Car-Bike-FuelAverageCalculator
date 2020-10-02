@@ -42,4 +42,28 @@ dependencies {
     implementation "com.github.bumptech.glide:glide:$glideVersion"
     annotationProcessor "com.github.bumptech.glide:compiler:$glideVersion"
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
+
+    // Room Components
+    def room_version = "2.2.5"
+    implementation "androidx.room:room-runtime:$room_version"
+    annotationProcessor "androidx.room:room-compiler:$room_version"
+
+    // Lifecycle dependencies
+    def lifecycle_version = "2.2.0"
+    implementation "androidx.lifecycle:lifecycle-viewmodel:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-livedata:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
+    annotationProcessor "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
+
+    // RX Java
+    def rxJava_Version = '2.2.16' // (see https://github.com/ReactiveX/RxJava/releases for latest 2.x.x version)
+    implementation "io.reactivex.rxjava2:rxjava:$rxJava_Version"
+
+    // RxJava support for Room
+    def room_rxJava_Version = '1.1.1'
+    implementation "android.arch.persistence.room:rxjava2:$room_rxJava_Version"
+
+    // RX Android
+    def rxAndroid_Version = '2.1.1' // Because RxAndroid releases are few and far between, it is recommended you also explicitly depend on RxJava's latest version for bug fixes and new features.
+    implementation "io.reactivex.rxjava2:rxandroid:$rxAndroid_Version"
 }

@@ -1,7 +1,9 @@
 package com.johnyhawkdesigns.a62_car_bike_fuelaveragecalculator.fragments;
 
+import android.app.Application;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,10 +11,15 @@ import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.johnyhawkdesigns.a62_car_bike_fuelaveragecalculator.R;
+import com.johnyhawkdesigns.a62_car_bike_fuelaveragecalculator.adapter.VehicleListAdapter;
+import com.johnyhawkdesigns.a62_car_bike_fuelaveragecalculator.database.model.Vehicle;
+import com.johnyhawkdesigns.a62_car_bike_fuelaveragecalculator.database.viewmodel.VehicleViewModel;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class VehicleListFragment extends Fragment {
@@ -26,9 +33,12 @@ public class VehicleListFragment extends Fragment {
     // used to inform the MainActivity when a item is selected or added
     private VehicleListFragmentListener listener;
 
+    private VehicleViewModel vehicleViewModel;
+
     private static final String TAG = VehicleListFragment.class.getSimpleName();
     private TextView emptyTextView;
     private RecyclerView recyclerView;
+    private VehicleListAdapter vehicleListAdapter;
     private FloatingActionButton floatingActionButton;
 
     @Nullable
@@ -38,20 +48,44 @@ public class VehicleListFragment extends Fragment {
         View view = inflater.inflate(R.layout.vehicle_list_fragment, container, false);
 
         recyclerView = view.findViewById(R.id.recyclerViewVehicle);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         //recyclerView.setLayoutManager(new GridLayoutManager(this));
-        // carBikeListAdapter = new CarBikeListAdapter // constructor for adapter
-        //recyclerView.setAdapter(carBikeListAdapter);
+
+        vehicleListAdapter = new VehicleListAdapter(getActivity(), new VehicleListAdapter.VehicleClickListener() {
+            @Override
+            public void onClick(Vehicle vehicle) {
+                Log.d(TAG, "onClick: vehicleID = " + vehicle.getVehicleID());
+                // open petrol data of this vehicle
+                //listener.onVehicleSelected(vehicleID);
+            }
+        });
+
+        recyclerView.setAdapter(vehicleListAdapter);
+
+        Application app = (getActivity().getApplication());
+        //vehicleViewModel = new VehicleViewModel(getActivity().getApplication()); // I don't know the difference between this and below ViewModelProvider method
+        vehicleViewModel = new ViewModelProvider.AndroidViewModelFactory(app).create(VehicleViewModel.class);
 
         emptyTextView = view.findViewById(R.id.tv__empty);
 
-/*
-        // get all vehicles list using view model
-        if (carVehicleList.size() > 0) {
-            emptyTextView.setVisibility(View.GONE);
-        } else {
-            emptyTextView.setVisibility(View.VISIBLE);
-        }
-*/
+        vehicleViewModel.getAllVehicles().observe(getActivity(), vehicles -> { // using lambda expression here
+            Log.d(TAG, "onCreateView: size of list = " + vehicles.size());
+
+            // Loop through all returned list items and display in logs
+            for (int i = 0; i < vehicles.size(); i++ ){
+                Log.d(TAG, "vehicleID = " + vehicles.get(i).getVehicleID() + ", vehicle type = " + vehicles.get(i).getVehicleType());
+            }
+
+            vehicleListAdapter.setVehicleList(vehicles); // manually set list
+
+            if (vehicles.size() > 0 ) {
+                emptyTextView.setVisibility(View.GONE);
+            } else {
+                emptyTextView.setVisibility(View.VISIBLE);
+            }
+
+        });
+
 
 
         floatingActionButton = view.findViewById(R.id.fabAddVehicle);

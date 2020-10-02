@@ -35,14 +35,11 @@ public class MainActivity extends AppCompatActivity
         transaction.add(R.id.vehicleFragmentContainer, vehicleListFragment);
         transaction.commit();
 
-
     }
 
     @Override
     public void onAddVehicle() {
         Log.d(TAG, "onAddVehicle: FAB Add button Clicked");
-
-
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         AddEditVehicleFragment addEditVehicleFragment = AddEditVehicleFragment.newInstance("Add Vehicle");

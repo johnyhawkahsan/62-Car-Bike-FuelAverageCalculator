@@ -13,7 +13,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewVehicle"
             style="@style/DataContainer"
-            tools:listitem="@layout/recycler_item_car_bike" />
+            tools:listitem="@layout/recycler_item_vehicle" />
 
     </LinearLayout>
 

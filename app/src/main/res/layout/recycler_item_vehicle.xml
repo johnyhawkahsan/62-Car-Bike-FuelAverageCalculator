@@ -6,33 +6,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/Item.RootLayout.WithImage">
 
-    <LinearLayout
-        style="@style/Item.Layout.Info">
+    <LinearLayout style="@style/Item.Layout.Info">
 
         <TextView
-            android:id="@+id/tv_carOrBike"
+            android:id="@+id/tv_make"
             style="@style/Item.Title"
             tools:text="Suzuki Every" />
 
 
         <TextView
-            android:id="@+id/tv_carBikeMakeModel"
+            android:id="@+id/tv_model"
             style="@style/Item.Info"
             android:textColor="@color/colorPrimaryDark"
             android:textStyle=""
             tools:text="2006 660cc" />
 
-        <TextView
-            android:id="@+id/tv_lastAverage"
-            style="@style/Item.Info"
-            android:textColor="@color/colorPrimary"
-            tools:text="Last average = 12 km " />
 
 
     </LinearLayout>
 
     <ImageView
-        android:id="@+id/iv_iconCarBike"
+        android:id="@+id/iv_iconVehicle"
         style="@style/Item.Layout.Image"
         android:contentDescription="@string/carbikeicon"
         app:srcCompat="@drawable/ic_car" />

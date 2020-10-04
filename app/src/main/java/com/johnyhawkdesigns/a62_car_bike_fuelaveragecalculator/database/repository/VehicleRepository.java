@@ -1,6 +1,7 @@
 package com.johnyhawkdesigns.a62_car_bike_fuelaveragecalculator.database.repository;
 
 import android.app.Application;
+import android.os.AsyncTask;
 
 import com.johnyhawkdesigns.a62_car_bike_fuelaveragecalculator.database.RoomDatabase;
 import com.johnyhawkdesigns.a62_car_bike_fuelaveragecalculator.database.dao.VehicleDao;
@@ -13,6 +14,9 @@ import java.util.concurrent.Executors;
 
 import androidx.lifecycle.LiveData;
 import io.reactivex.Completable;
+import io.reactivex.Maybe;
+import io.reactivex.Observable;
+import io.reactivex.Single;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
@@ -38,7 +42,7 @@ public class VehicleRepository {
     }
 
     // get single vehicle using id
-    public LiveData<Vehicle> getVehicle(int vehicleID){
+    public Maybe<Vehicle> getVehicle(int vehicleID){
         return mVehicleDao.getVehicle(vehicleID);
     }
 
@@ -90,8 +94,36 @@ public class VehicleRepository {
 
     // delete vehicle
     public void deleteVehicle(Vehicle vehicle){
-        mVehicleDao.delete(vehicle)
-        .subscribeOn(Schedulers.io());
+        new deleteVehicleAsyncTask(mVehicleDao, vehicle).execute();
+
     }
+
+    // using old AsyncTask to delete this item
+    private static class deleteVehicleAsyncTask extends AsyncTask<Void, Void, Void> {
+        private VehicleDao vehicleDao;
+        private Vehicle vehicle;
+        deleteVehicleAsyncTask(VehicleDao vehicleDao, Vehicle vehicle) {
+            this.vehicleDao = vehicleDao;
+            this.vehicle = vehicle;
+        }
+        @Override
+        protected Void doInBackground(Void... voids) {
+            vehicleDao.delete(vehicle);
+            return null;
+        }
+    }
+
+
+    // delete all vehicle
+    public void deleteAllVehicle(){
+        Observable.fromCallable(() -> {
+            return false;
+        })
+         .subscribeOn(Schedulers.io())
+        .subscribe(aBoolean -> {
+            mVehicleDao.deleteAllVehicle();
+        }); // do task in background
+    }
+
 
 }

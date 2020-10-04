@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -20,6 +21,8 @@ import com.johnyhawkdesigns.a62_car_bike_fuelaveragecalculator.database.model.Ve
 import com.johnyhawkdesigns.a62_car_bike_fuelaveragecalculator.database.viewmodel.VehicleViewModel;
 import com.johnyhawkdesigns.a62_car_bike_fuelaveragecalculator.util.AppUtils;
 
+import java.util.List;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -27,6 +30,10 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import io.reactivex.Completable;
+import io.reactivex.Single;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 public class VehicleDetailsFragment extends Fragment {
 
@@ -79,39 +86,62 @@ public class VehicleDetailsFragment extends Fragment {
 
 
         vehicleViewModel = new VehicleViewModel(getActivity().getApplication());
-        vehicleViewModel.getVehicle(vehicleID).observe(getActivity(), foundVehicle -> {
 
-            vehicle = foundVehicle;
+        vehicleViewModel.getVehicle(vehicleID)
+                .subscribeOn(Schedulers.io())
+                //.map(vehicle1 -> {
+                //   return vehicle1 = vehicle;
+                //})
+                .subscribe(vehicle -> {
+                    this.vehicle = vehicle;
 
-            Log.d(TAG, "onCreateView: foundVehicle.getVehicleMake() = " + foundVehicle.getVehicleMake() + ", vehicle.getVehicleModel = " + foundVehicle.getVehicleModel());
+                    Log.d(TAG, "onCreateView: vehicle.getVehicleMake() = " + vehicle.getVehicleMake() + ", vehicle.getVehicleModel = " + vehicle.getVehicleModel());
 
-            if (foundVehicle.getVehicleType().equals("car")){
-                detail_fragment_vehicle_icon.setImageResource(R.drawable.ic_car);
-            } else {
-                detail_fragment_vehicle_icon.setImageResource(R.drawable.ic_bike);
-            }
-            tv_vehicleID.setText("VehicleID = " + String.valueOf(foundVehicle.getVehicleID()));
-            tv_vehicle_make.setText(foundVehicle.getVehicleMake());
-            tv_vehicle_model.setText(foundVehicle.getVehicleModel());
+                    if (vehicle.getVehicleType().equals("car")){
+                        detail_fragment_vehicle_icon.setImageResource(R.drawable.ic_car);
+                    } else {
+                        detail_fragment_vehicle_icon.setImageResource(R.drawable.ic_bike);
+                    }
+                    tv_vehicleID.setText("VehicleID = " + String.valueOf(vehicle.getVehicleID()));
+                    tv_vehicle_make.setText(vehicle.getVehicleMake());
+                    tv_vehicle_model.setText(vehicle.getVehicleModel());
+                });
 
-        });
+        // This is simple LiveData<Vehicle> method which I used, but I stopped using it when "delete" method messed with the app and crashed the app once vehicle is delete
+        // I believe this has to do with the lifecycle of LiveData
+        //vehicleViewModel.getVehicle(vehicleID).observe(getActivity(), foundVehicle -> {
+        //});
+
+
+
+
 
         btn_fuel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 fab.show();
                 // need to populate recyclerView with fuel data
+                toggleButtonBackground(btn_fuel, btn_mobilOil);
+
             }
         });
+
 
         btn_mobilOil.setOnClickListener(v -> {
             fab.show();
             // need to populate recyclerView with mobile oil data
+            toggleButtonBackground(btn_mobilOil, btn_fuel);
         });
 
 
         return view;
     }
+
+    private void toggleButtonBackground(Button activeButton, Button nonActiveButton) {
+        activeButton.setBackgroundResource(R.drawable.selected_state);
+        nonActiveButton.setBackgroundResource(R.drawable.regular_state);
+    }
+
 
     // Fragment lifecycle method- set MedHistoryDetailFragmentListener when fragment attached
     @Override
@@ -146,7 +176,7 @@ public class VehicleDetailsFragment extends Fragment {
 
             case R.id.action_delete:
 
-                Log.d(TAG, "onOptionsItemSelected: delete med history");
+                Log.d(TAG, "onOptionsItemSelected: delete vehicle = " + vehicle.getVehicleMake());
 
                 // Build alert dialog for confirmation
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -155,9 +185,12 @@ public class VehicleDetailsFragment extends Fragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         AppUtils.showMessage(getActivity(), "Delete vehicleID = " + vehicleID + " success");
+
                         vehicleViewModel.deleteVehicle(vehicle);
                         listener.onVehicleDeleted();
-                        getFragmentManager().popBackStack();
+                        getParentFragmentManager().popBackStack();
+                        //getFragmentManager().popBackStack(); // deprecated
+                        //getActivity().onBackPressed(); // this also works
                     }
                 });
                 builder.setNegativeButton("No", new DialogInterface.OnClickListener() {

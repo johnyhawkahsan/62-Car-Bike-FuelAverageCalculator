@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
@@ -37,6 +39,8 @@ public class AddEditVehicleFragment extends DialogFragment {
     private TextInputEditText textInputMake;
     private TextInputEditText textInputModel;
     private RadioGroup radioButtonGroupVehicle;
+    private RadioButton radioButton_car;
+    private RadioButton radioButton_bike;
     private FloatingActionButton fabSaveVehicle;
 
     private boolean addingNewVehicle = true; // adding (true) or editing (false)
@@ -60,6 +64,8 @@ public class AddEditVehicleFragment extends DialogFragment {
         textInputMake = view.findViewById(R.id.textInputMake);
         textInputModel = view.findViewById(R.id.textInputModel);
         radioButtonGroupVehicle = view.findViewById(R.id.radioButtonGroupVehicle);
+        radioButton_car = view.findViewById(R.id.radioButton_car);
+        radioButton_bike = view.findViewById(R.id.radioButton_bike);
         fabSaveVehicle = view.findViewById(R.id.fabSaveVehicle);
 
 
@@ -75,6 +81,7 @@ public class AddEditVehicleFragment extends DialogFragment {
         getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
 
         vehicleType = "car"; // set default value for vehicleName for radioButton to work properly
+        radioButton_car.setBackgroundResource(R.drawable.selected_state);
 
         radioButtonGroupVehicle.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -82,10 +89,12 @@ public class AddEditVehicleFragment extends DialogFragment {
                 switch(checkedId){
                     case R.id.radioButton_car:
                         vehicleType = "car";
+                        toggleButtonBackground(radioButton_car, radioButton_bike);
                         Log.d(TAG, "onCheckedChanged: radioButton_car vehicleName = " + vehicleType);
                         break;
                     case R.id.radioButton_bike:
                         vehicleType = "bike";
+                        toggleButtonBackground(radioButton_bike, radioButton_car);
                         Log.d(TAG, "onCheckedChanged: radioButton_bike vehicleName = " + vehicleType);
                         break;
                 }
@@ -96,6 +105,11 @@ public class AddEditVehicleFragment extends DialogFragment {
 
 
         return view;
+    }
+
+    private void toggleButtonBackground(RadioButton activeButton, RadioButton nonActiveButton) {
+        activeButton.setBackgroundResource(R.drawable.selected_state);
+        nonActiveButton.setBackgroundResource(R.drawable.regular_state);
     }
 
     // When Save button is clicked

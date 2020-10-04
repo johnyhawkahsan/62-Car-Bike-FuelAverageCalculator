@@ -11,6 +11,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 import io.reactivex.Completable;
+import io.reactivex.Maybe;
 import io.reactivex.Single;
 
 @Dao
@@ -20,7 +21,8 @@ public interface VehicleDao {
     LiveData<List<Vehicle>> getAllVehicle();
 
     @Query("SELECT * FROM vehicle_table WHERE vehicleID = :vehicleID")
-    LiveData<Vehicle> getVehicle(int vehicleID);
+    //LiveData<Vehicle> getVehicle(int vehicleID); // LiveData also worked perfectly but not using here because of the problem caused by "delete" command in VehicleDetailFragment
+    Maybe<Vehicle> getVehicle(int vehicleID); // using Maybe because Single caused an error, I think due to the possibility of multiple returned items
 
 
     @Insert
@@ -36,9 +38,9 @@ public interface VehicleDao {
 
     @Delete
     //void delete(Vehicle Vehicle);
-    Single<Integer> delete(final Vehicle Vehicle);
+    void delete(final Vehicle Vehicle);
 
     @Query("DELETE FROM vehicle_table")
-    //void deleteAll();
-    Single<Integer> deleteAll();
+    //void deleteAllVehicle();
+    void deleteAllVehicle();
 }

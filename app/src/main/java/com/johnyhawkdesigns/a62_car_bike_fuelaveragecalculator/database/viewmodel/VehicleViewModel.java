@@ -10,6 +10,8 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import io.reactivex.Maybe;
+import io.reactivex.Single;
 
 public class VehicleViewModel extends AndroidViewModel {
 
@@ -30,7 +32,7 @@ public class VehicleViewModel extends AndroidViewModel {
 
 
     // get single vehicle using id
-    public LiveData<Vehicle> getVehicle(int vehicleID){
+    public Maybe<Vehicle> getVehicle(int vehicleID){
         return vehicleRepository.getVehicle(vehicleID);
     }
 
@@ -44,10 +46,14 @@ public class VehicleViewModel extends AndroidViewModel {
         vehicleRepository.updateVehicle(vehicle);
     }
 
-    // delete vehicle
+     // delete vehicle
     public void deleteVehicle(Vehicle vehicle){
         vehicleRepository.deleteVehicle(vehicle);
     }
 
+    // delete all vehicle
+    public void deleteAllVehicle(){
+        vehicleRepository.deleteAllVehicle();
+    }
 
 }

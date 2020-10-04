@@ -30,7 +30,7 @@ public class VehicleViewModel extends AndroidViewModel {
 
 
     // get single vehicle using id
-    public Vehicle getVehicle(int vehicleID){
+    public LiveData<Vehicle> getVehicle(int vehicleID){
         return vehicleRepository.getVehicle(vehicleID);
     }
 

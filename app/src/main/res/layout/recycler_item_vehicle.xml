@@ -4,7 +4,9 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    style="@style/Item.RootLayout.WithImage">
+    style="@style/Item.RootLayout.WithImage"
+    android:background="@drawable/layout_bg"
+    android:padding="@dimen/margin_tiny">
 
     <LinearLayout style="@style/Item.Layout.Info">
 

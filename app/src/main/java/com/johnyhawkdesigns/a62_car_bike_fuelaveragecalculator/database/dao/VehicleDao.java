@@ -20,7 +20,7 @@ public interface VehicleDao {
     LiveData<List<Vehicle>> getAllVehicle();
 
     @Query("SELECT * FROM vehicle_table WHERE vehicleID = :vehicleID")
-    Vehicle getVehicle(int vehicleID);
+    LiveData<Vehicle> getVehicle(int vehicleID);
 
 
     @Insert

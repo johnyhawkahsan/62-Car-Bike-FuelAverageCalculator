@@ -19,26 +19,29 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class VehicleListFragment extends Fragment {
 
+
     // callback method implemented by MainActivity
     public interface VehicleListFragmentListener{
         // called when add button is pressed
-        void onAddVehicle();
+        void onAddNewVehicle();
+        void onVehicleSelected(int vehicleID);
     }
 
     // used to inform the MainActivity when a item is selected or added
     private VehicleListFragmentListener listener;
 
-    private VehicleViewModel vehicleViewModel;
-
     private static final String TAG = VehicleListFragment.class.getSimpleName();
-    private TextView emptyTextView;
+
+    private VehicleViewModel vehicleViewModel;
     private RecyclerView recyclerView;
     private VehicleListAdapter vehicleListAdapter;
+    private TextView emptyTextView;
     private FloatingActionButton floatingActionButton;
 
     @Nullable
@@ -49,32 +52,25 @@ public class VehicleListFragment extends Fragment {
 
         recyclerView = view.findViewById(R.id.recyclerViewVehicle);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        //recyclerView.setLayoutManager(new GridLayoutManager(this));
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        vehicleListAdapter = new VehicleListAdapter(getActivity(), new VehicleListAdapter.VehicleClickListener() {
-            @Override
-            public void onClick(Vehicle vehicle) {
-                Log.d(TAG, "onClick: vehicleID = " + vehicle.getVehicleID());
-                // open petrol data of this vehicle
-                //listener.onVehicleSelected(vehicleID);
-            }
+        vehicleListAdapter = new VehicleListAdapter(getActivity(), vehicle -> {
+            Log.d(TAG, "onClick: vehicleID = " + vehicle.getVehicleID());
+            // open petrol data of this vehicle from MainActivity
+            listener.onVehicleSelected(vehicle.getVehicleID());
         });
 
         recyclerView.setAdapter(vehicleListAdapter);
 
         Application app = (getActivity().getApplication());
-        //vehicleViewModel = new VehicleViewModel(getActivity().getApplication()); // I don't know the difference between this and below ViewModelProvider method
+
+        //Both methods work- I don't know the difference between this and below ViewModelProvider method
+        //vehicleViewModel = new VehicleViewModel(getActivity().getApplication());
         vehicleViewModel = new ViewModelProvider.AndroidViewModelFactory(app).create(VehicleViewModel.class);
 
         emptyTextView = view.findViewById(R.id.tv__empty);
 
         vehicleViewModel.getAllVehicles().observe(getActivity(), vehicles -> { // using lambda expression here
-            Log.d(TAG, "onCreateView: size of list = " + vehicles.size());
-
-            // Loop through all returned list items and display in logs
-            for (int i = 0; i < vehicles.size(); i++ ){
-                Log.d(TAG, "vehicleID = " + vehicles.get(i).getVehicleID() + ", vehicle type = " + vehicles.get(i).getVehicleType());
-            }
 
             vehicleListAdapter.setVehicleList(vehicles); // manually set list
 
@@ -84,8 +80,14 @@ public class VehicleListFragment extends Fragment {
                 emptyTextView.setVisibility(View.VISIBLE);
             }
 
-        });
 
+            Log.d(TAG, "onCreateView: size of list = " + vehicles.size());
+            // Loop through all returned list items and display in logs
+            for (int i = 0; i < vehicles.size(); i++ ){
+                Log.d(TAG, "vehicleID = " + vehicles.get(i).getVehicleID() + ", vehicle type = " + vehicles.get(i).getVehicleType());
+            }
+
+        });
 
 
         floatingActionButton = view.findViewById(R.id.fabAddVehicle);
@@ -93,7 +95,7 @@ public class VehicleListFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 // Launch AddEditVehicleFragment via MainActivity
-                listener.onAddVehicle();
+                listener.onAddNewVehicle();
             }
         });
 

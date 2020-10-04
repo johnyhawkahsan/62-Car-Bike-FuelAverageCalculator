@@ -38,7 +38,7 @@ public class VehicleRepository {
     }
 
     // get single vehicle using id
-    public Vehicle getVehicle(int vehicleID){
+    public LiveData<Vehicle> getVehicle(int vehicleID){
         return mVehicleDao.getVehicle(vehicleID);
     }
 

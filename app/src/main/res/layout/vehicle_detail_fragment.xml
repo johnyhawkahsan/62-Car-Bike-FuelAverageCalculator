@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        style="@style/Dialog.Vertical"
+        android:layout_margin="@dimen/margin_small"
+        android:background="@drawable/layout_bg">
+
+
+        <LinearLayout style="@style/Item.RootLayout.WithImage">
+
+            <LinearLayout style="@style/Item.Layout.Info">
+
+
+                <TextView
+                    android:id="@+id/tv_vehicleID"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:hint="Vehicle ID" />
+
+                <TextView
+                    android:id="@+id/tv_vehicle_make"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:hint="Make" />
+
+
+                <TextView
+                    android:id="@+id/tv_vehicle_model"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:hint="Model" />
+
+            </LinearLayout>
+
+
+            <LinearLayout style="@style/Item.Layout.Info">
+
+                <ImageView
+                    android:id="@+id/detail_fragment_vehicle_icon"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_gravity="center"
+                    android:contentDescription="@string/carbikeicon"
+                    app:srcCompat="@drawable/ic_car" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_fuel"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/margin_small"
+                android:focusable="true"
+                android:text="Fuel" />
+
+            <Button
+                android:id="@+id/btn_mobilOil"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:focusable="true"
+                android:text="Mobil Oil" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.6"
+        android:orientation="vertical"
+        android:stateListAnimator="@null">
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabAdd"
+            style="@style/Item.Fab"
+            android:background="@android:color/transparent"
+            app:srcCompat="@drawable/ic_add_black_24dp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            style="@style/DataContainer"
+            android:paddingLeft="@dimen/margin_small"
+            android:paddingRight="@dimen/margin_small"
+            android:scrollbarStyle="outsideOverlay"
+            android:scrollbars="vertical"
+            tools:listitem="@layout/recycler_item_last_fuel" />
+
+    </RelativeLayout>
+
+
+</LinearLayout>
+

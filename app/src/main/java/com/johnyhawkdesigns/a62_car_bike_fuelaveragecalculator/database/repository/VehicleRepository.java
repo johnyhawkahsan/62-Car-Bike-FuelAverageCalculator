@@ -59,7 +59,7 @@ public class VehicleRepository {
 */
 
 
-        mVehicleDao.insert(vehicle)
+        mVehicleDao.insertVehicle(vehicle)
                 .subscribeOn(Schedulers.io()) // do task in background
                 .subscribe(new Action() {
                                @Override
@@ -86,7 +86,7 @@ public class VehicleRepository {
         mExecutor.execute(new Runnable() {
             @Override
             public void run() {
-                mVehicleDao.update(vehicle);
+                mVehicleDao.updateVehicle(vehicle);
             }
         });
 
@@ -108,7 +108,7 @@ public class VehicleRepository {
         }
         @Override
         protected Void doInBackground(Void... voids) {
-            vehicleDao.delete(vehicle);
+            vehicleDao.deleteVehicle(vehicle);
             return null;
         }
     }
@@ -119,7 +119,7 @@ public class VehicleRepository {
         Observable.fromCallable(() -> {
             return false;
         })
-         .subscribeOn(Schedulers.io())
+        .subscribeOn(Schedulers.io())
         .subscribe(aBoolean -> {
             mVehicleDao.deleteAllVehicle();
         }); // do task in background

@@ -28,17 +28,17 @@ public interface VehicleDao {
     @Insert
     // Below are 2 methods: 1 method is using simple void insert and converting to Completable inside Repository, 2nd method is using Completable here
     //void insert(Vehicle Vehicle); // converting to completable inside Repository class
-    Completable insert(final Vehicle Vehicle);// currently, we must put final before user variable or you will get error when compile
+    Completable insertVehicle(final Vehicle Vehicle);// currently, we must put final before user variable or you will get error when compile
 
     @Insert
     void insertAll(Vehicle... Vehicles);
 
     @Update
-    void update(Vehicle Vehicle); // for update, I am using executor inside Repository
+    void updateVehicle(Vehicle Vehicle); // for update, I am using executor inside Repository
 
     @Delete
     //void delete(Vehicle Vehicle);
-    void delete(final Vehicle Vehicle);
+    void deleteVehicle(final Vehicle Vehicle);
 
     @Query("DELETE FROM vehicle_table")
     //void deleteAllVehicle();

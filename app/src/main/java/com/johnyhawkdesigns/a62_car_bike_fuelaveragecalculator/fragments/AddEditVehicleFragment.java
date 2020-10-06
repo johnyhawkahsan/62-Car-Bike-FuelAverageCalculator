@@ -21,17 +21,28 @@ import com.johnyhawkdesigns.a62_car_bike_fuelaveragecalculator.util.AppUtils;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 public class AddEditVehicleFragment extends DialogFragment {
 
     private static final String TAG = AddEditVehicleFragment.class.getSimpleName();
 
-    public static AddEditVehicleFragment newInstance(String title){
-        AddEditVehicleFragment fragment = new AddEditVehicleFragment();
+    // constructor for edit
+    public static AddEditVehicleFragment newInstance(int vehicleID) {
+        AddEditVehicleFragment addEditVehicleFragment = new AddEditVehicleFragment();
         Bundle args = new Bundle();
-        args.putString("title", title);
-        fragment.setArguments(args);
-        return fragment;
+        args.putInt("vehicleID", vehicleID);
+        addEditVehicleFragment.setArguments(args);
+        return addEditVehicleFragment;
+    }
+
+    // constructor for add new
+    public static AddEditVehicleFragment newInstance() {
+        AddEditVehicleFragment addEditVehicleFragment = new AddEditVehicleFragment();
+        return addEditVehicleFragment;
     }
 
     private VehicleViewModel vehicleViewModel;
@@ -50,15 +61,14 @@ public class AddEditVehicleFragment extends DialogFragment {
     private String vehicleMake = "";
     private String vehicleModel = "";
 
+    CompositeDisposable compositeDisposable = new CompositeDisposable();
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-
         // Inflate the layout for this fragment
-        View view =  inflater.inflate(R.layout.add_vehicle_fragment, container, false);
-
-        vehicleViewModel = new VehicleViewModel(getActivity().getApplication());
+        View view = inflater.inflate(R.layout.add_vehicle_fragment, container, false);
 
         textViewTitle = view.findViewById(R.id.text_title);
         textInputMake = view.findViewById(R.id.textInputMake);
@@ -69,24 +79,75 @@ public class AddEditVehicleFragment extends DialogFragment {
         fabSaveVehicle = view.findViewById(R.id.fabSaveVehicle);
 
 
-        // Fetch arguments from bundle and set title
-        String title = getArguments().getString("title", "Add Vehicle");
-        if (title != null){
-            textViewTitle.setText(title);
+        vehicleViewModel = new VehicleViewModel(getActivity().getApplication());
+
+        // get Bundle of arguments then extract the contact's Uri
+        Bundle arguments = getArguments();
+
+        // if we are adding new Vehicle, there should be no data in getArguments to assign to medID
+        if (arguments != null) {
+
+            if (arguments.get("vehicleID") != null) {
+                vehicleID = arguments.getInt("vehicleID");
+            }
+
+            addingNewVehicle = false;
+            textViewTitle.setText("Editing Vehicle Record");
+
+            Log.d(TAG, "Editing mode = received vehicleID = " + vehicleID + ", addingNewVehicle = false");
+
+
+            // -====================== Need to add composite disposable here===============================//
+
+            Disposable disposable =
+            vehicleViewModel.getVehicle(vehicleID)
+                    .subscribeOn(Schedulers.io())
+                    //.map(vehicle1 -> {
+                    //   return vehicle1 = vehicle;
+                    //})
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(vehicle -> {
+
+                        Log.d(TAG, "onCreateView: vehicle.getVehicleMake() = " + vehicle.getVehicleMake() + ", vehicle.getVehicleModel = " + vehicle.getVehicleModel());
+
+                        vehicleType = vehicle.getVehicleType();
+                        vehicleMake = vehicle.getVehicleMake();
+                        vehicleModel = vehicle.getVehicleModel();
+
+
+                        if (vehicle.getVehicleType().equals("car")) {
+                            radioButton_car.setChecked(true);
+                            toggleButtonBackground(radioButton_car, radioButton_bike);
+                        } else {
+                            radioButton_bike.setChecked(true);
+                            toggleButtonBackground(radioButton_bike, radioButton_car);
+                        }
+
+                        // worked after adding composite disposable
+                        textInputMake.setText(vehicle.getVehicleMake());
+                        textInputModel.setText(vehicle.getVehicleModel());
+
+                    });
+
+
+
+            compositeDisposable.add(disposable);
+
+
+        } else { // adding new record
+
+            Log.d(TAG, "Adding new record mode, addingNewVehicle = true");
+            addingNewVehicle = true;
+            vehicleType = "car"; // set default value for vehicleName for radioButton to work properly
+            textViewTitle.setText("Adding New Vehicle");
+            radioButton_car.setBackgroundResource(R.drawable.selected_state); // by default, we want car button to be selected
         }
 
-
-        // Show soft keyboard automatically and request focus to field
-        textInputMake.requestFocus();
-        getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
-
-        vehicleType = "car"; // set default value for vehicleName for radioButton to work properly
-        radioButton_car.setBackgroundResource(R.drawable.selected_state);
 
         radioButtonGroupVehicle.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                switch(checkedId){
+                switch (checkedId) {
                     case R.id.radioButton_car:
                         vehicleType = "car";
                         toggleButtonBackground(radioButton_car, radioButton_bike);
@@ -100,6 +161,7 @@ public class AddEditVehicleFragment extends DialogFragment {
                 }
             }
         });
+
 
         fabSaveVehicle.setOnClickListener(saveButtonClicked);
 
@@ -117,29 +179,33 @@ public class AddEditVehicleFragment extends DialogFragment {
         @Override
         public void onClick(View v) {
 
-            vehicleMake  = textInputMake.getText().toString();
-            vehicleModel  = textInputModel.getText().toString();
+            Vehicle vehicle = new Vehicle();
 
-            if (vehicleType.isEmpty() || vehicleMake.trim().isEmpty() || vehicleModel.trim().isEmpty() ){ // vehicleMake.length() == 0  old approach
+            vehicleMake = textInputMake.getText().toString();
+            vehicleModel = textInputModel.getText().toString();
+
+            if (vehicleType.isEmpty() || vehicleMake.trim().isEmpty() || vehicleModel.trim().isEmpty()) { // vehicleMake.length() == 0  old approach
                 Log.d(TAG, "onClick: any of the parameters is empty");
                 AppUtils.showMessage(getActivity(), "Please fill all details!");
-            } else {
-                Log.d(TAG, "onClick: vehicleType = "  + vehicleType +  ", vehicleMake = " + vehicleMake +  ", vehicleModel =" + vehicleModel);
-                Log.d(TAG, "onClick: save data to database");
+            }
+            else { //If no field is left empty and everything is filled
+
+                vehicle.setVehicleType(vehicleType);
+                vehicle.setVehicleMake(vehicleMake);
+                vehicle.setVehicleModel(vehicleModel);
+
+
+                Log.d(TAG, "onClick: vehicleType = " + vehicleType + ", vehicleMake = " + vehicleMake + ", vehicleModel =" + vehicleModel);
 
                 // if we are adding new vehicle record
-                if (addingNewVehicle){
+                if (addingNewVehicle) {
                     Log.d(TAG, "onClick: addingNewVehicle");
-
-                    Vehicle newVehicle = new Vehicle();
-                    newVehicle.setVehicleType(vehicleType);
-                    newVehicle.setVehicleMake(vehicleMake);
-                    newVehicle.setVehicleModel(vehicleModel);
-                    vehicleViewModel.insertVehicle(newVehicle);
+                    vehicleViewModel.insertVehicle(vehicle);
 
                 } else {
                     // if we are editing existing vehicle record
-
+                    vehicle.setVehicleID(vehicleID);
+                    vehicleViewModel.updateVehicle(vehicle);
                 }
 
 
@@ -150,7 +216,6 @@ public class AddEditVehicleFragment extends DialogFragment {
     };
 
 
-
     // Below code is used to fix small size issue of DialogFragment
     @Override
     public void onResume() {
@@ -159,5 +224,11 @@ public class AddEditVehicleFragment extends DialogFragment {
         params.width = ViewGroup.LayoutParams.MATCH_PARENT;
         params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
         getDialog().getWindow().setAttributes((android.view.WindowManager.LayoutParams) params);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        compositeDisposable.dispose(); // dispose disposable
     }
 }

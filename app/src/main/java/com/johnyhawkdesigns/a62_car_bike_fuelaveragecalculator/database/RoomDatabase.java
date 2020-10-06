@@ -3,13 +3,17 @@ package com.johnyhawkdesigns.a62_car_bike_fuelaveragecalculator.database;
 import android.content.Context;
 import android.util.Log;
 
+import com.johnyhawkdesigns.a62_car_bike_fuelaveragecalculator.database.dao.EngineOilDao;
+import com.johnyhawkdesigns.a62_car_bike_fuelaveragecalculator.database.dao.FuelDao;
 import com.johnyhawkdesigns.a62_car_bike_fuelaveragecalculator.database.dao.VehicleDao;
+import com.johnyhawkdesigns.a62_car_bike_fuelaveragecalculator.database.model.EngineOil;
+import com.johnyhawkdesigns.a62_car_bike_fuelaveragecalculator.database.model.Fuel;
 import com.johnyhawkdesigns.a62_car_bike_fuelaveragecalculator.database.model.Vehicle;
 
 import androidx.room.Database;
 import androidx.room.Room;
 
-@Database(entities = {Vehicle.class}, version = 1)
+@Database(entities = {Vehicle.class, Fuel.class, EngineOil.class}, version = 1)
 public abstract class RoomDatabase extends androidx.room.RoomDatabase {
 
     private static String DB_NAME = "vehicle-db";
@@ -18,6 +22,8 @@ public abstract class RoomDatabase extends androidx.room.RoomDatabase {
 
     // This method will get DAO objects
     public abstract VehicleDao vehicleDao();
+    public abstract FuelDao fuelDao();
+    public abstract EngineOilDao engineOilDao();
 
     //Singleton pattern method
     public static RoomDatabase getDBINSTANCE(Context context){

@@ -33,6 +33,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import io.reactivex.Completable;
 import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
 public class VehicleDetailsFragment extends Fragment {
@@ -58,6 +60,8 @@ public class VehicleDetailsFragment extends Fragment {
 
     VehicleViewModel vehicleViewModel;
     private Vehicle vehicle;
+
+    CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     @Nullable
     @Override
@@ -87,7 +91,7 @@ public class VehicleDetailsFragment extends Fragment {
 
         vehicleViewModel = new VehicleViewModel(getActivity().getApplication());
 
-        vehicleViewModel.getVehicle(vehicleID)
+        Disposable disposable = vehicleViewModel.getVehicle(vehicleID)
                 .subscribeOn(Schedulers.io())
                 //.map(vehicle1 -> {
                 //   return vehicle1 = vehicle;
@@ -106,6 +110,8 @@ public class VehicleDetailsFragment extends Fragment {
                     tv_vehicle_make.setText(vehicle.getVehicleMake());
                     tv_vehicle_model.setText(vehicle.getVehicleModel());
                 });
+
+        compositeDisposable.add(disposable);
 
         // This is simple LiveData<Vehicle> method which I used, but I stopped using it when "delete" method messed with the app and crashed the app once vehicle is delete
         // I believe this has to do with the lifecycle of LiveData
@@ -155,6 +161,7 @@ public class VehicleDetailsFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         listener = null;
+        compositeDisposable.dispose(); // dispose disposable
     }
 
     @Override

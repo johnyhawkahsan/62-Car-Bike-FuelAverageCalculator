@@ -5,6 +5,7 @@ import com.johnyhawkdesigns.a62_car_bike_fuelaveragecalculator.database.model.Fu
 import java.util.List;
 
 import androidx.lifecycle.LiveData;
+import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
@@ -13,6 +14,7 @@ import androidx.room.Update;
 import io.reactivex.Completable;
 import io.reactivex.Maybe;
 
+@Dao
 public interface FuelDao {
     @Query("SELECT * FROM fuel_table WHERE foreignVehicleID == :foreignVehicleID ORDER BY fuelID DESC")
     LiveData<List<Fuel>> getAllFuelData(int foreignVehicleID);
@@ -23,16 +25,16 @@ public interface FuelDao {
 
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    Completable insert(final Fuel fuel);// currently, we must put final before user variable or you will get error when compile
+    Completable insertFuel(final Fuel fuel);// currently, we must put final before user variable or you will get error when compile
 
     @Insert
     void insertAll(Fuel... fuels);
 
     @Update
-    void update(Fuel fuel); // for update, I am using executor inside Repository
+    Completable updateFuel(final Fuel fuel);
 
     @Delete
-    void delete(final Fuel fuel);
+    void deleteFuel(final Fuel fuel);
 
     @Query("DELETE FROM fuel_table WHERE foreignVehicleID = :foreignVehicleID")
     void deleteAllFuelData(int foreignVehicleID);

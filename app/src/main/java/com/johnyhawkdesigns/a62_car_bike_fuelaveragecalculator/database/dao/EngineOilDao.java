@@ -1,4 +1,4 @@
-package com.johnyhawkdesigns.a62_car_bike_EngineOilaveragecalculator.database.dao;
+package com.johnyhawkdesigns.a62_car_bike_fuelaveragecalculator.database.dao;
 
 
 import com.johnyhawkdesigns.a62_car_bike_fuelaveragecalculator.database.model.EngineOil;
@@ -6,6 +6,7 @@ import com.johnyhawkdesigns.a62_car_bike_fuelaveragecalculator.database.model.En
 import java.util.List;
 
 import androidx.lifecycle.LiveData;
+import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
@@ -13,6 +14,7 @@ import androidx.room.Query;
 import androidx.room.Update;
 import io.reactivex.Completable;
 
+@Dao
 public interface EngineOilDao {
     @Query("SELECT * FROM engineOil_table WHERE foreignVehicleID == :foreignVehicleID ORDER BY engineOilID DESC")
     LiveData<List<EngineOil>> getAllEngineOilData(int foreignVehicleID);
@@ -23,16 +25,16 @@ public interface EngineOilDao {
 
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    Completable insert(final EngineOil engineOil);// currently, we must put final before user variable or you will get error when compile
+    Completable insertEngineOil(final EngineOil engineOil);// currently, we must put final before user variable or you will get error when compile
 
     @Insert
     void insertAll(EngineOil... engineOils);
 
     @Update
-    void update(EngineOil engineOil); // for update, I am using executor inside Repository
+    Completable updateEngineOil(EngineOil engineOil); // for update, I am using executor inside Repository
 
     @Delete
-    void delete(final EngineOil engineOil);
+    void deleteEngineOil(final EngineOil engineOil);
 
     @Query("DELETE FROM engineOil_table WHERE foreignVehicleID = :foreignVehicleID")
     void deleteAllEngineOilData(int foreignVehicleID);

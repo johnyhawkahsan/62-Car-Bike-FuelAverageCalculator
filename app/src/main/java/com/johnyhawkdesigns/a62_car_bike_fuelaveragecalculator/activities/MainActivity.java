@@ -52,10 +52,9 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onAddNewVehicle() {
-        Log.d(TAG, "onAddVehicle: FAB Add button Clicked");
 
         FragmentManager fragmentManager = getSupportFragmentManager();
-        AddEditVehicleFragment addEditVehicleFragment = AddEditVehicleFragment.newInstance("Add Vehicle");
+        AddEditVehicleFragment addEditVehicleFragment = AddEditVehicleFragment.newInstance(); // here we are passing nothing in newInstance
         addEditVehicleFragment.show(fragmentManager, "add_edit_vehicle_fragment");
 
     }
@@ -85,6 +84,11 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onEditVehicle(int vehicleID) {
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        AddEditVehicleFragment addEditVehicleFragment = AddEditVehicleFragment.newInstance(vehicleID);
+        addEditVehicleFragment.show(fragmentManager, "add_edit_vehicle_fragment");
+
 
     }
 

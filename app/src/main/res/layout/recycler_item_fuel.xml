@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Master layout. -->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_gravity="start"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- Header: Day, Date -->
+    <TextView
+        android:id="@+id/fuel_date"
+        android:fontFamily="sans-serif-condensed"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="24sp"
+        android:text="20-Sep-2020"/>
+
+    <!-- Main content: per litre price, quantity, price -->
+    <LinearLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_margin="@dimen/margin_tiny"
+            android:orientation="vertical">
+
+            <TextView
+                android:fontFamily="sans-serif-light"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:textSize="16sp"
+                android:text="perLitrePrice"/>
+
+            <TextView
+                android:id="@+id/perLitrePrice"
+                android:layout_gravity="center_horizontal"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:textColor="@color/colorPrimary"
+                android:textAppearance="?android:textAppearanceLarge"
+                android:text="105rs"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_margin="@dimen/margin_tiny"
+            android:orientation="vertical">
+
+            <TextView
+                android:fontFamily="sans-serif-light"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:textSize="16sp"
+                android:text="fuelQuantityLitres"/>
+
+            <TextView
+                android:id="@+id/fuelQuantityLitres"
+                android:layout_gravity="center_horizontal"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:textColor="@color/colorPrimary"
+                android:textAppearance="?android:textAppearanceLarge"
+                android:text="5 litre"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_margin="@dimen/margin_tiny"
+            android:orientation="vertical">
+
+            <TextView
+                android:fontFamily="sans-serif-light"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:textSize="16sp"
+                android:text="totalFuelPrice"/>
+
+            <TextView
+                android:id="@+id/totalFuelPrice"
+                android:layout_gravity="center_horizontal"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:textColor="@color/colorPrimary"
+                android:textAppearance="?android:textAppearanceLarge"
+                android:text="525 rs"/>
+        </LinearLayout>
+    </LinearLayout>
+
+
+
+
+    <LinearLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_margin="@dimen/margin_tiny"
+            android:orientation="vertical">
+
+            <TextView
+                android:fontFamily="sans-serif-light"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:textSize="16sp"
+                android:text="distanceCovered"/>
+
+            <TextView
+                android:id="@+id/distanceCovered"
+                android:layout_gravity="center_horizontal"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:textColor="@color/colorPrimary"
+                android:textAppearance="?android:textAppearanceLarge"
+                android:text="172km"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_margin="@dimen/margin_tiny"
+            android:orientation="vertical">
+
+            <TextView
+                android:fontFamily="sans-serif-light"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:textSize="16sp"
+                android:text="calculatedAverage"/>
+
+            <TextView
+                android:id="@+id/calculatedAverage"
+                android:layout_gravity="center_horizontal"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:textColor="@color/colorPrimary"
+                android:textAppearance="?android:textAppearanceLarge"
+                android:text="43 km /litre"/>
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+</LinearLayout>
+
+

@@ -20,6 +20,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -51,7 +52,10 @@ public class VehicleListFragment extends Fragment {
         View view = inflater.inflate(R.layout.vehicle_list_fragment, container, false);
 
         recyclerView = view.findViewById(R.id.recyclerViewVehicle);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        recyclerView.setLayoutManager(linearLayoutManager);
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getActivity(), linearLayoutManager.getOrientation());
+        recyclerView.addItemDecoration(dividerItemDecoration);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
         vehicleListAdapter = new VehicleListAdapter(getActivity(), vehicle -> {

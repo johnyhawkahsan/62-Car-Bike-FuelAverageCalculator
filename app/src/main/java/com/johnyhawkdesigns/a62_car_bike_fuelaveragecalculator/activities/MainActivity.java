@@ -89,7 +89,6 @@ public class MainActivity extends AppCompatActivity
         AddEditVehicleFragment addEditVehicleFragment = AddEditVehicleFragment.newInstance(vehicleID);
         addEditVehicleFragment.show(fragmentManager, "add_edit_vehicle_fragment");
 
-
     }
 
 

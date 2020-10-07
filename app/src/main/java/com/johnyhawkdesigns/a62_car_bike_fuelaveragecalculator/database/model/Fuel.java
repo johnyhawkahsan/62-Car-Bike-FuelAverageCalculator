@@ -32,37 +32,43 @@ public class Fuel {
 
     // This column stores foreign key as foreignVehicleID. We can also use @ForeignKey here but we used it on start
     @ColumnInfo(name = "foreignVehicleID")
-    private int foreignVehicleID;
+    private int foreignVehicleID; // i.e; 2
 
     @Nullable
     @ColumnInfo(name = "fuelDate")
     @TypeConverters({DateTypeConverter.class})
-    private Date fuelDate;
+    private Date fuelDate; // i.e; 7 october 2020
 
     @Nullable
     @ColumnInfo(name = "perLitrePrice")
-    private String perLitrePrice;
-
-    @Nullable
-    @ColumnInfo(name = "totalFuelPrice")
-    private String totalFuelPrice;
+    private String perLitrePrice; // i.e; 105 rs
 
     @Nullable
     @ColumnInfo(name = "fuelQuantityLitres")
-    private String fuelQuantityLitres;
+    private String fuelQuantityLitres; // i.e; 5 litre
+    @Nullable
+    @ColumnInfo(name = "totalFuelPrice")
+    private String totalFuelPrice; // i.e; 5 litre x 105 rs = 525 rs (Need to add x button to calculate this as well)
 
     @Nullable
     @ColumnInfo(name = "averageCalculationMethod")
     private String averageCalculationMethod; // Tank full to full calculation or empty to empty calculation
 
     @Nullable
+    @ColumnInfo(name = "startingKm")
+    private String startingKm; // i.e; previous reading 1000 km
+
+    @Nullable
+    @ColumnInfo(name = "currentKm")
+    private String currentKm; // // i.e; current reading 1172 km
+
+    @Nullable
     @ColumnInfo(name = "distanceCovered")
-    private String distanceCovered; // distance covered from previous tank full to current tank full
+    private String distanceCovered; // i.e; current - previous  = 1172 - 1000 = 172km
 
     @Nullable
     @ColumnInfo(name = "calculatedAverage")
-    private String calculatedAverage; // Total distance in km divided by total petrol in litres i.e; 172km/ 4 ltr = 43 km per litre average
-
+    private String calculatedAverage; // Total distance covered in km divided by total petrol in litres i.e; 172km/ 5 ltr = 43 km per litre average
 
     public int getFuelID() {
         return fuelID;
@@ -99,15 +105,6 @@ public class Fuel {
     }
 
     @Nullable
-    public String getTotalFuelPrice() {
-        return totalFuelPrice;
-    }
-
-    public void setTotalFuelPrice(@Nullable String totalFuelPrice) {
-        this.totalFuelPrice = totalFuelPrice;
-    }
-
-    @Nullable
     public String getFuelQuantityLitres() {
         return fuelQuantityLitres;
     }
@@ -117,12 +114,39 @@ public class Fuel {
     }
 
     @Nullable
+    public String getTotalFuelPrice() {
+        return totalFuelPrice;
+    }
+
+    public void setTotalFuelPrice(@Nullable String totalFuelPrice) {
+        this.totalFuelPrice = totalFuelPrice;
+    }
+
+    @Nullable
     public String getAverageCalculationMethod() {
         return averageCalculationMethod;
     }
 
     public void setAverageCalculationMethod(@Nullable String averageCalculationMethod) {
         this.averageCalculationMethod = averageCalculationMethod;
+    }
+
+    @Nullable
+    public String getStartingKm() {
+        return startingKm;
+    }
+
+    public void setStartingKm(@Nullable String startingKm) {
+        this.startingKm = startingKm;
+    }
+
+    @Nullable
+    public String getCurrentKm() {
+        return currentKm;
+    }
+
+    public void setCurrentKm(@Nullable String currentKm) {
+        this.currentKm = currentKm;
     }
 
     @Nullable

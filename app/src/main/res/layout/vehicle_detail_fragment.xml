@@ -64,20 +64,20 @@
             android:layout_height="wrap_content"
             android:layout_weight="2"
             android:gravity="center_horizontal"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_marginBottom="@dimen/margin_small">
 
             <Button
                 android:id="@+id/btn_fuel"
-                android:layout_width="200dp"
+                android:layout_width="150dp"
                 android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/margin_small"
                 android:focusable="true"
                 android:background="@drawable/button_selector"
                 android:text="Fuel" />
 
             <Button
                 android:id="@+id/btn_mobilOil"
-                android:layout_width="200dp"
+                android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:focusable="true"
                 android:background="@drawable/button_selector"
@@ -109,7 +109,7 @@
             android:paddingRight="@dimen/margin_small"
             android:scrollbarStyle="outsideOverlay"
             android:scrollbars="vertical"
-            tools:listitem="@layout/recycler_item_last_fuel" />
+            tools:listitem="@layout/recycler_item_fuel" />
 
     </RelativeLayout>
 

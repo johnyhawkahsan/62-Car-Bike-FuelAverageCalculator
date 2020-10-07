@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:orientation="vertical"
+        android:padding="@dimen/default_padding">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/AppTheme.AppBarOverlay">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/margin_tiny">
+
+                <TextView
+                    android:id="@+id/tv_title_fuel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginEnd="20dp"
+                    android:text="Add Fuel Record"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="22sp" />
+
+            </RelativeLayout>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_tiny"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_setFuelDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/margin_small"
+                android:text="Set Date" />
+
+            <TextView
+                android:id="@+id/tv_input_fuel_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-condensed"
+                android:gravity="center_vertical"
+                android:text="20-Sep-2020"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="24sp" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tin_perLitrePrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="perLitrePrice"
+                android:inputType="number"
+                android:lines="1"
+                android:textSize="12sp"
+                android:layout_weight="0.33"/>
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_multiply_sign_24dp" />
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tin_fuelQuantityLitres"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="fuelQuantity"
+                android:inputType="number"
+                android:lines="1"
+                android:textSize="12sp"
+                android:layout_weight="0.33"/>
+
+            <ImageButton
+                android:id="@+id/btn_calculateFuelPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_equal_sign_24dp" />
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tin_totalFuelPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="fuel price"
+                android:inputType="number"
+                android:lines="1"
+                android:textSize="12sp"
+                android:layout_weight="0.33"/>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tin_currentKm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="currentKm"
+                android:inputType="number"
+                android:lines="1"
+                android:textSize="12sp"
+                android:layout_weight="0.33"/>
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_minus_sign_24dp" />
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tin_startingKm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="startingKm"
+                android:inputType="number"
+                android:lines="1"
+                android:textSize="12sp"
+                android:layout_weight="0.33"/>
+
+            <ImageButton
+                android:id="@+id/btn_calculateDistance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_equal_sign_24dp" />
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tin_distanceCovered"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="distanceCovered"
+                android:inputType="number"
+                android:lines="1"
+                android:textSize="12sp"
+                android:layout_weight="0.33"/>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/btn_calculateAverage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_equal_sign_24dp" />
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tin_calculatedAverage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="calculatedAverage"
+                android:inputType="number"
+                android:lines="1"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabSaveFuelData"
+            style="@style/Item.Fab"
+            android:src="@drawable/ic_save_24dp" />
+
+    </LinearLayout>
+
+
+</ScrollView>
+
+
+
+
+
+
+

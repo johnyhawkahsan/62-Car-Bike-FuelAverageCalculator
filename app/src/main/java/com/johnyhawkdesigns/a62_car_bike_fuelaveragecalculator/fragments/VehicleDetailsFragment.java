@@ -27,6 +27,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -55,11 +56,14 @@ public class VehicleDetailsFragment extends Fragment {
     private TextView tv_vehicle_model;
     private Button btn_mobilOil;
     private Button btn_fuel;
-    private FloatingActionButton fab;
+    private FloatingActionButton fabAdd;
     private RecyclerView recyclerView;
 
     VehicleViewModel vehicleViewModel;
     private Vehicle vehicle;
+
+    private Boolean showFuelData;
+    private Boolean showEngineOilData;
 
     CompositeDisposable compositeDisposable = new CompositeDisposable();
 
@@ -85,8 +89,8 @@ public class VehicleDetailsFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        fab = view.findViewById(R.id.fabAdd);
-        fab.hide();
+        fabAdd = view.findViewById(R.id.fabAdd);
+        fabAdd.hide();
 
 
         vehicleViewModel = new VehicleViewModel(getActivity().getApplication());
@@ -125,20 +129,43 @@ public class VehicleDetailsFragment extends Fragment {
         btn_fuel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fab.show();
+                fabAdd.show();
                 // need to populate recyclerView with fuel data
                 toggleButtonBackground(btn_fuel, btn_mobilOil);
+
+                showFuelData = true;
+                showEngineOilData = false;
 
             }
         });
 
 
         btn_mobilOil.setOnClickListener(v -> {
-            fab.show();
+            fabAdd.show();
             // need to populate recyclerView with mobile oil data
             toggleButtonBackground(btn_mobilOil, btn_fuel);
+
+            showFuelData = false;
+            showEngineOilData = true;
         });
 
+
+        fabAdd.setOnClickListener(v -> {
+
+            // if current show fuel data is checked
+            if (showFuelData && !showEngineOilData){
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                AddEditFuelFragment addEditFuelFragment = AddEditFuelFragment.newInstance(vehicleID);
+                addEditFuelFragment.show(fragmentManager, "add_edit_fuel_fragment");
+            }
+            // if current show engine oil data is checked
+            else if (!showFuelData && showEngineOilData){
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                // AddEditEngineOilFragment
+            }
+
+
+        });
 
         return view;
     }

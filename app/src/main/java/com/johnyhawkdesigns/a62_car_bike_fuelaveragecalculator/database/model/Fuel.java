@@ -41,14 +41,15 @@ public class Fuel {
 
     @Nullable
     @ColumnInfo(name = "perLitrePrice")
-    private String perLitrePrice; // i.e; 105 rs
+    private Double perLitrePrice; // i.e; 105 rs
 
     @Nullable
     @ColumnInfo(name = "fuelQuantityLitres")
-    private String fuelQuantityLitres; // i.e; 5 litre
+    private Double fuelQuantityLitres; // i.e; 5 litre
+
     @Nullable
     @ColumnInfo(name = "totalFuelPrice")
-    private String totalFuelPrice; // i.e; 5 litre x 105 rs = 525 rs (Need to add x button to calculate this as well)
+    private Double totalFuelPrice; // i.e; 5 litre x 105 rs = 525 rs (Need to add x button to calculate this as well)
 
     @Nullable
     @ColumnInfo(name = "averageCalculationMethod")
@@ -56,19 +57,19 @@ public class Fuel {
 
     @Nullable
     @ColumnInfo(name = "startingKm")
-    private String startingKm; // i.e; previous reading 1000 km
+    private Double startingKm; // i.e; previous reading 1000 km
 
     @Nullable
     @ColumnInfo(name = "currentKm")
-    private String currentKm; // // i.e; current reading 1172 km
+    private Double currentKm; // // i.e; current reading 1172 km
 
     @Nullable
     @ColumnInfo(name = "distanceCovered")
-    private String distanceCovered; // i.e; current - previous  = 1172 - 1000 = 172km
+    private Double distanceCovered; // i.e; current - previous  = 1172 - 1000 = 172km
 
     @Nullable
     @ColumnInfo(name = "calculatedAverage")
-    private String calculatedAverage; // Total distance covered in km divided by total petrol in litres i.e; 172km/ 5 ltr = 43 km per litre average
+    private Double calculatedAverage; // Total distance covered in km divided by total petrol in litres i.e; 172km/ 5 ltr = 43 km per litre average
 
     public int getFuelID() {
         return fuelID;
@@ -96,29 +97,29 @@ public class Fuel {
     }
 
     @Nullable
-    public String getPerLitrePrice() {
+    public Double getPerLitrePrice() {
         return perLitrePrice;
     }
 
-    public void setPerLitrePrice(@Nullable String perLitrePrice) {
+    public void setPerLitrePrice(@Nullable Double perLitrePrice) {
         this.perLitrePrice = perLitrePrice;
     }
 
     @Nullable
-    public String getFuelQuantityLitres() {
+    public Double getFuelQuantityLitres() {
         return fuelQuantityLitres;
     }
 
-    public void setFuelQuantityLitres(@Nullable String fuelQuantityLitres) {
+    public void setFuelQuantityLitres(@Nullable Double fuelQuantityLitres) {
         this.fuelQuantityLitres = fuelQuantityLitres;
     }
 
     @Nullable
-    public String getTotalFuelPrice() {
+    public Double getTotalFuelPrice() {
         return totalFuelPrice;
     }
 
-    public void setTotalFuelPrice(@Nullable String totalFuelPrice) {
+    public void setTotalFuelPrice(@Nullable Double totalFuelPrice) {
         this.totalFuelPrice = totalFuelPrice;
     }
 
@@ -132,38 +133,38 @@ public class Fuel {
     }
 
     @Nullable
-    public String getStartingKm() {
+    public Double getStartingKm() {
         return startingKm;
     }
 
-    public void setStartingKm(@Nullable String startingKm) {
+    public void setStartingKm(@Nullable Double startingKm) {
         this.startingKm = startingKm;
     }
 
     @Nullable
-    public String getCurrentKm() {
+    public Double getCurrentKm() {
         return currentKm;
     }
 
-    public void setCurrentKm(@Nullable String currentKm) {
+    public void setCurrentKm(@Nullable Double currentKm) {
         this.currentKm = currentKm;
     }
 
     @Nullable
-    public String getDistanceCovered() {
+    public Double getDistanceCovered() {
         return distanceCovered;
     }
 
-    public void setDistanceCovered(@Nullable String distanceCovered) {
+    public void setDistanceCovered(@Nullable Double distanceCovered) {
         this.distanceCovered = distanceCovered;
     }
 
     @Nullable
-    public String getCalculatedAverage() {
+    public Double getCalculatedAverage() {
         return calculatedAverage;
     }
 
-    public void setCalculatedAverage(@Nullable String calculatedAverage) {
+    public void setCalculatedAverage(@Nullable Double calculatedAverage) {
         this.calculatedAverage = calculatedAverage;
     }
 }

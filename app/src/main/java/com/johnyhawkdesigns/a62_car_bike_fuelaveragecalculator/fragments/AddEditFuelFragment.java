@@ -10,30 +10,25 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageButton;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.johnyhawkdesigns.a62_car_bike_fuelaveragecalculator.R;
 import com.johnyhawkdesigns.a62_car_bike_fuelaveragecalculator.database.model.Fuel;
-import com.johnyhawkdesigns.a62_car_bike_fuelaveragecalculator.database.model.Vehicle;
 import com.johnyhawkdesigns.a62_car_bike_fuelaveragecalculator.database.viewmodel.FuelViewModel;
 import com.google.android.material.textfield.TextInputEditText;
-import com.johnyhawkdesigns.a62_car_bike_fuelaveragecalculator.database.viewmodel.VehicleViewModel;
 import com.johnyhawkdesigns.a62_car_bike_fuelaveragecalculator.util.AppUtils;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.DialogFragment;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
 
 public class AddEditFuelFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener{
 
@@ -50,10 +45,10 @@ public class AddEditFuelFragment extends DialogFragment implements DatePickerDia
     }
 
     // constructor for add new
-    public static AddEditFuelFragment newInstance(int fuelID) {
+    public static AddEditFuelFragment newInstance(int foreignVehicleID) {
         AddEditFuelFragment addEditFuelFragment = new AddEditFuelFragment();
         Bundle args = new Bundle();
-        args.putInt("fuelID", fuelID);
+        args.putInt("foreignVehicleID", foreignVehicleID);
         addEditFuelFragment.setArguments(args);
         return addEditFuelFragment;
     }
@@ -89,6 +84,8 @@ public class AddEditFuelFragment extends DialogFragment implements DatePickerDia
     String fuelDateString = "";
     String fuelDateStringLocalDate = "";
 
+    private List<TextInputEditText> textInputValidationList;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -114,6 +111,8 @@ public class AddEditFuelFragment extends DialogFragment implements DatePickerDia
         calendar = Calendar.getInstance();
         datePickerDialog = new DatePickerDialog(getActivity(), this, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH) );
 
+        textInputValidationList = new ArrayList<>();
+
         // get Bundle of arguments then extract the contact's Uri
         Bundle arguments = getArguments();
 
@@ -126,7 +125,6 @@ public class AddEditFuelFragment extends DialogFragment implements DatePickerDia
                 addingNewFuel = true;
                 Log.d(TAG, "Adding New Fuel mode = received foreignVehicleID = " + foreignVehicleID);
                 tv_title_fuel.setText("Adding New Fuel Record");
-
             }
 
             // ================== Editing fuel mode ==================
@@ -136,12 +134,11 @@ public class AddEditFuelFragment extends DialogFragment implements DatePickerDia
                 addingNewFuel = false;
                 Log.d(TAG, "Editing mode = received foreignVehicleID = " + foreignVehicleID + ", fuelID = " + fuelID);
                 tv_title_fuel.setText("Editing Fuel Record");
-
             }
 
             fuelViewModel = new FuelViewModel(getActivity().getApplication(), foreignVehicleID);
 
-            // if editing fuel
+            // if editing fuel, need to get current fuel data and populate in our view
             if (!addingNewFuel){
                 fuelViewModel.getFuelByID(foreignVehicleID, fuelID)
                 .observe(getActivity(), fuel -> {
@@ -163,7 +160,7 @@ public class AddEditFuelFragment extends DialogFragment implements DatePickerDia
                     int perLitrePrice = Integer.parseInt(tin_perLitrePrice.getText().toString());
                     int fuelQuantityLitres = Integer.parseInt(tin_fuelQuantityLitres.getText().toString());
                     int totalFuelPrice = fuelQuantityLitres * perLitrePrice;
-                   tin_totalFuelPrice.setText(String.valueOf(totalFuelPrice));
+                    tin_totalFuelPrice.setText(String.valueOf(totalFuelPrice));
                }
             });
 
@@ -188,19 +185,16 @@ public class AddEditFuelFragment extends DialogFragment implements DatePickerDia
                 fuel.setFuelID(fuelID); // fuel id is only set if we are editing current fuel data with already available fuel id
             }
 
-
-            if ( tin_perLitrePrice.getText().toString().trim().isEmpty() ||
-                    tin_fuelQuantityLitres.getText().toString().trim().isEmpty() ||
-                    tin_totalFuelPrice.getText().toString().trim().isEmpty() ||
-                    tin_currentKm.getText().toString().trim().isEmpty() ||
-                    tin_startingKm.getText().toString().trim().isEmpty() ||
-                    tin_distanceCovered.getText().toString().trim().isEmpty() ||
-                    tin_calculatedAverage.getText().toString().trim().isEmpty()  ) {
+            // if all fields are not filled
+            if ( checkForEmptyList() ) {
 
                 Log.d(TAG, "onClick: any of the parameters is empty");
                 AppUtils.showMessage(getActivity(), "Please fill all the details!");
 
             } else { //If no field is left empty and everything is filled
+
+
+                fuel.setPerLitrePrice(Double.valueOf(tin_perLitrePrice.getText().toString()));
 
                 startStoringData(fuel);
                 Log.d(TAG, "onClick: start storing data");
@@ -214,7 +208,49 @@ public class AddEditFuelFragment extends DialogFragment implements DatePickerDia
         }
     };
 
+    // method to check for all edit text
+    private Boolean checkForEmptyList() {
+        Boolean emptyListAvailable = tin_perLitrePrice.getText().toString().trim().isEmpty() ||
+                tin_fuelQuantityLitres.getText().toString().trim().isEmpty() ||
+                tin_totalFuelPrice.getText().toString().trim().isEmpty() ||
+                tin_currentKm.getText().toString().trim().isEmpty() ||
+                tin_startingKm.getText().toString().trim().isEmpty() ||
+                tin_distanceCovered.getText().toString().trim().isEmpty() ||
+                tin_calculatedAverage.getText().toString().trim().isEmpty();
 
+        if (emptyListAvailable){
+            validationList(); // set error messages
+        }
+        Log.d(TAG, "checkForEmptyList: emptyListAvailable = " + emptyListAvailable);
+        return emptyListAvailable;
+    }
+
+
+    private void validationList() {
+
+        textInputValidationList.add(tin_perLitrePrice);
+        textInputValidationList.add(tin_fuelQuantityLitres);
+        textInputValidationList.add(tin_currentKm);
+        textInputValidationList.add(tin_startingKm);
+        textInputValidationList.add(tin_distanceCovered);
+        textInputValidationList.add(tin_calculatedAverage);
+
+        for (int i = 0; i < textInputValidationList.size(); i++) {
+
+            Log.d(TAG, "textInputValidationList.size(): = " + textInputValidationList.size());
+            String string = textInputValidationList.get(i).getText().toString().trim();
+
+            if (string.isEmpty()) {
+                textInputValidationList.get(i).setError("EMPTY");
+            } else {
+                textInputValidationList.get(i).setError(null);
+            }
+
+        }
+    }
+
+
+    // method to store fuel data to DB
     private void startStoringData(Fuel fuel) {
 
         // if we are adding new  record

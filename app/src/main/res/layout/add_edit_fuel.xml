@@ -58,7 +58,6 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-condensed"
                 android:gravity="center_vertical"
-                android:text="20-Sep-2020"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="24sp" />
 
@@ -68,33 +67,48 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_tiny"
             android:gravity="center_horizontal"
             android:orientation="horizontal">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/tin_perLitrePrice"
-                android:layout_width="wrap_content"
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="100sp"
                 android:layout_height="wrap_content"
-                android:hint="perLitrePrice"
-                android:inputType="number"
-                android:lines="1"
-                android:textSize="12sp"
-                android:layout_weight="0.33"/>
+                app:errorEnabled="true">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/tin_perLitrePrice"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="perLitrePrice"
+                    android:inputType="number"
+                    android:lines="1"
+                    android:textSize="12sp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
 
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_multiply_sign_24dp" />
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/tin_fuelQuantityLitres"
-                android:layout_width="wrap_content"
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="100sp"
                 android:layout_height="wrap_content"
-                android:hint="fuelQuantity"
-                android:inputType="number"
-                android:lines="1"
-                android:textSize="12sp"
-                android:layout_weight="0.33"/>
+                app:errorEnabled="true">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/tin_fuelQuantityLitres"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="fuelQuantity"
+                    android:inputType="number"
+                    android:lines="1"
+                    android:textSize="12sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
 
             <ImageButton
                 android:id="@+id/btn_calculateFuelPrice"
@@ -102,22 +116,30 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_equal_sign_24dp" />
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/tin_totalFuelPrice"
-                android:layout_width="wrap_content"
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="100sp"
                 android:layout_height="wrap_content"
-                android:hint="fuel price"
-                android:inputType="number"
-                android:lines="1"
-                android:textSize="12sp"
-                android:layout_weight="0.33"/>
+                app:errorEnabled="true">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/tin_totalFuelPrice"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="fuel price"
+                    android:inputType="number"
+                    android:lines="1"
+                    android:textSize="12sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
 
         </LinearLayout>
+
 
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_tiny"
             android:gravity="center_horizontal"
             android:orientation="horizontal">
 
@@ -125,11 +147,11 @@
                 android:id="@+id/tin_currentKm"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="0.33"
                 android:hint="currentKm"
                 android:inputType="number"
                 android:lines="1"
-                android:textSize="12sp"
-                android:layout_weight="0.33"/>
+                android:textSize="12sp" />
 
             <ImageButton
                 android:layout_width="wrap_content"
@@ -140,11 +162,11 @@
                 android:id="@+id/tin_startingKm"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="0.33"
                 android:hint="startingKm"
                 android:inputType="number"
                 android:lines="1"
-                android:textSize="12sp"
-                android:layout_weight="0.33"/>
+                android:textSize="12sp" />
 
             <ImageButton
                 android:id="@+id/btn_calculateDistance"
@@ -156,11 +178,11 @@
                 android:id="@+id/tin_distanceCovered"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="0.33"
                 android:hint="distanceCovered"
                 android:inputType="number"
                 android:lines="1"
-                android:textSize="12sp"
-                android:layout_weight="0.33"/>
+                android:textSize="12sp" />
 
         </LinearLayout>
 
@@ -168,6 +190,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_tiny"
             android:gravity="center_horizontal"
             android:orientation="horizontal">
 

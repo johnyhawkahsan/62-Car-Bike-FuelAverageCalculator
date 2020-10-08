@@ -28,7 +28,8 @@ public class AppUtils {
             String dateString = spf.format(date);
 
             Date newDate = spf.parse(dateString);
-            spf= new SimpleDateFormat("dd MMM yyyy HH:mm:ss");
+            //spf= new SimpleDateFormat("dd MMM yyyy HH:mm:ss");
+            spf= new SimpleDateFormat("dd MMM yyyy");
             return spf.format(newDate);
 
         } catch (ParseException e) {

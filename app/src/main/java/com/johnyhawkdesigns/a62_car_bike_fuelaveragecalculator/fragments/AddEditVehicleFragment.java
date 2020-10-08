@@ -59,7 +59,7 @@ public class AddEditVehicleFragment extends DialogFragment {
     private String vehicleMake = "";
     private String vehicleModel = "";
 
-    CompositeDisposable compositeDisposable = new CompositeDisposable();
+    private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     @Nullable
     @Override

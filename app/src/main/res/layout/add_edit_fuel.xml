@@ -72,6 +72,7 @@
             android:orientation="horizontal">
 
             <com.google.android.material.textfield.TextInputLayout
+                android:layout_weight="0.20"
                 android:layout_width="100sp"
                 android:layout_height="wrap_content"
                 app:errorEnabled="true">
@@ -89,12 +90,14 @@
 
 
             <ImageButton
+                android:layout_weight="0.20"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_multiply_sign_24dp" />
 
 
             <com.google.android.material.textfield.TextInputLayout
+                android:layout_weight="0.20"
                 android:layout_width="100sp"
                 android:layout_height="wrap_content"
                 app:errorEnabled="true">
@@ -111,12 +114,14 @@
 
 
             <ImageButton
+                android:layout_weight="0.20"
                 android:id="@+id/btn_calculateFuelPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_equal_sign_24dp" />
 
             <com.google.android.material.textfield.TextInputLayout
+                android:layout_weight="0.20"
                 android:layout_width="100sp"
                 android:layout_height="wrap_content"
                 app:errorEnabled="true">
@@ -143,46 +148,77 @@
             android:gravity="center_horizontal"
             android:orientation="horizontal">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/tin_currentKm"
-                android:layout_width="wrap_content"
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_weight="0.20"
+                android:layout_width="100sp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.33"
-                android:hint="currentKm"
-                android:inputType="number"
-                android:lines="1"
-                android:textSize="12sp" />
+                app:errorEnabled="true">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/tin_currentKm"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="currentKm"
+                    android:inputType="number"
+                    android:lines="1"
+                    android:textSize="12sp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
 
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_minus_sign_24dp" />
+                android:src="@drawable/ic_minus_sign_24dp"
+                android:layout_weight="0.20"/>
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/tin_startingKm"
-                android:layout_width="wrap_content"
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_weight="0.20"
+                android:layout_width="100sp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.33"
-                android:hint="startingKm"
-                android:inputType="number"
-                android:lines="1"
-                android:textSize="12sp" />
+                app:errorEnabled="true">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/tin_startingKm"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.20"
+                    android:hint="startingKm"
+                    android:inputType="number"
+                    android:lines="1"
+                    android:textSize="12sp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
 
             <ImageButton
                 android:id="@+id/btn_calculateDistance"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_equal_sign_24dp" />
+                android:src="@drawable/ic_equal_sign_24dp"
+                android:layout_weight="0.20"/>
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/tin_distanceCovered"
-                android:layout_width="wrap_content"
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_weight="0.20"
+                android:layout_width="100sp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.33"
-                android:hint="distanceCovered"
-                android:inputType="number"
-                android:lines="1"
-                android:textSize="12sp" />
+                app:errorEnabled="true">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/tin_distanceCovered"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.20"
+                    android:hint="distanceCovered"
+                    android:inputType="number"
+                    android:lines="1"
+                    android:textSize="12sp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
 
         </LinearLayout>
 
@@ -200,14 +236,23 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_equal_sign_24dp" />
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/tin_calculatedAverage"
-                android:layout_width="wrap_content"
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="120sp"
                 android:layout_height="wrap_content"
-                android:hint="calculatedAverage"
-                android:inputType="number"
-                android:lines="1"
-                android:textSize="12sp" />
+                app:errorEnabled="true">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/tin_calculatedAverage"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="calculatedAverage"
+                    android:inputType="number"
+                    android:lines="1"
+                    android:textSize="12sp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
 
         </LinearLayout>
 

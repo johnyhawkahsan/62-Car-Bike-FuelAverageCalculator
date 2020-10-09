@@ -84,6 +84,15 @@ public class AddEditFuelFragment extends DialogFragment implements DatePickerDia
     String fuelDateString = "";
     String fuelDateStringLocalDate = "";
 
+
+    Double perLitrePrice;
+    Double fuelQuantityLitres;
+    Double totalFuelPrice;
+    Double currentKm;
+    Double startingKm;
+    Double totalDistance;
+    Double calculatedAverage;
+
     private List<TextInputEditText> textInputValidationList;
 
     @Nullable
@@ -157,11 +166,37 @@ public class AddEditFuelFragment extends DialogFragment implements DatePickerDia
             // button to calculate (multiply) fuel price with fuel quantity
             btn_calculateFuelPrice.setOnClickListener(v -> {
                if (!tin_perLitrePrice.getText().toString().trim().isEmpty() && !tin_fuelQuantityLitres.getText().toString().trim().isEmpty()) {
-                    int perLitrePrice = Integer.parseInt(tin_perLitrePrice.getText().toString());
-                    int fuelQuantityLitres = Integer.parseInt(tin_fuelQuantityLitres.getText().toString());
-                    int totalFuelPrice = fuelQuantityLitres * perLitrePrice;
+                    perLitrePrice = Double.parseDouble(tin_perLitrePrice.getText().toString());
+                    fuelQuantityLitres = Double.parseDouble(tin_fuelQuantityLitres.getText().toString());
+                    totalFuelPrice = fuelQuantityLitres * perLitrePrice;
                     tin_totalFuelPrice.setText(String.valueOf(totalFuelPrice));
+               } else if (!tin_perLitrePrice.getText().toString().trim().isEmpty() && !tin_totalFuelPrice.getText().toString().trim().isEmpty()){
+                   perLitrePrice = Double.parseDouble(tin_perLitrePrice.getText().toString());
+                   totalFuelPrice = Double.parseDouble(tin_totalFuelPrice.getText().toString());
+                   fuelQuantityLitres = (totalFuelPrice / perLitrePrice);
+                   fuelQuantityLitres = AppUtils.roundDouble(fuelQuantityLitres, 2); // round to 2 decimal places
+                   tin_fuelQuantityLitres.setText(String.valueOf(fuelQuantityLitres));
                }
+            });
+
+            // button to calculate (minus) current distance with previous distance
+            btn_calculateDistance.setOnClickListener(v -> {
+                if (!tin_currentKm.getText().toString().trim().isEmpty() && !tin_startingKm.getText().toString().trim().isEmpty()) {
+                    currentKm = Double.parseDouble(tin_currentKm.getText().toString());
+                    startingKm = Double.parseDouble(tin_startingKm.getText().toString());
+                    totalDistance = currentKm - startingKm;
+                    tin_distanceCovered.setText(String.valueOf(totalDistance));
+                }
+            });
+
+            // button to calculate average Total distance covered in km divided by total petrol in litres i.e; 172km/ 5 ltr = 43 km per litre average
+            btn_calculateAverage.setOnClickListener(v -> {
+                if (!tin_fuelQuantityLitres.getText().toString().trim().isEmpty() && !tin_distanceCovered.getText().toString().trim().isEmpty()) {
+                    calculatedAverage = (totalDistance / fuelQuantityLitres );
+                    calculatedAverage = AppUtils.roundDouble(fuelQuantityLitres, 2); // round to 2 decimal places
+                    tin_calculatedAverage.setText(String.valueOf(calculatedAverage));
+                    // store calculatedAverage in SharedPreferences as last vehicle mileage
+                }
             });
 
 
@@ -193,8 +228,26 @@ public class AddEditFuelFragment extends DialogFragment implements DatePickerDia
 
             } else { //If no field is left empty and everything is filled
 
+                Date fuelDate = AppUtils.getCurrentDateTime();
+                Double perLitrePrice = Double.valueOf(tin_perLitrePrice.getText().toString());
+                Double fuelQuantityLitres = Double.valueOf(tin_fuelQuantityLitres.getText().toString());
+                Double totalFuelPrice = Double.valueOf(tin_totalFuelPrice.getText().toString());
+                Double startingKm = Double.valueOf(tin_startingKm.getText().toString());
+                Double currentKm = Double.valueOf(tin_currentKm.getText().toString());
+                Double distanceCovered = Double.valueOf(tin_distanceCovered.getText().toString());
+                Double calculatedAverage= Double.valueOf(tin_calculatedAverage.getText().toString());
+                String averageCalculationMethod;
 
-                fuel.setPerLitrePrice(Double.valueOf(tin_perLitrePrice.getText().toString()));
+                // set data fields for fuel
+                fuel.setFuelDate(fuelDate);
+                fuel.setPerLitrePrice(perLitrePrice);
+                fuel.setFuelQuantityLitres(fuelQuantityLitres);
+                fuel.setTotalFuelPrice(totalFuelPrice);
+                fuel.setStartingKm(startingKm);
+                fuel.setCurrentKm(currentKm);
+                fuel.setDistanceCovered(distanceCovered);
+                fuel.setCalculatedAverage(calculatedAverage);
+
 
                 startStoringData(fuel);
                 Log.d(TAG, "onClick: start storing data");
@@ -207,6 +260,25 @@ public class AddEditFuelFragment extends DialogFragment implements DatePickerDia
 
         }
     };
+
+    // method to store fuel data to DB
+    private void startStoringData(Fuel fuel) {
+
+        // if we are adding new  record
+        if (addingNewFuel) {
+            fuel.setForeignVehicleID(foreignVehicleID);
+            fuelViewModel.insertFuel(fuel);
+
+        } else { // if we are editing existing vehicle record
+
+            fuel.setForeignVehicleID(foreignVehicleID);
+            fuel.setFuelID(fuelID);
+            fuelViewModel.updateVehicle(fuel);
+        }
+    }
+
+
+
 
     // method to check for all edit text
     private Boolean checkForEmptyList() {
@@ -249,24 +321,6 @@ public class AddEditFuelFragment extends DialogFragment implements DatePickerDia
         }
     }
 
-
-    // method to store fuel data to DB
-    private void startStoringData(Fuel fuel) {
-
-        // if we are adding new  record
-        if (addingNewFuel) {
-            fuel.setForeignVehicleID(foreignVehicleID);
-
-
-            fuelViewModel.insertFuel(fuel);
-
-        } else { // if we are editing existing vehicle record
-
-            fuel.setForeignVehicleID(foreignVehicleID);
-            fuel.setFuelID(fuelID);
-            fuelViewModel.updateVehicle(fuel);
-        }
-    }
 
 
     // Below code is used to fix small size issue of DialogFragment

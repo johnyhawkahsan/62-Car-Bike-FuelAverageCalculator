@@ -40,6 +40,7 @@ public class DateTypeConverter {
 */
 
     static DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    //static DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 
     // Convert string formatted text to Date
     @TypeConverter

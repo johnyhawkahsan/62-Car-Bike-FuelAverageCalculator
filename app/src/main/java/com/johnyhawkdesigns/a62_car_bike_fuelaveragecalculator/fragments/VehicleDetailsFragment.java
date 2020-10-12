@@ -17,7 +17,9 @@ import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.johnyhawkdesigns.a62_car_bike_fuelaveragecalculator.R;
+import com.johnyhawkdesigns.a62_car_bike_fuelaveragecalculator.database.model.Fuel;
 import com.johnyhawkdesigns.a62_car_bike_fuelaveragecalculator.database.model.Vehicle;
+import com.johnyhawkdesigns.a62_car_bike_fuelaveragecalculator.database.viewmodel.FuelViewModel;
 import com.johnyhawkdesigns.a62_car_bike_fuelaveragecalculator.database.viewmodel.VehicleViewModel;
 import com.johnyhawkdesigns.a62_car_bike_fuelaveragecalculator.util.AppUtils;
 
@@ -28,6 +30,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -59,7 +62,8 @@ public class VehicleDetailsFragment extends Fragment {
     private FloatingActionButton fabAdd;
     private RecyclerView recyclerView;
 
-    VehicleViewModel vehicleViewModel;
+    private VehicleViewModel vehicleViewModel;
+    private FuelViewModel fuelViewModel;
     private Vehicle vehicle;
 
     private Boolean showFuelData;
@@ -135,6 +139,19 @@ public class VehicleDetailsFragment extends Fragment {
 
                 showFuelData = true;
                 showEngineOilData = false;
+
+                fuelViewModel = new FuelViewModel(getActivity().getApplication(), vehicleID);
+                fuelViewModel.getAllFuel()
+                        .observe(getActivity(), new Observer<List<Fuel>>() {
+                            @Override
+                            public void onChanged(List<Fuel> fuels) {
+                                for (Fuel singleFuel: fuels){
+                                    Log.d(TAG, "onChanged: fueldID = " + singleFuel.getFuelID() + ", average = " + singleFuel.getCalculatedAverage());
+                                }
+
+                            }
+                        });
+
 
             }
         });

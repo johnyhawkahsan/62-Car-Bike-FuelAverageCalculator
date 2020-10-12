@@ -81,17 +81,17 @@ public class AddEditFuelFragment extends DialogFragment implements DatePickerDia
     private Calendar calendar;
     private Date fuelDate;
     private LocalDate localDate; // Note: This is Java 8 feature
-    String fuelDateString = "";
-    String fuelDateStringLocalDate = "";
+    private String fuelDateString = "";
+    private String fuelDateStringLocalDate = "";
 
 
-    Double perLitrePrice;
-    Double fuelQuantityLitres;
-    Double totalFuelPrice;
-    Double currentKm;
-    Double startingKm;
-    Double totalDistance;
-    Double calculatedAverage;
+    private Double perLitrePrice;
+    private Double fuelQuantityLitres;
+    private Double totalFuelPrice;
+    private Double currentKm;
+    private Double startingKm;
+    private Double totalDistance;
+    private Double calculatedAverage;
 
     private List<TextInputEditText> textInputValidationList;
 
@@ -163,6 +163,12 @@ public class AddEditFuelFragment extends DialogFragment implements DatePickerDia
             });
 
 
+
+            Double lastPerLitrePrice = AppUtils.getPetrolPerLitrePrice(AppUtils.perLitrePriceStr, getActivity());
+            if (lastPerLitrePrice != null){
+                tin_perLitrePrice.setText(String.valueOf(lastPerLitrePrice));
+            }
+
             // button to calculate (multiply) fuel price with fuel quantity
             btn_calculateFuelPrice.setOnClickListener(v -> {
                if (!tin_perLitrePrice.getText().toString().trim().isEmpty() && !tin_fuelQuantityLitres.getText().toString().trim().isEmpty()) {
@@ -170,12 +176,21 @@ public class AddEditFuelFragment extends DialogFragment implements DatePickerDia
                     fuelQuantityLitres = Double.parseDouble(tin_fuelQuantityLitres.getText().toString());
                     totalFuelPrice = fuelQuantityLitres * perLitrePrice;
                     tin_totalFuelPrice.setText(String.valueOf(totalFuelPrice));
+
+
+
                } else if (!tin_perLitrePrice.getText().toString().trim().isEmpty() && !tin_totalFuelPrice.getText().toString().trim().isEmpty()){
                    perLitrePrice = Double.parseDouble(tin_perLitrePrice.getText().toString());
                    totalFuelPrice = Double.parseDouble(tin_totalFuelPrice.getText().toString());
                    fuelQuantityLitres = (totalFuelPrice / perLitrePrice);
                    fuelQuantityLitres = AppUtils.roundDouble(fuelQuantityLitres, 2); // round to 2 decimal places
                    tin_fuelQuantityLitres.setText(String.valueOf(fuelQuantityLitres));
+               }
+
+                // store perLitrePrice to shared preferences
+               if (!tin_perLitrePrice.getText().toString().trim().isEmpty()){
+                   perLitrePrice = Double.parseDouble(tin_perLitrePrice.getText().toString());
+                   AppUtils.savePetrolPriceSharedPreference(AppUtils.perLitrePriceStr, perLitrePrice, getActivity());
                }
             });
 
@@ -192,10 +207,11 @@ public class AddEditFuelFragment extends DialogFragment implements DatePickerDia
             // button to calculate average Total distance covered in km divided by total petrol in litres i.e; 172km/ 5 ltr = 43 km per litre average
             btn_calculateAverage.setOnClickListener(v -> {
                 if (!tin_fuelQuantityLitres.getText().toString().trim().isEmpty() && !tin_distanceCovered.getText().toString().trim().isEmpty()) {
-                    calculatedAverage = (totalDistance / fuelQuantityLitres );
-                    calculatedAverage = AppUtils.roundDouble(fuelQuantityLitres, 2); // round to 2 decimal places
+                    calculatedAverage = (totalDistance / fuelQuantityLitres);
+                    calculatedAverage = AppUtils.roundDouble(calculatedAverage, 2); // round to 2 decimal places
                     tin_calculatedAverage.setText(String.valueOf(calculatedAverage));
                     // store calculatedAverage in SharedPreferences as last vehicle mileage
+
                 }
             });
 

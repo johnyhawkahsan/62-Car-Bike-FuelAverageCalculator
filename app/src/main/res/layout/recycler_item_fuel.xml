@@ -6,6 +6,7 @@
     android:layout_height="wrap_content"
     android:layout_width="match_parent"
     android:orientation="vertical"
+    android:background="@drawable/layout_bg"
     android:padding="16dp">
 
     <!-- Header: Day, Date -->
@@ -26,16 +27,17 @@
         android:orientation="horizontal">
 
         <LinearLayout
+            android:layout_weight="0.33"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:layout_margin="@dimen/margin_tiny"
+            android:gravity="center_horizontal"
             android:orientation="vertical">
 
             <TextView
                 android:fontFamily="sans-serif-light"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-                android:textSize="16sp"
+                android:textSize="12sp"
                 android:text="perLitrePrice"/>
 
             <TextView
@@ -49,16 +51,17 @@
         </LinearLayout>
 
         <LinearLayout
+            android:layout_weight="0.33"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:layout_margin="@dimen/margin_tiny"
+            android:gravity="center_horizontal"
             android:orientation="vertical">
 
             <TextView
                 android:fontFamily="sans-serif-light"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-                android:textSize="16sp"
+                android:textSize="12sp"
                 android:text="fuelQuantityLitres"/>
 
             <TextView
@@ -72,16 +75,17 @@
         </LinearLayout>
 
         <LinearLayout
+            android:layout_weight="0.33"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:layout_margin="@dimen/margin_tiny"
+            android:gravity="center_horizontal"
             android:orientation="vertical">
 
             <TextView
                 android:fontFamily="sans-serif-light"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-                android:textSize="16sp"
+                android:textSize="12sp"
                 android:text="totalFuelPrice"/>
 
             <TextView
@@ -105,16 +109,17 @@
         android:orientation="horizontal">
 
         <LinearLayout
+            android:layout_weight="0.5"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:layout_margin="@dimen/margin_tiny"
+            android:gravity="center_horizontal"
             android:orientation="vertical">
 
             <TextView
                 android:fontFamily="sans-serif-light"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-                android:textSize="16sp"
+                android:textSize="12sp"
                 android:text="distanceCovered"/>
 
             <TextView
@@ -128,16 +133,17 @@
         </LinearLayout>
 
         <LinearLayout
+            android:layout_weight="0.5"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:layout_margin="@dimen/margin_tiny"
+            android:gravity="center_horizontal"
             android:orientation="vertical">
 
             <TextView
                 android:fontFamily="sans-serif-light"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-                android:textSize="16sp"
+                android:textSize="12sp"
                 android:text="calculatedAverage"/>
 
             <TextView

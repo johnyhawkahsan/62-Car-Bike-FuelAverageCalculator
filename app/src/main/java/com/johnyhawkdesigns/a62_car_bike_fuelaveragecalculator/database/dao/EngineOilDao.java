@@ -31,7 +31,7 @@ public interface EngineOilDao {
     void insertAll(EngineOil... engineOils);
 
     @Update
-    Completable updateEngineOil(EngineOil engineOil); // for update, I am using executor inside Repository
+    Completable updateEngineOil(EngineOil engineOil);
 
     @Delete
     void deleteEngineOil(final EngineOil engineOil);

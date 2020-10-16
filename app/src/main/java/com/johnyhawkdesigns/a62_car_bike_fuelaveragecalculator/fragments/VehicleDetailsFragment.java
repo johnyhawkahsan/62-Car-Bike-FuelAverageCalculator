@@ -17,6 +17,8 @@ import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.johnyhawkdesigns.a62_car_bike_fuelaveragecalculator.R;
+import com.johnyhawkdesigns.a62_car_bike_fuelaveragecalculator.adapter.EngineOilListAdapter;
+import com.johnyhawkdesigns.a62_car_bike_fuelaveragecalculator.adapter.FuelListAdapter;
 import com.johnyhawkdesigns.a62_car_bike_fuelaveragecalculator.database.model.Fuel;
 import com.johnyhawkdesigns.a62_car_bike_fuelaveragecalculator.database.model.Vehicle;
 import com.johnyhawkdesigns.a62_car_bike_fuelaveragecalculator.database.viewmodel.FuelViewModel;
@@ -32,6 +34,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import io.reactivex.Completable;
@@ -61,11 +64,14 @@ public class VehicleDetailsFragment extends Fragment {
     private Button btn_fuel;
     private FloatingActionButton fabAdd;
     private RecyclerView recyclerView;
+    private FuelListAdapter fuelListAdapter;
+    private EngineOilListAdapter engineOilListAdapter;
 
     private VehicleViewModel vehicleViewModel;
     private FuelViewModel fuelViewModel;
     private Vehicle vehicle;
 
+    private TextView emptyTextView;
     private Boolean showFuelData;
     private Boolean showEngineOilData;
 
@@ -84,17 +90,24 @@ public class VehicleDetailsFragment extends Fragment {
             Log.d(TAG, "onCreateView: received vehicleID = " + vehicleID);
         }
 
+        emptyTextView = view.findViewById(R.id.tv__empty);
+        emptyTextView.setVisibility(View.GONE); // by default, we don't want to display this
+
         detail_fragment_vehicle_icon = view.findViewById(R.id.detail_fragment_vehicle_icon);
         tv_vehicleID = view.findViewById(R.id.tv_vehicleID);
         tv_vehicle_make = view.findViewById(R.id.tv_vehicle_make);
         tv_vehicle_model = view.findViewById(R.id.tv_vehicle_model);
         btn_fuel = view.findViewById(R.id.btn_fuel);
         btn_mobilOil = view.findViewById(R.id.btn_mobilOil);
-        recyclerView = view.findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
         fabAdd = view.findViewById(R.id.fabAdd);
         fabAdd.hide();
+
+        recyclerView = view.findViewById(R.id.recyclerView);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getActivity(), linearLayoutManager.getOrientation());
+        recyclerView.addItemDecoration(dividerItemDecoration);
 
 
         vehicleViewModel = new VehicleViewModel(getActivity().getApplication());
@@ -140,6 +153,12 @@ public class VehicleDetailsFragment extends Fragment {
                 showFuelData = true;
                 showEngineOilData = false;
 
+                fuelListAdapter = new FuelListAdapter(getActivity(), fuel -> {
+                    Log.d(TAG, "onClick: fuel = " + fuel.getFuelID());
+                    // listener.onFuelClickListener
+                });
+                recyclerView.setAdapter(fuelListAdapter);
+
                 fuelViewModel = new FuelViewModel(getActivity().getApplication(), vehicleID);
                 fuelViewModel.getAllFuel()
                         .observe(getActivity(), new Observer<List<Fuel>>() {
@@ -149,8 +168,18 @@ public class VehicleDetailsFragment extends Fragment {
                                     Log.d(TAG, "onChanged: fueldID = " + singleFuel.getFuelID() + ", average = " + singleFuel.getCalculatedAverage());
                                 }
 
+                                fuelListAdapter.setFuelList(fuels);
+
+                                if (fuels.size() > 0 ) {
+                                    emptyTextView.setVisibility(View.GONE);
+                                } else {
+                                    emptyTextView.setVisibility(View.VISIBLE);
+                                }
+
                             }
                         });
+
+
 
 
             }
@@ -164,6 +193,8 @@ public class VehicleDetailsFragment extends Fragment {
 
             showFuelData = false;
             showEngineOilData = true;
+
+            engineOilListAdapter = new EngineOilListAdapter();
         });
 
 
@@ -178,7 +209,8 @@ public class VehicleDetailsFragment extends Fragment {
             // if current show engine oil data is checked
             else if (!showFuelData && showEngineOilData){
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                // AddEditEngineOilFragment
+                AddEditEngineOilFragment addEditEngineOilFragment = AddEditEngineOilFragment.newInstance(vehicleID);
+                addEditEngineOilFragment.show(fragmentManager, "add_edit_engine_oil_fragment");
             }
 
 

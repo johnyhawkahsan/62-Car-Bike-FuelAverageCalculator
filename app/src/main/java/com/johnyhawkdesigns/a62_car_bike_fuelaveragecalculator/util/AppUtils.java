@@ -21,11 +21,12 @@ public class AppUtils {
     private static final String TAG = AppUtils.class.getSimpleName();
     public static final String PREFERENCES = "prefs";
     public static final String perLitrePriceStr = "perLitrePriceStr";
+    public static final String lastEngineOilInterval = "lastEngineOilInterval";
 
 
     // Method to get current time
-    public static Date getCurrentDateTime(){
-        Date currentDate =  Calendar.getInstance().getTime();
+    public static Date getCurrentDateTime() {
+        Date currentDate = Calendar.getInstance().getTime();
         return currentDate;
     }
 
@@ -34,13 +35,11 @@ public class AppUtils {
     public static String getFormattedDateString(Date date) {
 
         try {
-
-            SimpleDateFormat spf = new SimpleDateFormat("EEE MMM d HH:mm:ss zzz yyyy");
-            String dateString = spf.format(date);
-
-            Date newDate = spf.parse(dateString);
             //spf= new SimpleDateFormat("dd MMM yyyy HH:mm:ss");
-            spf= new SimpleDateFormat("dd MMM yyyy");
+            //SimpleDateFormat spf = new SimpleDateFormat("EEE MMM d HH:mm:ss zzz yyyy");
+            SimpleDateFormat spf = new SimpleDateFormat("dd MMM yyyy");
+            String dateString = spf.format(date);
+            Date newDate = spf.parse(dateString);
             return spf.format(newDate);
 
         } catch (ParseException e) {
@@ -78,14 +77,14 @@ public class AppUtils {
 
 
     // store per litre price of petrol
-    public static void savePetrolPriceSharedPreference(String perLitrePriceStr, Double perLitrePrice, Context context){
+    public static void savePetrolPriceSharedPreference(String perLitrePriceStr, Double perLitrePrice, Context context) {
 
         SharedPreferences preferences = context.getSharedPreferences(PREFERENCES, MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
 
         Long perLitrePriceLong = Double.doubleToRawLongBits(perLitrePrice);
 
-        if (preferences.contains(perLitrePriceStr) && preferences.getLong(perLitrePriceStr, 0) == perLitrePriceLong){ // if this petrol price is already stored in preferences
+        if (preferences.contains(perLitrePriceStr) && preferences.getLong(perLitrePriceStr, 0) == perLitrePriceLong) { // if this petrol price is already stored in preferences
             Log.d(TAG, "petrol price: already stored");
         } else {
             // save last petrol price
@@ -96,15 +95,46 @@ public class AppUtils {
     }
 
 
-    public static Double getPetrolPerLitrePrice(String perLitrePriceStr, Context context){
+    public static Double getPetrolPerLitrePrice(String perLitrePriceStr, Context context) {
 
         SharedPreferences preferences = context.getSharedPreferences(PREFERENCES, MODE_PRIVATE);
-        Long perLitrePriceLong = preferences.getLong(perLitrePriceStr , 0);
+        Long perLitrePriceLong = preferences.getLong(perLitrePriceStr, 0);
         Double perLitrePriceDouble = Double.longBitsToDouble(perLitrePriceLong);
 
         Log.d(TAG, "petrol price: getting last petrol price perLitrePriceDouble = " + perLitrePriceDouble);
-
         return perLitrePriceDouble;
     }
+
+
+    public static Double getLastEngineOilInterval(String lastEngineOilInterval, Context context) {
+
+        SharedPreferences preferences = context.getSharedPreferences(PREFERENCES, MODE_PRIVATE);
+        Long lastEngineOilIntervalLong = preferences.getLong(lastEngineOilInterval, 0);
+        Double lastEngineOilIntervalDouble = Double.longBitsToDouble(lastEngineOilIntervalLong);
+
+        Log.d(TAG, "petrol price: getting lastEngineOilIntervalDouble = " + lastEngineOilIntervalDouble);
+        return lastEngineOilIntervalDouble;
+    }
+
+
+    // store per litre price of petrol
+    public static void saveLastEngineOilIntervalSharedPreference(String lastEngineOilIntervalStr, Double lastEngineOilInterval, Context context) {
+
+        SharedPreferences preferences = context.getSharedPreferences(PREFERENCES, MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+
+        Long lastEngineOilIntervalLong = Double.doubleToRawLongBits(lastEngineOilInterval);
+
+        if (preferences.contains(lastEngineOilIntervalStr) && preferences.getLong(lastEngineOilIntervalStr, 0) == lastEngineOilIntervalLong) { // if this is already stored in preferences
+            Log.d(TAG, "lastEngineOilInterval: already stored");
+        } else {
+            // save lastEngineOilInterval
+            editor.putLong(lastEngineOilIntervalStr, lastEngineOilIntervalLong); // NOTE: https://stackoverflow.com/questions/16319237/cant-put-double-sharedpreferences
+            editor.apply();
+            Log.d(TAG, "lastEngineOilInterval: lastEngineOilInterval saved, " + "lastEngineOilIntervalStr = " + lastEngineOilIntervalStr + "lastEngineOilInterval = " + lastEngineOilInterval + ", lastEngineOilIntervalLong = " + lastEngineOilIntervalLong);
+        }
+    }
+
+
 
 }

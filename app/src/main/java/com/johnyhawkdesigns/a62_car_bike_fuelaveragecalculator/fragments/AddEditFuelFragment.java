@@ -244,7 +244,6 @@ public class AddEditFuelFragment extends DialogFragment implements DatePickerDia
 
             } else { //If no field is left empty and everything is filled
 
-                Date fuelDate = AppUtils.getCurrentDateTime();
                 Double perLitrePrice = Double.valueOf(tin_perLitrePrice.getText().toString());
                 Double fuelQuantityLitres = Double.valueOf(tin_fuelQuantityLitres.getText().toString());
                 Double totalFuelPrice = Double.valueOf(tin_totalFuelPrice.getText().toString());
@@ -255,6 +254,11 @@ public class AddEditFuelFragment extends DialogFragment implements DatePickerDia
                 String averageCalculationMethod;
 
                 // set data fields for fuel
+                if (fuelDate == null){ // means no default date is set
+                    fuelDate = AppUtils.getCurrentDateTime();
+                    tv_input_fuel_date.setText(AppUtils.getFormattedDateString(fuelDate));
+                }
+
                 fuel.setFuelDate(fuelDate);
                 fuel.setPerLitrePrice(perLitrePrice);
                 fuel.setFuelQuantityLitres(fuelQuantityLitres);
@@ -279,16 +283,10 @@ public class AddEditFuelFragment extends DialogFragment implements DatePickerDia
 
     // method to store fuel data to DB
     private void startStoringData(Fuel fuel) {
-
         // if we are adding new  record
         if (addingNewFuel) {
-            fuel.setForeignVehicleID(foreignVehicleID);
             fuelViewModel.insertFuel(fuel);
-
         } else { // if we are editing existing vehicle record
-
-            fuel.setForeignVehicleID(foreignVehicleID);
-            fuel.setFuelID(fuelID);
             fuelViewModel.updateVehicle(fuel);
         }
     }
@@ -314,6 +312,7 @@ public class AddEditFuelFragment extends DialogFragment implements DatePickerDia
     }
 
 
+    // iterate through all items in the list and look for empty items
     private void validationList() {
 
         textInputValidationList.add(tin_perLitrePrice);
@@ -362,6 +361,8 @@ public class AddEditFuelFragment extends DialogFragment implements DatePickerDia
         calendar.set(Calendar.MONTH, month);
         calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
         fuelDate = calendar.getTime();
+        Log.d(TAG, "onDateSet: fuelDate = " + fuelDate);
+
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) { // Android Oreo 8
             localDate = getLocalDate();

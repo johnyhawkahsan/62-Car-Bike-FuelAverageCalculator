@@ -5,7 +5,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.johnyhawkdesigns.a62_car_bike_fuelaveragecalculator.R;
@@ -24,7 +23,7 @@ public class FuelListAdapter extends RecyclerView.Adapter<FuelListAdapter.FuelVi
     }
 
 
-    private static final String TAG = VehicleListAdapter.class.getSimpleName();
+    private static final String TAG = FuelListAdapter.class.getSimpleName();
     private Context mContext;
     private final LayoutInflater mInflator;
     private List<Fuel> mFuels;
@@ -34,7 +33,7 @@ public class FuelListAdapter extends RecyclerView.Adapter<FuelListAdapter.FuelVi
     public FuelListAdapter(Context mContext, FuelListAdapter.FuelClickListener fuelClickListener) {
         this.mContext = mContext;
         mInflator = LayoutInflater.from(mContext);
-        fuelClickListener = fuelClickListener;
+        mFuelClickListener = fuelClickListener;
     }
 
     // Instead of using List in a constructor, we use it here so we can use in MainActivity's observer.
@@ -60,7 +59,7 @@ public class FuelListAdapter extends RecyclerView.Adapter<FuelListAdapter.FuelVi
 
             itemView.setOnClickListener(v -> {
                 Fuel fuel = mFuels.get(getAdapterPosition()); // get item at specific position
-                mFuelClickListener.onClick(fuel);  // This interface method sends ID to MainActivity's Adapter constructor method
+                mFuelClickListener.onClick(fuel);  // This interface method sends ID to Adapter constructor method
                 Log.d(TAG, "onClick: clicked on item with id = " + fuel.getFuelID());
             });
 
@@ -73,7 +72,7 @@ public class FuelListAdapter extends RecyclerView.Adapter<FuelListAdapter.FuelVi
     @NonNull
     @Override
     public FuelListAdapter.FuelViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView = mInflator.inflate(R.layout.recycler_item_vehicle, parent, false);
+        View itemView = mInflator.inflate(R.layout.recycler_item_fuel, parent, false);
         return new FuelListAdapter.FuelViewHolder(itemView);
     }
 
@@ -81,12 +80,15 @@ public class FuelListAdapter extends RecyclerView.Adapter<FuelListAdapter.FuelVi
     public void onBindViewHolder(@NonNull FuelListAdapter.FuelViewHolder holder, int position) {
 
         Fuel currentFuel = mFuels.get(position);
+
         holder.fuel_date.setText(AppUtils.getFormattedDateString(currentFuel.getFuelDate()));
         holder.perLitrePrice.setText(String.valueOf(currentFuel.getPerLitrePrice()));
         holder.fuelQuantityLitres.setText(String.valueOf(currentFuel.getFuelQuantityLitres()));
         holder.totalFuelPrice.setText(String.valueOf(currentFuel.getTotalFuelPrice()));
         holder.distanceCovered.setText(String.valueOf(currentFuel.getDistanceCovered()));
         holder.calculatedAverage.setText(String.valueOf(currentFuel.getCalculatedAverage()));
+
+
     }
 
     @Override

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -11,14 +12,15 @@
 
     <LinearLayout
         style="@style/Dialog.Vertical"
-        android:layout_margin="@dimen/margin_small"
+        android:layout_marginTop="@dimen/margin_small"
+        android:layout_marginLeft="@dimen/margin_small"
+        android:layout_marginRight="@dimen/margin_small"
         android:background="@drawable/layout_bg">
 
 
         <LinearLayout style="@style/Item.RootLayout.WithImage">
 
             <LinearLayout style="@style/Item.Layout.Info">
-
 
                 <TextView
                     android:id="@+id/tv_vehicleID"
@@ -49,8 +51,8 @@
 
                 <ImageView
                     android:id="@+id/detail_fragment_vehicle_icon"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
+                    android:layout_width="180dp"
+                    android:layout_height="70dp"
                     android:layout_gravity="center"
                     android:contentDescription="@string/carbikeicon"
                     app:srcCompat="@drawable/ic_car" />
@@ -96,6 +98,8 @@
         android:orientation="vertical"
         android:stateListAnimator="@null">
 
+
+
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fabAdd"
             style="@style/Item.Fab"
@@ -110,6 +114,8 @@
             android:scrollbarStyle="outsideOverlay"
             android:scrollbars="vertical"
             tools:listitem="@layout/recycler_item_fuel" />
+
+        <include layout="@layout/empty_vehicle_profile"/>
 
     </RelativeLayout>
 

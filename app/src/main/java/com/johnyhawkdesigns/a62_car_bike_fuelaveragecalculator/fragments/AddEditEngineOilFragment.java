@@ -15,7 +15,6 @@ import android.widget.TextView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.johnyhawkdesigns.a62_car_bike_fuelaveragecalculator.R;
-import com.johnyhawkdesigns.a62_car_bike_EngineOilaveragecalculator.database.viewmodel.EngineOilViewModel;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -42,6 +41,7 @@ import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.johnyhawkdesigns.a62_car_bike_fuelaveragecalculator.database.model.EngineOil;
+import com.johnyhawkdesigns.a62_car_bike_fuelaveragecalculator.database.viewmodel.EngineOilViewModel;
 import com.johnyhawkdesigns.a62_car_bike_fuelaveragecalculator.util.AppUtils;
 
 
@@ -289,8 +289,10 @@ public class AddEditEngineOilFragment extends DialogFragment implements DatePick
         // if we are adding new  record
         if (addingNewEngineOil) {
             engineOilViewModel.insertEngineOil(engineOil);
+            Log.d(TAG, "addingNewEngineOil: ");
         } else { // if we are editing existing vehicle record
-            engineOilViewModel.updateVehicle(engineOil);
+            Log.d(TAG, "updateVehicle ");
+            engineOilViewModel.updateEngineOil(engineOil);
         }
     }
 
@@ -371,8 +373,6 @@ public class AddEditEngineOilFragment extends DialogFragment implements DatePick
         engineOilDateString = AppUtils.getFormattedDateString(engineOilDate);
         Log.d(TAG, "onDateSet: engineOilDateString = " + engineOilDateString + " , from original engineOilDate = " + engineOilDate);
         tv_input_engineOil_date.setText(engineOilDateString);
-
-
 
     }
 

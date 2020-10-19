@@ -13,7 +13,7 @@ import androidx.room.TypeConverters;
 @Entity(tableName = "engineOil_table")
 public class EngineOil {
 
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "engineOilID")
     private int engineOilID;
 

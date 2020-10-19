@@ -1,4 +1,4 @@
-package com.johnyhawkdesigns.a62_car_bike_EngineOilaveragecalculator.database.viewmodel;
+package com.johnyhawkdesigns.a62_car_bike_fuelaveragecalculator.database.viewmodel;
 
 import android.app.Application;
 
@@ -43,7 +43,7 @@ public class EngineOilViewModel extends AndroidViewModel {
 
 
     // update
-    public void updateVehicle(EngineOil engineOil) {
+    public void updateEngineOil(EngineOil engineOil) {
         engineOilRepository.updateEngineOil(engineOil);
     }
 

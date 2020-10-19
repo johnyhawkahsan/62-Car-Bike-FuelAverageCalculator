@@ -8,7 +8,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 
+import com.johnyhawkdesigns.a62_car_bike_fuelaveragecalculator.R;
 import com.johnyhawkdesigns.a62_car_bike_fuelaveragecalculator.database.model.EngineOil;
+import com.johnyhawkdesigns.a62_car_bike_fuelaveragecalculator.util.AppUtils;
 
 import java.util.List;
 
@@ -45,16 +47,16 @@ public class EngineOilListAdapter extends RecyclerView.Adapter<EngineOilListAdap
     // Provide a reference to the views for each data item
     public class EngineOilViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView engineOil_date, perLitrePrice, engineOilQuantityLitres, totalEngineOilPrice, distanceCovered, calculatedAverage ;
+        private TextView eoil_Date, eoil_description, eoil_quantityLitres, eoil_Price, eoil_totalDistance, nextOilChangeAt ;
 
         public EngineOilViewHolder(@NonNull View itemView) {
             super(itemView);
-            engineOil_date = itemView.findViewById(R.id.engineOil_date);
-            perLitrePrice = itemView.findViewById(R.id.perLitrePrice);
-            engineOilQuantityLitres = itemView.findViewById(R.id.engineOilQuantityLitres);
-            totalEngineOilPrice = itemView.findViewById(R.id.totalEngineOilPrice);
-            distanceCovered = itemView.findViewById(R.id.distanceCovered);
-            calculatedAverage = itemView.findViewById(R.id.calculatedAverage);
+            eoil_Date = itemView.findViewById(R.id.eoil_Date);
+            eoil_description = itemView.findViewById(R.id.eoil_description);
+            eoil_quantityLitres = itemView.findViewById(R.id.eoil_quantityLitres);
+            eoil_Price = itemView.findViewById(R.id.eoil_Price);
+            eoil_totalDistance = itemView.findViewById(R.id.eoil_totalDistance);
+            nextOilChangeAt = itemView.findViewById(R.id.nextOilChangeAt);
 
 
             itemView.setOnClickListener(v -> {
@@ -72,7 +74,7 @@ public class EngineOilListAdapter extends RecyclerView.Adapter<EngineOilListAdap
     @NonNull
     @Override
     public EngineOilListAdapter.EngineOilViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView = mInflator.inflate(R.layout.recycler_item_engineOil, parent, false);
+        View itemView = mInflator.inflate(R.layout.recycler_item_engine_oil, parent, false);
         return new EngineOilListAdapter.EngineOilViewHolder(itemView);
     }
 
@@ -81,13 +83,12 @@ public class EngineOilListAdapter extends RecyclerView.Adapter<EngineOilListAdap
 
         EngineOil currentEngineOil = mEngineOils.get(position);
 
-        holder.engineOil_date.setText(AppUtils.getFormattedDateString(currentEngineOil.getEngineOilDate()));
-        holder.perLitrePrice.setText(String.valueOf(currentEngineOil.getPerLitrePrice()));
-        holder.engineOilQuantityLitres.setText(String.valueOf(currentEngineOil.getEngineOilQuantityLitres()));
-        holder.totalEngineOilPrice.setText(String.valueOf(currentEngineOil.getTotalEngineOilPrice()));
-        holder.distanceCovered.setText(String.valueOf(currentEngineOil.getDistanceCovered()));
-        holder.calculatedAverage.setText(String.valueOf(currentEngineOil.getCalculatedAverage()));
-
+        holder.eoil_Date.setText(AppUtils.getFormattedDateString(currentEngineOil.getEoil_Date()));
+        holder.eoil_description.setText(String.valueOf(currentEngineOil.getEoil_description()));
+        holder.eoil_quantityLitres.setText(String.valueOf(currentEngineOil.getEoil_quantityLitres()));
+        holder.eoil_Price.setText(String.valueOf(currentEngineOil.getEoil_Price()));
+        holder.eoil_totalDistance.setText(String.valueOf(currentEngineOil.getEoil_totalDistance()));
+        holder.nextOilChangeAt.setText(String.valueOf(currentEngineOil.getNextOilChangeAt()));
 
     }
 

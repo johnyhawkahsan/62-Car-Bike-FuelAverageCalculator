@@ -112,7 +112,7 @@ public class AppUtils {
         Long lastEngineOilIntervalLong = preferences.getLong(lastEngineOilInterval, 0);
         Double lastEngineOilIntervalDouble = Double.longBitsToDouble(lastEngineOilIntervalLong);
 
-        Log.d(TAG, "petrol price: getting lastEngineOilIntervalDouble = " + lastEngineOilIntervalDouble);
+        Log.d(TAG, "lastEngineOilIntervalDouble: getting lastEngineOilIntervalDouble = " + lastEngineOilIntervalDouble);
         return lastEngineOilIntervalDouble;
     }
 

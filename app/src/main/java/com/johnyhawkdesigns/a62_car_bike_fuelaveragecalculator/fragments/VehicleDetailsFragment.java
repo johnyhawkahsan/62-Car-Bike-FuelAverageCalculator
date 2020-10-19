@@ -19,8 +19,10 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.johnyhawkdesigns.a62_car_bike_fuelaveragecalculator.R;
 import com.johnyhawkdesigns.a62_car_bike_fuelaveragecalculator.adapter.EngineOilListAdapter;
 import com.johnyhawkdesigns.a62_car_bike_fuelaveragecalculator.adapter.FuelListAdapter;
+import com.johnyhawkdesigns.a62_car_bike_fuelaveragecalculator.database.model.EngineOil;
 import com.johnyhawkdesigns.a62_car_bike_fuelaveragecalculator.database.model.Fuel;
 import com.johnyhawkdesigns.a62_car_bike_fuelaveragecalculator.database.model.Vehicle;
+import com.johnyhawkdesigns.a62_car_bike_fuelaveragecalculator.database.viewmodel.EngineOilViewModel;
 import com.johnyhawkdesigns.a62_car_bike_fuelaveragecalculator.database.viewmodel.FuelViewModel;
 import com.johnyhawkdesigns.a62_car_bike_fuelaveragecalculator.database.viewmodel.VehicleViewModel;
 import com.johnyhawkdesigns.a62_car_bike_fuelaveragecalculator.util.AppUtils;
@@ -69,6 +71,7 @@ public class VehicleDetailsFragment extends Fragment {
 
     private VehicleViewModel vehicleViewModel;
     private FuelViewModel fuelViewModel;
+    private EngineOilViewModel engineOilViewModel;
     private Vehicle vehicle;
 
     private TextView emptyTextView;
@@ -194,7 +197,33 @@ public class VehicleDetailsFragment extends Fragment {
             showFuelData = false;
             showEngineOilData = true;
 
-            engineOilListAdapter = new EngineOilListAdapter();
+            engineOilListAdapter = new EngineOilListAdapter(getActivity(), engineOil -> {
+                Log.d(TAG, "onClick: engineOil = " + engineOil.getEngineOilID());
+                // listener.onFuelClickListener
+            });
+            recyclerView.setAdapter(engineOilListAdapter);
+
+            engineOilViewModel = new EngineOilViewModel(getActivity().getApplication(), vehicleID);
+            engineOilViewModel.getAllEngineOil()
+                    .observe(getActivity(), new Observer<List<EngineOil>>() {
+                        @Override
+                        public void onChanged(List<EngineOil> engineOils) {
+
+                            for (EngineOil singleEngineOil: engineOils){
+                                Log.d(TAG, "onChanged: engineOilID = " + singleEngineOil.getEngineOilID() + ", nextOilChangeAt = " + singleEngineOil.getNextOilChangeAt());
+                            }
+
+                            engineOilListAdapter.setEngineOilList(engineOils);
+
+                            if (engineOils.size() > 0 ) {
+                                emptyTextView.setVisibility(View.GONE);
+                            } else {
+                                emptyTextView.setVisibility(View.VISIBLE);
+                            }
+
+                        }
+                    });
+
         });
 
 

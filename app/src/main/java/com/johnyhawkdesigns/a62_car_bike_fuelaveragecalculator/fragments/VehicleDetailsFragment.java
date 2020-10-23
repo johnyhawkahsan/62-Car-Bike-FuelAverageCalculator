@@ -159,6 +159,7 @@ public class VehicleDetailsFragment extends Fragment {
                 fuelListAdapter = new FuelListAdapter(getActivity(), fuel -> {
                     Log.d(TAG, "onClick: fuel = " + fuel.getFuelID());
                     // listener.onFuelClickListener
+                    displayFuelDetails(fuel);
                 });
                 recyclerView.setAdapter(fuelListAdapter);
 
@@ -246,6 +247,13 @@ public class VehicleDetailsFragment extends Fragment {
         });
 
         return view;
+    }
+
+
+    private void displayFuelDetails(Fuel fuel) {
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        AddEditFuelFragment addEditFuelFragment = AddEditFuelFragment.newInstance(vehicleID, fuel.getFuelID()); // launch
+        addEditFuelFragment.show(fragmentManager, "add_edit_fuel_fragment");
     }
 
     private void toggleButtonBackground(Button activeButton, Button nonActiveButton) {

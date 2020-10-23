@@ -30,7 +30,7 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.DialogFragment;
 
-public class AddEditFuelFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener{
+public class AddEditFuelFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
 
     private static final String TAG = AddEditFuelFragment.class.getSimpleName();
 
@@ -55,6 +55,8 @@ public class AddEditFuelFragment extends DialogFragment implements DatePickerDia
 
 
     private boolean addingNewFuel = true; // adding (true) or editing (false)
+    private boolean editingFuel = false;
+    private boolean fuelDetailMode = false;
     private int foreignVehicleID = 0;
     private int fuelID = 0;
 
@@ -74,6 +76,9 @@ public class AddEditFuelFragment extends DialogFragment implements DatePickerDia
     private ImageButton btn_calculateFuelPrice;
     private ImageButton btn_calculateDistance;
     private ImageButton btn_calculateAverage;
+    private ImageButton btn_edit_fuel;
+    private ImageButton btn_delete_fuel;
+
 
     private FloatingActionButton fabSaveFuelData;
 
@@ -115,12 +120,13 @@ public class AddEditFuelFragment extends DialogFragment implements DatePickerDia
         tin_distanceCovered = view.findViewById(R.id.tin_distanceCovered);
         btn_calculateAverage = view.findViewById(R.id.btn_calculateAverage);
         tin_calculatedAverage = view.findViewById(R.id.tin_calculatedAverage);
+        btn_edit_fuel = view.findViewById(R.id.btn_edit_fuel);
+        btn_delete_fuel = view.findViewById(R.id.btn_delete_fuel);
         fabSaveFuelData = view.findViewById(R.id.fabSaveFuelData);
 
         calendar = Calendar.getInstance();
-        datePickerDialog = new DatePickerDialog(getActivity(), this, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH) );
+        datePickerDialog = new DatePickerDialog(getActivity(), this, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
 
-        textInputValidationList = new ArrayList<>();
 
         // get Bundle of arguments then extract the contact's Uri
         Bundle arguments = getArguments();
@@ -134,6 +140,10 @@ public class AddEditFuelFragment extends DialogFragment implements DatePickerDia
                 addingNewFuel = true;
                 Log.d(TAG, "Adding New Fuel mode = received foreignVehicleID = " + foreignVehicleID);
                 tv_title_fuel.setText("Adding New Fuel Record");
+
+                // in Adding new fuel mode we want edit and delete button to be hidden
+                btn_edit_fuel.setVisibility(View.GONE);
+                btn_delete_fuel.setVisibility(View.GONE);
             }
 
             // ================== Editing fuel mode ==================
@@ -141,20 +151,37 @@ public class AddEditFuelFragment extends DialogFragment implements DatePickerDia
                 foreignVehicleID = arguments.getInt("foreignVehicleID");
                 fuelID = arguments.getInt("fuelID");
                 addingNewFuel = false;
+                fuelDetailMode = true;
                 Log.d(TAG, "Editing mode = received foreignVehicleID = " + foreignVehicleID + ", fuelID = " + fuelID);
-                tv_title_fuel.setText("Editing Fuel Record");
+                tv_title_fuel.setText("Fuel Record Details");
             }
 
             fuelViewModel = new FuelViewModel(getActivity().getApplication(), foreignVehicleID);
 
-            // if editing fuel, need to get current fuel data and populate in our view
-            if (!addingNewFuel){
+            // if viewing or editing fuel, need to get current fuel data and populate in our view
+            if (!addingNewFuel) {
                 fuelViewModel.getFuelByID(foreignVehicleID, fuelID)
-                .observe(getActivity(), fuel -> {
-                    Log.d(TAG, "onCreateView: fuel.getCalculatedAverage() = " + fuel.getCalculatedAverage());
-                    // need to setup edit text views with this data
-                });
+                        .observe(getActivity(), fuel -> {
+                            Log.d(TAG, "!addingNewFuel: fuel.getCalculatedAverage() = " + fuel.getCalculatedAverage());
+                            // need to setup edit text views with this data
+                            if (fuelDetailMode) {
+                                disableAllTextInputEditText();
+                                populateFuelData(fuel);
+                                fabSaveFuelData.hide();
+                                btn_setFuelDate.setVisibility(View.GONE);
+                                btn_edit_fuel.setVisibility(View.VISIBLE);
+                                btn_delete_fuel.setVisibility(View.VISIBLE);
+                            }
+                        });
 
+            }
+
+            // set current date by the time of opening
+            if (addingNewFuel){
+                fuelDate = AppUtils.getCurrentDateTime();
+                fuelDateString = AppUtils.getFormattedDateString(fuelDate);
+                Log.d(TAG, "onDateSet: fuelDateString = " + fuelDateString + " , from original fuelDate = " + fuelDate);
+                tv_input_fuel_date.setText(fuelDateString);
             }
 
             // set date
@@ -162,36 +189,34 @@ public class AddEditFuelFragment extends DialogFragment implements DatePickerDia
                 datePickerDialog.show();
             });
 
-
-
+            // get data from shared preferences
             Double lastPerLitrePrice = AppUtils.getPetrolPerLitrePrice(AppUtils.perLitrePriceStr, getActivity());
-            if (lastPerLitrePrice != null){
+            if (lastPerLitrePrice != null) {
                 tin_perLitrePrice.setText(String.valueOf(lastPerLitrePrice));
             }
 
             // button to calculate (multiply) fuel price with fuel quantity
             btn_calculateFuelPrice.setOnClickListener(v -> {
-               if (!tin_perLitrePrice.getText().toString().trim().isEmpty() && !tin_fuelQuantityLitres.getText().toString().trim().isEmpty()) {
+                if (!tin_perLitrePrice.getText().toString().trim().isEmpty() && !tin_fuelQuantityLitres.getText().toString().trim().isEmpty()) {
                     perLitrePrice = Double.parseDouble(tin_perLitrePrice.getText().toString());
                     fuelQuantityLitres = Double.parseDouble(tin_fuelQuantityLitres.getText().toString());
                     totalFuelPrice = fuelQuantityLitres * perLitrePrice;
                     tin_totalFuelPrice.setText(String.valueOf(totalFuelPrice));
 
 
-
-               } else if (!tin_perLitrePrice.getText().toString().trim().isEmpty() && !tin_totalFuelPrice.getText().toString().trim().isEmpty()){
-                   perLitrePrice = Double.parseDouble(tin_perLitrePrice.getText().toString());
-                   totalFuelPrice = Double.parseDouble(tin_totalFuelPrice.getText().toString());
-                   fuelQuantityLitres = (totalFuelPrice / perLitrePrice);
-                   fuelQuantityLitres = AppUtils.roundDouble(fuelQuantityLitres, 2); // round to 2 decimal places
-                   tin_fuelQuantityLitres.setText(String.valueOf(fuelQuantityLitres));
-               }
+                } else if (!tin_perLitrePrice.getText().toString().trim().isEmpty() && !tin_totalFuelPrice.getText().toString().trim().isEmpty()) {
+                    perLitrePrice = Double.parseDouble(tin_perLitrePrice.getText().toString());
+                    totalFuelPrice = Double.parseDouble(tin_totalFuelPrice.getText().toString());
+                    fuelQuantityLitres = (totalFuelPrice / perLitrePrice);
+                    fuelQuantityLitres = AppUtils.roundDouble(fuelQuantityLitres, 2); // round to 2 decimal places
+                    tin_fuelQuantityLitres.setText(String.valueOf(fuelQuantityLitres));
+                }
 
                 // store perLitrePrice to shared preferences
-               if (!tin_perLitrePrice.getText().toString().trim().isEmpty()){
-                   perLitrePrice = Double.parseDouble(tin_perLitrePrice.getText().toString());
-                   AppUtils.savePetrolPriceSharedPreference(AppUtils.perLitrePriceStr, perLitrePrice, getActivity());
-               }
+                if (!tin_perLitrePrice.getText().toString().trim().isEmpty()) {
+                    perLitrePrice = Double.parseDouble(tin_perLitrePrice.getText().toString());
+                    AppUtils.savePetrolPriceSharedPreference(AppUtils.perLitrePriceStr, perLitrePrice, getActivity());
+                }
             });
 
             // button to calculate (minus) current distance with previous distance
@@ -216,13 +241,54 @@ public class AddEditFuelFragment extends DialogFragment implements DatePickerDia
             });
 
 
-
             fabSaveFuelData.setOnClickListener(saveButtonClicked);
         }
 
         return view;
     }
 
+    // display fuel data inside TextInputEditText
+    private void populateFuelData(Fuel fuel) {
+        tin_perLitrePrice.setText(fuel.getPerLitrePrice().toString());
+        tin_fuelQuantityLitres.setText(fuel.getFuelQuantityLitres().toString());
+        tin_totalFuelPrice.setText(fuel.getTotalFuelPrice().toString());
+        tin_currentKm.setText(fuel.getCurrentKm().toString());
+        tin_startingKm.setText(fuel.getStartingKm().toString());
+        tin_distanceCovered.setText(fuel.getDistanceCovered().toString());
+        tin_calculatedAverage.setText(fuel.getCalculatedAverage().toString());
+    }
+
+    // disable all TextInputEditText for fuel detail mode
+    private void disableAllTextInputEditText() {
+        List<TextInputEditText> textInputEditTextList = new ArrayList<>();
+        textInputEditTextList.add(tin_perLitrePrice);
+        textInputEditTextList.add(tin_fuelQuantityLitres);
+        textInputEditTextList.add(tin_totalFuelPrice);
+        textInputEditTextList.add(tin_currentKm);
+        textInputEditTextList.add(tin_startingKm);
+        textInputEditTextList.add(tin_distanceCovered);
+        textInputEditTextList.add(tin_calculatedAverage);
+
+        for (TextInputEditText item : textInputEditTextList) {
+            item.setEnabled(false);
+        }
+    }
+
+    // enable all TextInputEditText for fuel editing mode
+    private void enableAllTextInputEditText() {
+        List<TextInputEditText> textInputEditTextList = new ArrayList<>();
+        textInputEditTextList.add(tin_perLitrePrice);
+        textInputEditTextList.add(tin_fuelQuantityLitres);
+        textInputEditTextList.add(tin_totalFuelPrice);
+        textInputEditTextList.add(tin_currentKm);
+        textInputEditTextList.add(tin_startingKm);
+        textInputEditTextList.add(tin_distanceCovered);
+        textInputEditTextList.add(tin_calculatedAverage);
+
+        for (TextInputEditText item : textInputEditTextList) {
+            item.setEnabled(true);
+        }
+    }
 
 
     // When Save button is clicked
@@ -232,12 +298,12 @@ public class AddEditFuelFragment extends DialogFragment implements DatePickerDia
 
             Fuel fuel = new Fuel();
             fuel.setForeignVehicleID(foreignVehicleID); // foreign key is available in all cases
-            if (!addingNewFuel){
+            if (!addingNewFuel) {
                 fuel.setFuelID(fuelID); // fuel id is only set if we are editing current fuel data with already available fuel id
             }
 
             // if all fields are not filled
-            if ( checkForEmptyList() ) {
+            if (checkForEmptyList()) {
 
                 Log.d(TAG, "onClick: any of the parameters is empty");
                 AppUtils.showMessage(getActivity(), "Please fill all the details!");
@@ -250,11 +316,11 @@ public class AddEditFuelFragment extends DialogFragment implements DatePickerDia
                 Double startingKm = Double.valueOf(tin_startingKm.getText().toString());
                 Double currentKm = Double.valueOf(tin_currentKm.getText().toString());
                 Double distanceCovered = Double.valueOf(tin_distanceCovered.getText().toString());
-                Double calculatedAverage= Double.valueOf(tin_calculatedAverage.getText().toString());
+                Double calculatedAverage = Double.valueOf(tin_calculatedAverage.getText().toString());
                 String averageCalculationMethod;
 
                 // set data fields for fuel
-                if (fuelDate == null){ // means no default date is set
+                if (fuelDate == null) { // means no default date is set
                     fuelDate = AppUtils.getCurrentDateTime();
                     tv_input_fuel_date.setText(AppUtils.getFormattedDateString(fuelDate));
                 }
@@ -277,7 +343,6 @@ public class AddEditFuelFragment extends DialogFragment implements DatePickerDia
             }
 
 
-
         }
     };
 
@@ -292,8 +357,6 @@ public class AddEditFuelFragment extends DialogFragment implements DatePickerDia
     }
 
 
-
-
     // method to check for all edit text
     private Boolean checkForEmptyList() {
         Boolean emptyListAvailable = tin_perLitrePrice.getText().toString().trim().isEmpty() ||
@@ -304,7 +367,7 @@ public class AddEditFuelFragment extends DialogFragment implements DatePickerDia
                 tin_distanceCovered.getText().toString().trim().isEmpty() ||
                 tin_calculatedAverage.getText().toString().trim().isEmpty();
 
-        if (emptyListAvailable){
+        if (emptyListAvailable) {
             validationList(); // set error messages
         }
         Log.d(TAG, "checkForEmptyList: emptyListAvailable = " + emptyListAvailable);
@@ -314,7 +377,7 @@ public class AddEditFuelFragment extends DialogFragment implements DatePickerDia
 
     // iterate through all items in the list and look for empty items
     private void validationList() {
-
+        textInputValidationList = new ArrayList<>();
         textInputValidationList.add(tin_perLitrePrice);
         textInputValidationList.add(tin_fuelQuantityLitres);
         textInputValidationList.add(tin_currentKm);
@@ -337,10 +400,9 @@ public class AddEditFuelFragment extends DialogFragment implements DatePickerDia
     }
 
 
-
     // Below code is used to fix small size issue of DialogFragment
     @Override
-    public void onResume () {
+    public void onResume() {
         super.onResume();
         ViewGroup.LayoutParams params = getDialog().getWindow().getAttributes();
         params.width = ViewGroup.LayoutParams.MATCH_PARENT;
@@ -349,7 +411,7 @@ public class AddEditFuelFragment extends DialogFragment implements DatePickerDia
     }
 
     @Override
-    public void onDestroy () {
+    public void onDestroy() {
         super.onDestroy();
         //compositeDisposable.dispose(); // dispose disposable
     }

@@ -242,10 +242,15 @@ public class AddEditFuelFragment extends DialogFragment implements DatePickerDia
 
 
             fabSaveFuelData.setOnClickListener(saveButtonClicked);
+            btn_delete_fuel.setOnClickListener(deleteButtonClicked);
+            btn_edit_fuel.setOnClickListener(editButtonClicked);
+
         }
 
         return view;
     }
+
+
 
     // display fuel data inside TextInputEditText
     private void populateFuelData(Fuel fuel) {
@@ -345,6 +350,22 @@ public class AddEditFuelFragment extends DialogFragment implements DatePickerDia
 
         }
     };
+
+    private final View.OnClickListener deleteButtonClicked = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Log.d(TAG, "onClick: deleteButtonClicked");
+
+        }
+    };
+
+    private final View.OnClickListener editButtonClicked = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Log.d(TAG, "onClick: editButtonClicked");
+        }
+    };
+
 
     // method to store fuel data to DB
     private void startStoringData(Fuel fuel) {

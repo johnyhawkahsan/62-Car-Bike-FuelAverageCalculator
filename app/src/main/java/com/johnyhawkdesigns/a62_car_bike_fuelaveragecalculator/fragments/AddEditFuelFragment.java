@@ -1,6 +1,7 @@
 package com.johnyhawkdesigns.a62_car_bike_fuelaveragecalculator.fragments;
 
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -28,7 +29,11 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 
 public class AddEditFuelFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
 
@@ -59,6 +64,7 @@ public class AddEditFuelFragment extends DialogFragment implements DatePickerDia
     private boolean fuelDetailMode = false;
     private int foreignVehicleID = 0;
     private int fuelID = 0;
+    private Fuel fuel;
 
 
     private FuelViewModel fuelViewModel;
@@ -141,7 +147,7 @@ public class AddEditFuelFragment extends DialogFragment implements DatePickerDia
                 Log.d(TAG, "Adding New Fuel mode = received foreignVehicleID = " + foreignVehicleID);
                 tv_title_fuel.setText("Adding New Fuel Record");
 
-                // in Adding new fuel mode we want edit and delete button to be hidden
+                // hide edit + delete button in add new fuel mode
                 btn_edit_fuel.setVisibility(View.GONE);
                 btn_delete_fuel.setVisibility(View.GONE);
             }
@@ -160,7 +166,33 @@ public class AddEditFuelFragment extends DialogFragment implements DatePickerDia
 
             // if viewing or editing fuel, need to get current fuel data and populate in our view
             if (!addingNewFuel) {
-                fuelViewModel.getFuelByID(foreignVehicleID, fuelID)
+                Log.d(TAG, "onCreateView: !addingNewFuel");
+                LiveData<Fuel> liveData = fuelViewModel.getFuelByID(foreignVehicleID, fuelID);
+                Observer<Fuel> fuelObserver = new Observer<Fuel>() {
+                    @Override
+                    public void onChanged(Fuel fuel) {
+
+                        Log.d(TAG, "!addingNewFuel: fuel.getCalculatedAverage() = " + fuel.getCalculatedAverage());
+                        // need to setup edit text views with this data
+                        if (fuelDetailMode) {
+                            Log.d(TAG, "onChanged: ");
+                            disableAllTextInputEditText();
+                            populateFuelData(fuel);
+                            fabSaveFuelData.hide();
+                            btn_setFuelDate.setVisibility(View.GONE);
+                            btn_edit_fuel.setVisibility(View.VISIBLE);
+                            btn_delete_fuel.setVisibility(View.VISIBLE);
+                        }
+
+                    }
+                };
+
+
+
+                //liveData.removeObserver(fuelObserver);
+
+                /*
+                      fuelViewModel.getFuelByID(foreignVehicleID, fuelID)
                         .observe(getActivity(), fuel -> {
                             Log.d(TAG, "!addingNewFuel: fuel.getCalculatedAverage() = " + fuel.getCalculatedAverage());
                             // need to setup edit text views with this data
@@ -173,6 +205,8 @@ public class AddEditFuelFragment extends DialogFragment implements DatePickerDia
                                 btn_delete_fuel.setVisibility(View.VISIBLE);
                             }
                         });
+                 */
+
 
             }
 
@@ -232,6 +266,12 @@ public class AddEditFuelFragment extends DialogFragment implements DatePickerDia
             // button to calculate average Total distance covered in km divided by total petrol in litres i.e; 172km/ 5 ltr = 43 km per litre average
             btn_calculateAverage.setOnClickListener(v -> {
                 if (!tin_fuelQuantityLitres.getText().toString().trim().isEmpty() && !tin_distanceCovered.getText().toString().trim().isEmpty()) {
+                    Log.d(TAG, "onCreateView: totalDistance = " + totalDistance +", fuelQuantityLitres = " + fuelQuantityLitres);
+
+                    // retrieving double values from input edit text again to avoid error caused in editing mode
+                    totalDistance = Double.parseDouble(tin_distanceCovered.getText().toString());
+                    fuelQuantityLitres = Double.parseDouble(tin_fuelQuantityLitres.getText().toString());
+
                     calculatedAverage = (totalDistance / fuelQuantityLitres);
                     calculatedAverage = AppUtils.roundDouble(calculatedAverage, 2); // round to 2 decimal places
                     tin_calculatedAverage.setText(String.valueOf(calculatedAverage));
@@ -301,7 +341,7 @@ public class AddEditFuelFragment extends DialogFragment implements DatePickerDia
         @Override
         public void onClick(View v) {
 
-            Fuel fuel = new Fuel();
+            fuel = new Fuel();
             fuel.setForeignVehicleID(foreignVehicleID); // foreign key is available in all cases
             if (!addingNewFuel) {
                 fuel.setFuelID(fuelID); // fuel id is only set if we are editing current fuel data with already available fuel id
@@ -356,6 +396,33 @@ public class AddEditFuelFragment extends DialogFragment implements DatePickerDia
         public void onClick(View v) {
             Log.d(TAG, "onClick: deleteButtonClicked");
 
+            // Build alert dialog for confirmation
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setTitle("Are you sure??");
+            builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    AppUtils.showMessage(getActivity(), "Delete fuel record success");
+
+                    // close dialog and close fragment
+                    getDialog().dismiss();
+                    getParentFragmentManager().popBackStack();
+                    fuelViewModel.deleteFuelWithID(foreignVehicleID, fuelID);
+
+                    // need to remove observer
+                    fuelViewModel.getFuelByID(foreignVehicleID, fuelID).removeObservers((AppCompatActivity)getContext());
+                }
+            });
+            builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                }
+            });
+            AlertDialog ad = builder.create();
+            ad.show();
+
+
         }
     };
 
@@ -363,6 +430,9 @@ public class AddEditFuelFragment extends DialogFragment implements DatePickerDia
         @Override
         public void onClick(View v) {
             Log.d(TAG, "onClick: editButtonClicked");
+            enableAllTextInputEditText();
+            fabSaveFuelData.show();
+            btn_setFuelDate.setVisibility(View.VISIBLE);
         }
     };
 

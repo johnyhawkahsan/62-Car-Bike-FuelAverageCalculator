@@ -121,7 +121,7 @@ public class VehicleDetailsFragment extends Fragment {
                 //   return vehicle1 = vehicle;
                 //})
                 .subscribe(vehicle -> {
-                    this.vehicle = vehicle;
+                    this.vehicle = vehicle; // set global vehicle object to returned/searched vehicle object
 
                     Log.d(TAG, "onCreateView: vehicle.getVehicleMake() = " + vehicle.getVehicleMake() + ", vehicle.getVehicleModel = " + vehicle.getVehicleModel());
 
@@ -251,9 +251,14 @@ public class VehicleDetailsFragment extends Fragment {
 
 
     private void displayFuelDetails(Fuel fuel) {
+
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        AddEditFuelFragment addEditFuelFragment = AddEditFuelFragment.newInstance(vehicleID, fuel.getFuelID()); // launch
-        addEditFuelFragment.show(fragmentManager, "add_edit_fuel_fragment");
+        FuelDetailsFragment fuelDetailsFragment = FuelDetailsFragment.newInstance(vehicleID, fuel.getFuelID()); // launch
+        fuelDetailsFragment.show(fragmentManager, "fuel_detail_fragment");
+
+        // I used this fragment for everything, add, edit, view details, now I moved details fragment to separate file
+        //AddEditFuelFragment addEditFuelFragment = AddEditFuelFragment.newInstance(vehicleID, fuel.getFuelID()); // launch
+        //addEditFuelFragment.show(fragmentManager, "add_edit_fuel_fragment");
     }
 
     private void toggleButtonBackground(Button activeButton, Button nonActiveButton) {

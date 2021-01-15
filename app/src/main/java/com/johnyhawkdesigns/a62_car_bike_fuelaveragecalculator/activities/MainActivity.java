@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onVehicleDeleted() {
-
+        Log.d(TAG, "onVehicleDeleted: ");
     }
 
     @Override

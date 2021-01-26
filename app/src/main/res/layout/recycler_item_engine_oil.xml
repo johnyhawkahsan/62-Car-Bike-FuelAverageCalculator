@@ -1,165 +1,105 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Master layout. -->
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_gravity="start"
-    android:layout_height="wrap_content"
+<?xml version="1.0" encoding="utf-8"?><!-- Master layout. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="start"
     android:orientation="vertical"
-    android:background="@drawable/layout_bg"
     android:padding="16dp">
 
     <!-- Header: Day, Date -->
     <TextView
         android:id="@+id/eoil_Date"
-        android:fontFamily="sans-serif-condensed"
-        android:layout_height="wrap_content"
         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-condensed"
+        android:text="20-Sep-2020"
         android:textColor="@color/colorPrimaryDark"
-        android:textSize="24sp"
-        android:text="20-Sep-2020"/>
+        android:textSize="20sp" />
 
     <!-- Main content: per litre price, quantity, price -->
     <LinearLayout
-        android:layout_height="wrap_content"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:orientation="horizontal">
 
         <LinearLayout
-            android:layout_weight="0.33"
-            android:layout_height="wrap_content"
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.33"
             android:gravity="center_horizontal"
             android:orientation="vertical">
 
             <TextView
-                android:fontFamily="sans-serif-light"
-                android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-                android:textSize="12sp"
-                android:text="eoil_description"/>
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-light"
+                android:text="eoil_description"
+                android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/eoil_description"
-                android:layout_gravity="center_horizontal"
-                android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-                android:textColor="@color/colorPrimary"
-                android:textAppearance="?android:textAppearanceLarge"
-                android:text="ZIC 10-40"/>
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="ZIC 10-40"
+                android:textAppearance="?android:textAppearanceMedium"
+                android:textColor="@color/colorPrimary" />
         </LinearLayout>
 
+
         <LinearLayout
-            android:layout_weight="0.33"
-            android:layout_height="wrap_content"
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.33"
             android:gravity="center_horizontal"
             android:orientation="vertical">
 
             <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-light"
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:textSize="12sp"
-                android:text="eoil_quantityLitres"/>
-
-            <TextView
-                android:id="@+id/eoil_quantityLitres"
-                android:layout_gravity="center_horizontal"
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:textColor="@color/colorPrimary"
-                android:textAppearance="?android:textAppearanceLarge"
-                android:text="3 litre"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_weight="0.33"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:gravity="center_horizontal"
-            android:orientation="vertical">
-
-            <TextView
-                android:fontFamily="sans-serif-light"
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:textSize="12sp"
-                android:text="eoil_Price"/>
+                android:text="eoil_Price"
+                android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/eoil_Price"
-                android:layout_gravity="center_horizontal"
-                android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-                android:textColor="@color/colorPrimary"
-                android:textAppearance="?android:textAppearanceLarge"
-                android:text="1800"/>
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="1800"
+                android:textAppearance="?android:textAppearanceMedium"
+                android:textColor="@color/colorPrimary" />
         </LinearLayout>
-    </LinearLayout>
-
-
-
-
-    <LinearLayout
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:gravity="center_horizontal"
-        android:orientation="horizontal">
 
         <LinearLayout
-            android:layout_weight="0.5"
-            android:layout_height="wrap_content"
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.33"
             android:gravity="center_horizontal"
             android:orientation="vertical">
 
             <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-light"
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:textSize="12sp"
-                android:text="eoil_totalDistance"/>
-
-            <TextView
-                android:id="@+id/eoil_totalDistance"
-                android:layout_gravity="center_horizontal"
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:textColor="@color/colorPrimary"
-                android:textAppearance="?android:textAppearanceLarge"
-                android:text="3000 km"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_weight="0.5"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:gravity="center_horizontal"
-            android:orientation="vertical">
-
-            <TextView
-                android:fontFamily="sans-serif-light"
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:textSize="12sp"
-                android:text="nextOilChangeAt"/>
+                android:text="nextOilChangeAt"
+                android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/nextOilChangeAt"
-                android:layout_gravity="center_horizontal"
-                android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-                android:textColor="@color/colorPrimary"
-                android:textAppearance="?android:textAppearanceLarge"
-                android:text="10,6000"/>
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="10,6000"
+                android:textAppearance="?android:textAppearanceMedium"
+                android:textColor="@color/colorPrimary" />
         </LinearLayout>
-
 
     </LinearLayout>
 
 
 </LinearLayout>
+
 
 

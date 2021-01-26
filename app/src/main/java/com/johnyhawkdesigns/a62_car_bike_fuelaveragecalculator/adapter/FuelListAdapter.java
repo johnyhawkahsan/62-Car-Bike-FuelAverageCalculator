@@ -45,13 +45,11 @@ public class FuelListAdapter extends RecyclerView.Adapter<FuelListAdapter.FuelVi
     // Provide a reference to the views for each data item
     public class FuelViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView fuel_date, perLitrePrice, fuelQuantityLitres, totalFuelPrice, distanceCovered, calculatedAverage ;
+        private TextView fuel_date, totalFuelPrice, distanceCovered, calculatedAverage ;
 
         public FuelViewHolder(@NonNull View itemView) {
             super(itemView);
             fuel_date = itemView.findViewById(R.id.fuel_date);
-            perLitrePrice = itemView.findViewById(R.id.perLitrePrice);
-            fuelQuantityLitres = itemView.findViewById(R.id.fuelQuantityLitres);
             totalFuelPrice = itemView.findViewById(R.id.totalFuelPrice);
             distanceCovered = itemView.findViewById(R.id.distanceCovered);
             calculatedAverage = itemView.findViewById(R.id.calculatedAverage);
@@ -82,11 +80,9 @@ public class FuelListAdapter extends RecyclerView.Adapter<FuelListAdapter.FuelVi
         Fuel currentFuel = mFuels.get(position);
 
         holder.fuel_date.setText(AppUtils.getFormattedDateString(currentFuel.getFuelDate()));
-        holder.perLitrePrice.setText(String.valueOf(currentFuel.getPerLitrePrice()));
-        holder.fuelQuantityLitres.setText(String.valueOf(currentFuel.getFuelQuantityLitres()));
-        holder.totalFuelPrice.setText(String.valueOf(currentFuel.getTotalFuelPrice()));
-        holder.distanceCovered.setText(String.valueOf(currentFuel.getDistanceCovered()));
-        holder.calculatedAverage.setText(String.valueOf(currentFuel.getCalculatedAverage()));
+        holder.totalFuelPrice.setText("Rs:" + String.valueOf(currentFuel.getTotalFuelPrice()));
+        holder.distanceCovered.setText(String.valueOf(currentFuel.getDistanceCovered()) + " km");
+        holder.calculatedAverage.setText(String.valueOf(currentFuel.getCalculatedAverage()) + " km/l");
 
 
     }

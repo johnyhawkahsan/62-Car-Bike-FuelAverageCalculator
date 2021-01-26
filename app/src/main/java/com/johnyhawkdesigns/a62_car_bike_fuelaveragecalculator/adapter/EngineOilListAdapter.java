@@ -47,15 +47,13 @@ public class EngineOilListAdapter extends RecyclerView.Adapter<EngineOilListAdap
     // Provide a reference to the views for each data item
     public class EngineOilViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView eoil_Date, eoil_description, eoil_quantityLitres, eoil_Price, eoil_totalDistance, nextOilChangeAt ;
+        private TextView eoil_Date, eoil_description, eoil_Price, nextOilChangeAt ;
 
         public EngineOilViewHolder(@NonNull View itemView) {
             super(itemView);
             eoil_Date = itemView.findViewById(R.id.eoil_Date);
             eoil_description = itemView.findViewById(R.id.eoil_description);
-            eoil_quantityLitres = itemView.findViewById(R.id.eoil_quantityLitres);
             eoil_Price = itemView.findViewById(R.id.eoil_Price);
-            eoil_totalDistance = itemView.findViewById(R.id.eoil_totalDistance);
             nextOilChangeAt = itemView.findViewById(R.id.nextOilChangeAt);
 
 
@@ -85,9 +83,7 @@ public class EngineOilListAdapter extends RecyclerView.Adapter<EngineOilListAdap
 
         holder.eoil_Date.setText(AppUtils.getFormattedDateString(currentEngineOil.getEoil_Date()));
         holder.eoil_description.setText(String.valueOf(currentEngineOil.getEoil_description()));
-        holder.eoil_quantityLitres.setText(String.valueOf(currentEngineOil.getEoil_quantityLitres()));
         holder.eoil_Price.setText(String.valueOf(currentEngineOil.getEoil_Price()));
-        holder.eoil_totalDistance.setText(String.valueOf(currentEngineOil.getEoil_totalDistance()));
         holder.nextOilChangeAt.setText(String.valueOf(currentEngineOil.getNextOilChangeAt()));
 
     }

@@ -1,5 +1,6 @@
 package com.johnyhawkdesigns.a62_car_bike_fuelaveragecalculator.fragments;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
@@ -23,10 +24,13 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 public class FuelDetailsFragment extends DialogFragment {
 
-    private static final String TAG = AddEditFuelFragment.class.getSimpleName();
+    private static final String TAG = FuelDetailsFragment.class.getSimpleName();
 
     // constructor
     public static FuelDetailsFragment newInstance(int foreignVehicleID, int fuelID) {
@@ -44,7 +48,9 @@ public class FuelDetailsFragment extends DialogFragment {
     private Fuel fuel;
 
     private FuelViewModel fuelViewModel;
+    private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
+    private TextView tv_fuel_date;
     private TextView tv_perLitrePrice;
     private TextView tv_fuelQuantityLitres;
     private TextView tv_totalFuelPrice;
@@ -55,7 +61,6 @@ public class FuelDetailsFragment extends DialogFragment {
     private ImageButton btn_delete_fuel;
 
 
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -63,6 +68,7 @@ public class FuelDetailsFragment extends DialogFragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fuel_details, container, false);
 
+        tv_fuel_date = view.findViewById(R.id.tv_fuel_date);
         tv_perLitrePrice = view.findViewById(R.id.tv_perLitrePrice);
         tv_fuelQuantityLitres = view.findViewById(R.id.tv_fuelQuantityLitres);
         tv_totalFuelPrice = view.findViewById(R.id.tv_totalFuelPrice);
@@ -86,17 +92,24 @@ public class FuelDetailsFragment extends DialogFragment {
             }
 
             fuelViewModel = new FuelViewModel(getActivity().getApplication(), foreignVehicleID);
-
         }
 
-        fuelViewModel.getFuelByID(foreignVehicleID, fuelID)
-                .observe(getActivity(), fuel -> {
+        Disposable disposable = fuelViewModel.getFuelByID(foreignVehicleID, fuelID)
+                .subscribeOn(Schedulers.io())
+                .subscribe(fuel -> {
+                    this.fuel = fuel; // set global vehicle object to returned/searched vehicle object
                     Log.d(TAG, "View Fuel Details : fuelID = " + fuelID);
                     populateFuelData(fuel);
-
                 });
 
+        compositeDisposable.add(disposable);
 
+/*
+        // Removed LiveData from Dao and Viewmodel because when I deleted this fuel data, getFuelByID returned an error because it was not decomposed. So I used MayBe (RxJava operator) and disposable
+        fuelViewModel.getFuelByID(foreignVehicleID, fuelID)
+                .observe(getActivity(), fuel -> {
+            });
+*/
 
         return view;
 
@@ -106,17 +119,23 @@ public class FuelDetailsFragment extends DialogFragment {
     private final View.OnClickListener editButtonClicked = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            Log.d(TAG, "onClick: editButtonClicked");
-            // Launch AddEditFuelFragment
 
-            /*
+            Log.d(TAG, "onClick: editButtonClicked");
+
+            // close current fragment
+            getDialog().dismiss();
+            getParentFragmentManager().popBackStack();
+
+            // Launch AddEditFuelFragment
             FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
             AddEditFuelFragment addEditFuelFragment = AddEditFuelFragment.newInstance(foreignVehicleID, fuelID); // launch
             addEditFuelFragment.show(fragmentManager, "add_edit_fuel_fragment");
-            */
+
+
+
+
         }
     };
-
 
 
     private final View.OnClickListener deleteButtonClicked = new View.OnClickListener() {
@@ -155,16 +174,24 @@ public class FuelDetailsFragment extends DialogFragment {
 
     // display fuel data inside TextViews
     private void populateFuelData(Fuel fuel) {
-        tv_perLitrePrice.setText(fuel.getPerLitrePrice().toString());
-        tv_fuelQuantityLitres.setText(fuel.getFuelQuantityLitres().toString());
-        tv_totalFuelPrice.setText(fuel.getTotalFuelPrice().toString());
-        tv_distanceCovered.setText(fuel.getDistanceCovered().toString());
-        tv_calculatedAverage.setText(fuel.getCalculatedAverage().toString());
+        tv_fuel_date.setText(AppUtils.getFormattedDateString(fuel.getFuelDate()));
+        tv_perLitrePrice.setText("Rs:" + fuel.getPerLitrePrice().toString());
+        tv_fuelQuantityLitres.setText(fuel.getFuelQuantityLitres().toString() + " l");
+        tv_totalFuelPrice.setText("Rs:" + fuel.getTotalFuelPrice().toString());
+        tv_distanceCovered.setText(fuel.getDistanceCovered().toString() + " km" );
+        tv_calculatedAverage.setText(fuel.getCalculatedAverage().toString() + " km/l" );
+    }
+
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        // remove observer here
+    public void onDetach() {
+        super.onDetach();
+        compositeDisposable.dispose(); // dispose disposable
     }
+
 }

@@ -20,8 +20,8 @@ public interface FuelDao {
     LiveData<List<Fuel>> getAllFuelData(int foreignVehicleID);
 
     @Query("SELECT * FROM fuel_table WHERE foreignVehicleID == :foreignVehicleID AND fuelID == :fuelID")
-    //Maybe<Fuel> getFuelByID(int foreignVehicleID, int fuelID); // using Maybe because Single caused an error, I think due to the possibility of multiple returned items
-    LiveData<Fuel> getFuelByID(int foreignVehicleID, int fuelID); // LiveData also worked perfectly but not using here because of the problem caused by "delete" command in VehicleDetailFragment
+    //LiveData<Fuel> getFuelByID(int foreignVehicleID, int fuelID); // LiveData also worked perfectly but not using here because of the problem caused by "delete" command in VehicleDetailFragment
+    Maybe<Fuel> getFuelByID(int foreignVehicleID, int fuelID); // using Maybe because Single caused an error, I think due to the possibility of multiple returned items
 
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

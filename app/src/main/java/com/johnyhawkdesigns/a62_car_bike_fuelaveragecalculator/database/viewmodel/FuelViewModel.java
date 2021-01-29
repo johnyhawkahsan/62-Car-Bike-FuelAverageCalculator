@@ -11,6 +11,7 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import io.reactivex.Maybe;
 import io.reactivex.Observable;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
@@ -34,7 +35,7 @@ public class FuelViewModel extends AndroidViewModel {
 
 
     // get single item using id
-    public LiveData<Fuel> getFuelByID(int vehicleID, int fuelID) {
+    public Maybe<Fuel> getFuelByID(int vehicleID, int fuelID) {
         return fuelRepository.getFuelByID(vehicleID, fuelID);
     }
 

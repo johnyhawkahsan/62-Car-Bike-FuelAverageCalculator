@@ -36,7 +36,7 @@ public class FuelRepository {
     }
 
     // get single item using id
-    public LiveData<Fuel> getFuelByID(int vehicleID, int fuelID) {
+    public Maybe<Fuel> getFuelByID(int vehicleID, int fuelID) {
         return mFuelDao.getFuelByID(vehicleID, fuelID);
     }
 

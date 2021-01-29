@@ -92,6 +92,9 @@ public class MainActivity extends AppCompatActivity
     }
 
 
+/*
+    // Removed Delete all vehicle option from menu because (i) it appeared everywhere (ii) not required
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -132,6 +135,8 @@ public class MainActivity extends AppCompatActivity
                 return super.onOptionsItemSelected(item);
         }
     }
+*/
+
 
 
 

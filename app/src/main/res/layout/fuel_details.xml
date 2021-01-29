@@ -122,7 +122,7 @@
                     android:fontFamily="sans-serif-condensed"
                     android:text="105"
                     android:textColor="@color/colorPrimaryDark"
-                    android:textSize="20sp" />
+                    android:textSize="16sp" />
 
             </LinearLayout>
 
@@ -151,7 +151,7 @@
                     android:fontFamily="sans-serif-condensed"
                     android:text="5"
                     android:textColor="@color/colorPrimaryDark"
-                    android:textSize="20sp" />
+                    android:textSize="16sp" />
 
             </LinearLayout>
 
@@ -180,7 +180,7 @@
                     android:fontFamily="sans-serif-condensed"
                     android:text="500"
                     android:textColor="@color/colorPrimaryDark"
-                    android:textSize="20sp" />
+                    android:textSize="16sp" />
 
             </LinearLayout>
 
@@ -221,7 +221,7 @@
                     android:fontFamily="sans-serif-condensed"
                     android:text="500 km"
                     android:textColor="@color/colorPrimaryDark"
-                    android:textSize="20sp" />
+                    android:textSize="16sp" />
 
             </LinearLayout>
 
@@ -250,7 +250,7 @@
                     android:fontFamily="sans-serif-condensed"
                     android:text="12 km/litre"
                     android:textColor="@color/colorPrimaryDark"
-                    android:textSize="20sp" />
+                    android:textSize="16sp" />
 
             </LinearLayout>
 

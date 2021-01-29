@@ -1,6 +1,7 @@
 package com.johnyhawkdesigns.a62_car_bike_fuelaveragecalculator.fragments;
 
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
@@ -29,11 +30,11 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Observer;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
+
 
 public class AddEditFuelFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
 
@@ -66,6 +67,7 @@ public class AddEditFuelFragment extends DialogFragment implements DatePickerDia
 
 
     private FuelViewModel fuelViewModel;
+    private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     private TextView tv_title_fuel;
     private Button btn_setFuelDate;
@@ -157,14 +159,20 @@ public class AddEditFuelFragment extends DialogFragment implements DatePickerDia
         // if editing fuel, need to get current fuel data and populate in our view
         if (!addingNewFuel) {
             Log.d(TAG, "onCreateView: !addingNewFuel");
-            fuelViewModel.getFuelByID(foreignVehicleID, fuelID)
-                    .observe(getActivity(), fuel -> {
-                        Log.d(TAG, "!addingNewFuel: fuel.getCalculatedAverage() = " + fuel.getCalculatedAverage());
-                        // need to setup edit text views with this data
-                        populateFuelData(fuel);
+
+
+            Disposable disposable = fuelViewModel.getFuelByID(foreignVehicleID, fuelID)
+                    .subscribeOn(Schedulers.io())
+                    .subscribe(fuel -> {
+                        this.fuel = fuel; // set global vehicle object to returned/searched vehicle object
+                        Log.d(TAG, "View Fuel Details : fuel.getCalculatedAverage = " + fuel.getCalculatedAverage());
+                        //populateFuelData(fuel);
                         fabSaveFuelData.hide();
-                        btn_setFuelDate.setVisibility(View.GONE);
                     });
+
+            compositeDisposable.add(disposable);
+
+
         }
         else if (addingNewFuel) {
             Log.d(TAG, "onCreateView: addingNewFuel");
@@ -447,5 +455,16 @@ public class AddEditFuelFragment extends DialogFragment implements DatePickerDia
     @RequiresApi(api = Build.VERSION_CODES.O)
     public static LocalDate getLocalDate() {
         return LocalDate.now();
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        compositeDisposable.dispose(); // dispose disposable
     }
 }

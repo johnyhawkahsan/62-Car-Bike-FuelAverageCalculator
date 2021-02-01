@@ -5,10 +5,14 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageButton;
@@ -158,23 +162,24 @@ public class AddEditFuelFragment extends DialogFragment implements DatePickerDia
 
         // if editing fuel, need to get current fuel data and populate in our view
         if (!addingNewFuel) {
-            Log.d(TAG, "onCreateView: !addingNewFuel");
+            Log.d(TAG, "onCreateView: editing mode");
 
 
             Disposable disposable = fuelViewModel.getFuelByID(foreignVehicleID, fuelID)
                     .subscribeOn(Schedulers.io())
-                    .subscribe(fuel -> {
-                        this.fuel = fuel; // set global vehicle object to returned/searched vehicle object
-                        Log.d(TAG, "View Fuel Details : fuel.getCalculatedAverage = " + fuel.getCalculatedAverage());
-                        //populateFuelData(fuel);
+                    .subscribe(storedFuel -> {
+                        //this.fuel = fuel; // set global vehicle object to returned/searched vehicle object
+                        Log.d(TAG, "editing mode : storedFuel.getCalculatedAverage = " + storedFuel.getCalculatedAverage());
+                        populateFuelData(storedFuel);
                         fabSaveFuelData.hide();
                     });
 
             compositeDisposable.add(disposable);
 
+            monitorTextChange(); // monitor touch on edit text and when touched, enable save button
 
-        }
-        else if (addingNewFuel) {
+
+        } else if (addingNewFuel) {
             Log.d(TAG, "onCreateView: addingNewFuel");
             fuelDate = AppUtils.getCurrentDateTime();
             fuelDateString = AppUtils.getFormattedDateString(fuelDate);
@@ -189,7 +194,7 @@ public class AddEditFuelFragment extends DialogFragment implements DatePickerDia
 
         // get data from shared preferences
         Double lastPerLitrePrice = AppUtils.getPetrolPerLitrePrice(AppUtils.perLitrePriceStr, getActivity());
-        if (lastPerLitrePrice != null) {
+        if (lastPerLitrePrice != null && !addingNewFuel) { // and not in editing mode
             tin_perLitrePrice.setText(String.valueOf(lastPerLitrePrice));
         }
 
@@ -254,15 +259,25 @@ public class AddEditFuelFragment extends DialogFragment implements DatePickerDia
 
     // display fuel data inside TextInputEditText
     private void populateFuelData(Fuel fuel) {
-        tin_perLitrePrice.setText(fuel.getPerLitrePrice().toString());
-        tin_fuelQuantityLitres.setText(fuel.getFuelQuantityLitres().toString());
+        String perLitrePrice = fuel.getPerLitrePrice().toString();
+        String fuelQuantityLitres = fuel.getFuelQuantityLitres().toString();
+
+
+        Log.d(TAG, "perLitrePrice: " + perLitrePrice);
+        Log.d(TAG, "fuelQuantityLitres: " + fuelQuantityLitres);
+
+        //tin_perLitrePrice.setText("123");
+        //tin_fuelQuantityLitres.setText(fuelQuantityLitres);
+
+/*
         tin_totalFuelPrice.setText(fuel.getTotalFuelPrice().toString());
         tin_currentKm.setText(fuel.getCurrentKm().toString());
         tin_startingKm.setText(fuel.getStartingKm().toString());
         tin_distanceCovered.setText(fuel.getDistanceCovered().toString());
         tin_calculatedAverage.setText(fuel.getCalculatedAverage().toString());
-    }
+        */
 
+    }
 
 
     // When Save button is clicked
@@ -318,9 +333,6 @@ public class AddEditFuelFragment extends DialogFragment implements DatePickerDia
 
         }
     };
-
-
-
 
 
     // method to store fuel data to DB
@@ -409,6 +421,40 @@ public class AddEditFuelFragment extends DialogFragment implements DatePickerDia
         }
     }
 
+    // check for touch event on editText to enable save button
+    private void monitorTextChange() {
+        List<TextInputEditText> textInputEditTextList = new ArrayList<>();
+        //textInputEditTextList.add(tin_perLitrePrice); // first line is selected automatically
+        textInputEditTextList.add(tin_fuelQuantityLitres);
+        textInputEditTextList.add(tin_totalFuelPrice);
+        textInputEditTextList.add(tin_currentKm);
+        textInputEditTextList.add(tin_startingKm);
+        textInputEditTextList.add(tin_distanceCovered);
+        textInputEditTextList.add(tin_calculatedAverage);
+
+        for (TextInputEditText item : textInputEditTextList) {
+
+
+            item.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    Log.d(TAG, "afterTextChanged: ");
+                    fabSaveFuelData.show();
+                }
+            });
+
+
+        }
+    }
 
 
     // Below code is used to fix small size issue of DialogFragment
@@ -424,7 +470,7 @@ public class AddEditFuelFragment extends DialogFragment implements DatePickerDia
     @Override
     public void onDestroy() {
         super.onDestroy();
-        //compositeDisposable.dispose(); // dispose disposable
+        compositeDisposable.dispose(); // dispose disposable
     }
 
 

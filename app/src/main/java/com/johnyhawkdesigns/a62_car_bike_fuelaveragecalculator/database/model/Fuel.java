@@ -2,6 +2,7 @@ package com.johnyhawkdesigns.a62_car_bike_fuelaveragecalculator.database.model;
 
 import com.johnyhawkdesigns.a62_car_bike_fuelaveragecalculator.util.DateTypeConverter;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import androidx.annotation.Nullable;
@@ -23,7 +24,7 @@ import static androidx.room.ForeignKey.CASCADE;
                 childColumns = "foreignVehicleID", //The column(s) of the current entity, which is the child, that specified the parent key.
                 onDelete = CASCADE), //onDelete = CASCADE tells if child row will be deleted, we’d like to delete also all of it repositories.
         indices=@Index(value="foreignVehicleID"))
-public class Fuel {
+public class Fuel implements Serializable {
 
 
     @PrimaryKey(autoGenerate = true)

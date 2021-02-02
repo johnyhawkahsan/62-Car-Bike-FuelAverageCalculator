@@ -45,11 +45,10 @@ public class AddEditFuelFragment extends DialogFragment implements DatePickerDia
     private static final String TAG = AddEditFuelFragment.class.getSimpleName();
 
     // constructor for edit
-    public static AddEditFuelFragment newInstance(int foreignVehicleID, int fuelID) {
+    public static AddEditFuelFragment newInstance(Fuel fuel) {
         AddEditFuelFragment addEditFuelFragment = new AddEditFuelFragment();
         Bundle args = new Bundle();
-        args.putInt("foreignVehicleID", foreignVehicleID);
-        args.putInt("fuelID", fuelID);
+        args.putSerializable("fuel", fuel);
         addEditFuelFragment.setArguments(args);
         return addEditFuelFragment;
     }
@@ -149,9 +148,10 @@ public class AddEditFuelFragment extends DialogFragment implements DatePickerDia
             }
 
             // ================== Editing fuel mode ==================
-            else if (arguments.get("fuelID") != null && arguments.get("foreignVehicleID") != null) {
-                foreignVehicleID = arguments.getInt("foreignVehicleID");
-                fuelID = arguments.getInt("fuelID");
+            else if (arguments.get("fuel") != null) {
+                fuel = (Fuel) arguments.getSerializable("fuel");
+                foreignVehicleID = fuel.getForeignVehicleID();
+                fuelID = fuel.getFuelID();
                 addingNewFuel = false;
                 Log.d(TAG, "Editing mode = received foreignVehicleID = " + foreignVehicleID + ", fuelID = " + fuelID);
                 tv_title_fuel.setText("Editing Fuel Record");
@@ -164,17 +164,20 @@ public class AddEditFuelFragment extends DialogFragment implements DatePickerDia
         if (!addingNewFuel) {
             Log.d(TAG, "onCreateView: editing mode");
 
+            //populate data received from Arguments
+            populateFuelData(fuel);
+            fabSaveFuelData.hide();
 
+/*          // very strange problem with RXJava - when populated data here, app crashed and said object is already disposed in FuelDetailsFragment. Maybe it's because I'm using same method I used in FuelDetailsFragment
             Disposable disposable = fuelViewModel.getFuelByID(foreignVehicleID, fuelID)
                     .subscribeOn(Schedulers.io())
-                    .subscribe(storedFuel -> {
-                        //this.fuel = fuel; // set global vehicle object to returned/searched vehicle object
-                        Log.d(TAG, "editing mode : storedFuel.getCalculatedAverage = " + storedFuel.getCalculatedAverage());
-                        populateFuelData(storedFuel);
-                        fabSaveFuelData.hide();
+                    .subscribe(fuel -> {
+                        //fuel = oldFuel; // set global vehicle object to returned/searched vehicle object
+                        Log.d(TAG, "editing mode : oldFuel.getCalculatedAverage = " + fuel.getCalculatedAverage());
+                        populateFuelData(fuel);
                     });
-
             compositeDisposable.add(disposable);
+*/
 
             monitorTextChange(); // monitor touch on edit text and when touched, enable save button
 
@@ -194,7 +197,7 @@ public class AddEditFuelFragment extends DialogFragment implements DatePickerDia
 
         // get data from shared preferences
         Double lastPerLitrePrice = AppUtils.getPetrolPerLitrePrice(AppUtils.perLitrePriceStr, getActivity());
-        if (lastPerLitrePrice != null && !addingNewFuel) { // and not in editing mode
+        if (lastPerLitrePrice != null && addingNewFuel) { // and not in editing mode
             tin_perLitrePrice.setText(String.valueOf(lastPerLitrePrice));
         }
 
@@ -259,23 +262,15 @@ public class AddEditFuelFragment extends DialogFragment implements DatePickerDia
 
     // display fuel data inside TextInputEditText
     private void populateFuelData(Fuel fuel) {
-        String perLitrePrice = fuel.getPerLitrePrice().toString();
-        String fuelQuantityLitres = fuel.getFuelQuantityLitres().toString();
 
-
-        Log.d(TAG, "perLitrePrice: " + perLitrePrice);
-        Log.d(TAG, "fuelQuantityLitres: " + fuelQuantityLitres);
-
-        //tin_perLitrePrice.setText("123");
-        //tin_fuelQuantityLitres.setText(fuelQuantityLitres);
-
-/*
+        // round this double value
+        tin_perLitrePrice.setText(fuel.getPerLitrePrice().toString());
+        tin_fuelQuantityLitres.setText(fuel.getFuelQuantityLitres().toString());
         tin_totalFuelPrice.setText(fuel.getTotalFuelPrice().toString());
         tin_currentKm.setText(fuel.getCurrentKm().toString());
         tin_startingKm.setText(fuel.getStartingKm().toString());
         tin_distanceCovered.setText(fuel.getDistanceCovered().toString());
         tin_calculatedAverage.setText(fuel.getCalculatedAverage().toString());
-        */
 
     }
 
@@ -285,6 +280,7 @@ public class AddEditFuelFragment extends DialogFragment implements DatePickerDia
         @Override
         public void onClick(View v) {
 
+            //fuel = new Fuel();
             fuel = new Fuel();
             fuel.setForeignVehicleID(foreignVehicleID); // foreign key is available in all cases
             if (!addingNewFuel) {
@@ -467,12 +463,6 @@ public class AddEditFuelFragment extends DialogFragment implements DatePickerDia
         getDialog().getWindow().setAttributes((android.view.WindowManager.LayoutParams) params);
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        compositeDisposable.dispose(); // dispose disposable
-    }
-
 
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
@@ -511,6 +501,6 @@ public class AddEditFuelFragment extends DialogFragment implements DatePickerDia
     @Override
     public void onDetach() {
         super.onDetach();
-        compositeDisposable.dispose(); // dispose disposable
+        //compositeDisposable.dispose(); // dispose disposable
     }
 }

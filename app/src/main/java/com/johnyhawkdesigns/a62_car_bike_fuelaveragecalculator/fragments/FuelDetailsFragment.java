@@ -21,7 +21,6 @@ import java.util.Date;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 import io.reactivex.disposables.CompositeDisposable;
@@ -122,16 +121,16 @@ public class FuelDetailsFragment extends DialogFragment {
 
             Log.d(TAG, "onClick: editButtonClicked");
 
-            // close current fragment
-            getDialog().dismiss();
-            getParentFragmentManager().popBackStack();
+
 
             // Launch AddEditFuelFragment
             FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-            AddEditFuelFragment addEditFuelFragment = AddEditFuelFragment.newInstance(foreignVehicleID, fuelID); // launch
+            AddEditFuelFragment addEditFuelFragment = AddEditFuelFragment.newInstance(fuel); // launch
             addEditFuelFragment.show(fragmentManager, "add_edit_fuel_fragment");
 
-
+            // close current fragment
+            getDialog().dismiss();
+            //getParentFragmentManager().popBackStack();
 
 
         }
@@ -188,10 +187,14 @@ public class FuelDetailsFragment extends DialogFragment {
         super.onAttach(context);
     }
 
+
+
     @Override
     public void onDetach() {
         super.onDetach();
         compositeDisposable.dispose(); // dispose disposable
+        Log.d(TAG, "onDetach: closing FuelDetailsFragment");
     }
+
 
 }

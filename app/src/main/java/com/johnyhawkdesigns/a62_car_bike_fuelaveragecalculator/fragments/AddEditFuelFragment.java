@@ -70,7 +70,7 @@ public class AddEditFuelFragment extends DialogFragment implements DatePickerDia
 
 
     private FuelViewModel fuelViewModel;
-    private CompositeDisposable compositeDisposable = new CompositeDisposable();
+    //private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     private TextView tv_title_fuel;
     private Button btn_setFuelDate;
@@ -165,25 +165,21 @@ public class AddEditFuelFragment extends DialogFragment implements DatePickerDia
             Log.d(TAG, "onCreateView: editing mode");
 
             //populate data received from Arguments
-            populateFuelData(fuel);
-            fabSaveFuelData.hide();
+            populateFuelData(fuel); // populate received data into edit text
+            fabSaveFuelData.hide(); // hide save button
+            monitorTextChange(); // monitor touch on edit text and when touched, enable save button
 
 /*          // very strange problem with RXJava - when populated data here, app crashed and said object is already disposed in FuelDetailsFragment. Maybe it's because I'm using same method I used in FuelDetailsFragment
             Disposable disposable = fuelViewModel.getFuelByID(foreignVehicleID, fuelID)
                     .subscribeOn(Schedulers.io())
                     .subscribe(fuel -> {
-                        //fuel = oldFuel; // set global vehicle object to returned/searched vehicle object
-                        Log.d(TAG, "editing mode : oldFuel.getCalculatedAverage = " + fuel.getCalculatedAverage());
                         populateFuelData(fuel);
                     });
             compositeDisposable.add(disposable);
 */
 
-            monitorTextChange(); // monitor touch on edit text and when touched, enable save button
-
-
         } else if (addingNewFuel) {
-            Log.d(TAG, "onCreateView: addingNewFuel");
+            Log.d(TAG, "onCreateView: addingNewFuel mode");
             fuelDate = AppUtils.getCurrentDateTime();
             fuelDateString = AppUtils.getFormattedDateString(fuelDate);
             Log.d(TAG, "onDateSet: fuelDateString = " + fuelDateString + " , from original fuelDate = " + fuelDate);
@@ -198,6 +194,8 @@ public class AddEditFuelFragment extends DialogFragment implements DatePickerDia
         // get data from shared preferences
         Double lastPerLitrePrice = AppUtils.getPetrolPerLitrePrice(AppUtils.perLitrePriceStr, getActivity());
         if (lastPerLitrePrice != null && addingNewFuel) { // and not in editing mode
+            String lastPerLitrePriceString = AppUtils.removeTrailingZero(lastPerLitrePrice.toString());
+            lastPerLitrePrice =  Double.parseDouble(lastPerLitrePriceString);
             tin_perLitrePrice.setText(String.valueOf(lastPerLitrePrice));
         }
 
@@ -207,6 +205,7 @@ public class AddEditFuelFragment extends DialogFragment implements DatePickerDia
                 perLitrePrice = Double.parseDouble(tin_perLitrePrice.getText().toString());
                 fuelQuantityLitres = Double.parseDouble(tin_fuelQuantityLitres.getText().toString());
                 totalFuelPrice = fuelQuantityLitres * perLitrePrice;
+                totalFuelPrice = AppUtils.roundDouble(totalFuelPrice, 2);
                 tin_totalFuelPrice.setText(String.valueOf(totalFuelPrice));
 
 
@@ -255,22 +254,146 @@ public class AddEditFuelFragment extends DialogFragment implements DatePickerDia
 
         fabSaveFuelData.setOnClickListener(saveButtonClicked);
 
+        tin_perLitrePrice.addTextChangedListener(twPerLitrePrice);
+        tin_fuelQuantityLitres.addTextChangedListener(twFuelQuantityLitres);
+        //tin_totalFuelPrice.addTextChangedListener(twTotalFuelPrice);
+
+        tin_currentKm.addTextChangedListener(twCurrentKm);
+        tin_startingKm.addTextChangedListener(twStartingKm);
+        // tin_distanceCovered;; // effect on this
+
+        // tin_totalFuelPrice + tin_distanceCovered  effect on this tin_calculatedAverage
 
         return view;
     }
 
 
+
+    public TextWatcher twPerLitrePrice = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable perLitrePriceString) {
+
+            if (!tin_perLitrePrice.getText().toString().trim().isEmpty()  && !tin_fuelQuantityLitres.getText().toString().trim().isEmpty()) {
+                perLitrePrice = Double.parseDouble(perLitrePriceString.toString()); // parse to double
+                fuelQuantityLitres = Double.parseDouble(tin_fuelQuantityLitres.getText().toString());  // parse to double
+                totalFuelPrice = fuelQuantityLitres * perLitrePrice; // multiply both
+                totalFuelPrice = AppUtils.roundDouble(totalFuelPrice, 2);
+                tin_totalFuelPrice.setText(String.valueOf(totalFuelPrice));
+            } else {
+                tin_totalFuelPrice.setText("");
+            }
+
+
+        }
+    };
+
+    public TextWatcher twFuelQuantityLitres = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable fuelQuantityLitresString) {
+
+            if (!tin_perLitrePrice.getText().toString().trim().isEmpty()  && !tin_fuelQuantityLitres.getText().toString().trim().isEmpty() ) {
+                perLitrePrice = Double.parseDouble(tin_perLitrePrice.getText().toString()); // parse to double
+                fuelQuantityLitres = Double.parseDouble(fuelQuantityLitresString.toString());  // parse to double
+                totalFuelPrice = fuelQuantityLitres * perLitrePrice; // multiply both
+                totalFuelPrice = AppUtils.roundDouble(totalFuelPrice, 2);
+                tin_totalFuelPrice.setText(String.valueOf(totalFuelPrice));
+            } else {
+                tin_totalFuelPrice.setText("");
+            }
+        }
+    };
+
+
+
+
+
+    public TextWatcher twCurrentKm = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable currentKmString) {
+
+            if (!tin_currentKm.getText().toString().trim().isEmpty() && !tin_startingKm.getText().toString().trim().isEmpty()) {
+                currentKm = Double.parseDouble(currentKmString.toString());
+                startingKm = Double.parseDouble(tin_startingKm.getText().toString());
+                totalDistance = currentKm - startingKm;
+                totalDistance = AppUtils.roundDouble(totalDistance, 2);
+                tin_distanceCovered.setText(String.valueOf(totalDistance));
+            } else {
+                tin_distanceCovered.setText("");
+            }
+
+
+        }
+    };
+
+    public TextWatcher twStartingKm = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable startingKmString) {
+
+            if (!tin_currentKm.getText().toString().trim().isEmpty() && !tin_startingKm.getText().toString().trim().isEmpty()) {
+                currentKm = Double.parseDouble(tin_currentKm.getText().toString());
+                startingKm = Double.parseDouble(startingKmString.toString());
+                totalDistance = currentKm - startingKm;
+                totalDistance = AppUtils.roundDouble(totalDistance, 2);
+                tin_distanceCovered.setText(String.valueOf(totalDistance));
+            } else {
+                tin_distanceCovered.setText("");
+            }
+
+        }
+    };
+
+
     // display fuel data inside TextInputEditText
     private void populateFuelData(Fuel fuel) {
 
-        // round this double value
-        tin_perLitrePrice.setText(fuel.getPerLitrePrice().toString());
-        tin_fuelQuantityLitres.setText(fuel.getFuelQuantityLitres().toString());
-        tin_totalFuelPrice.setText(fuel.getTotalFuelPrice().toString());
-        tin_currentKm.setText(fuel.getCurrentKm().toString());
-        tin_startingKm.setText(fuel.getStartingKm().toString());
-        tin_distanceCovered.setText(fuel.getDistanceCovered().toString());
-        tin_calculatedAverage.setText(fuel.getCalculatedAverage().toString());
+        // populate data and also remove trailing zero if any
+        tin_perLitrePrice.setText(AppUtils.removeTrailingZero(fuel.getPerLitrePrice().toString()));
+        tin_fuelQuantityLitres.setText(AppUtils.removeTrailingZero(fuel.getFuelQuantityLitres().toString()));
+        tin_totalFuelPrice.setText(AppUtils.removeTrailingZero(fuel.getTotalFuelPrice().toString()));
+        tin_currentKm.setText(AppUtils.removeTrailingZero(fuel.getCurrentKm().toString()));
+        tin_startingKm.setText(AppUtils.removeTrailingZero(fuel.getStartingKm().toString()));
+        tin_distanceCovered.setText(AppUtils.removeTrailingZero(fuel.getDistanceCovered().toString()));
+        tin_calculatedAverage.setText(AppUtils.removeTrailingZero(fuel.getCalculatedAverage().toString()));
 
     }
 

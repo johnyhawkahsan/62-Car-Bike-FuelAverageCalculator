@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -67,12 +68,33 @@ public class AppUtils {
         inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
     }
 
+    // round double to specific places : i.e; 10.00000 -> 10.00
     public static double roundDouble(double value, int places) {
-        if (places < 0) throw new IllegalArgumentException();
 
+        /*
+        // -------------------- Method 1 --------------------//
+        DecimalFormat precision = new DecimalFormat("0.00");
+        String stringValue = precision.format(value);
+        return Double.parseDouble(stringValue);
+*/
+
+        // -------------------- Method 2 --------------------//
+        //String.format("%.2f", value); // correct method but gives locale warning
+
+
+
+        // -------------------- Method 3 --------------------//
+        // initially I used this method but it didn't work sometimes
+        if (places < 0) throw new IllegalArgumentException();
         BigDecimal bd = BigDecimal.valueOf(value);
         bd = bd.setScale(places, RoundingMode.HALF_UP);
         return bd.doubleValue();
+
+    }
+
+    // convert 10.0 -> 10
+    public static String removeTrailingZero(String value){
+        return value.indexOf(".") < 0 ? value : value.replaceAll("0*$", "").replaceAll("\\.$", "");
     }
 
 

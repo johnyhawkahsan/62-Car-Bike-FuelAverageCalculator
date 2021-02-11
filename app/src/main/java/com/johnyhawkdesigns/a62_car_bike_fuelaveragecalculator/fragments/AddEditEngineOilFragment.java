@@ -3,6 +3,8 @@ package com.johnyhawkdesigns.a62_car_bike_fuelaveragecalculator.fragments;
 import android.app.DatePickerDialog;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,6 +43,7 @@ import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.johnyhawkdesigns.a62_car_bike_fuelaveragecalculator.database.model.EngineOil;
+import com.johnyhawkdesigns.a62_car_bike_fuelaveragecalculator.database.model.Fuel;
 import com.johnyhawkdesigns.a62_car_bike_fuelaveragecalculator.database.viewmodel.EngineOilViewModel;
 import com.johnyhawkdesigns.a62_car_bike_fuelaveragecalculator.util.AppUtils;
 
@@ -56,16 +59,15 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.DialogFragment;
 
-public class AddEditEngineOilFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener{
+public class AddEditEngineOilFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
 
     private static final String TAG = AddEditEngineOilFragment.class.getSimpleName();
 
     // constructor for edit
-    public static AddEditEngineOilFragment newInstance(int foreignVehicleID, int engineOilID) {
+    public static AddEditEngineOilFragment newInstance(EngineOil engineOil) {
         AddEditEngineOilFragment addEditEngineOilFragment = new AddEditEngineOilFragment();
         Bundle args = new Bundle();
-        args.putInt("foreignVehicleID", foreignVehicleID);
-        args.putInt("engineOilID", engineOilID);
+        args.putSerializable("engineOil", engineOil);
         addEditEngineOilFragment.setArguments(args);
         return addEditEngineOilFragment;
     }
@@ -83,6 +85,7 @@ public class AddEditEngineOilFragment extends DialogFragment implements DatePick
     private boolean addingNewEngineOil = true; // adding (true) or editing (false)
     private int foreignVehicleID = 0;
     private int engineOilID = 0;
+    private EngineOil engineOil;
 
 
     private EngineOilViewModel engineOilViewModel;
@@ -114,7 +117,6 @@ public class AddEditEngineOilFragment extends DialogFragment implements DatePick
     private Double totalDistance;
     private Double nextUpcomingMileage;
 
-
     private List<TextInputEditText> textInputValidationList;
 
     @Nullable
@@ -140,7 +142,7 @@ public class AddEditEngineOilFragment extends DialogFragment implements DatePick
         fabSaveEngineOilData = view.findViewById(R.id.fabSaveEngineOilData);
 
         calendar = Calendar.getInstance();
-        datePickerDialog = new DatePickerDialog(getActivity(), this, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH) );
+        datePickerDialog = new DatePickerDialog(getActivity(), this, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
 
         textInputValidationList = new ArrayList<>();
 
@@ -155,72 +157,211 @@ public class AddEditEngineOilFragment extends DialogFragment implements DatePick
                 foreignVehicleID = arguments.getInt("foreignVehicleID");
                 addingNewEngineOil = true;
                 Log.d(TAG, "Adding New EngineOil mode = received foreignVehicleID = " + foreignVehicleID);
-                tv_title_engineOil.setText("Adding New EngineOil Record");
+                tv_title_engineOil.setText("Add EngineOil Record");
             }
 
             // ================== Editing engineOil mode ==================
-            if (arguments.get("engineOilID") != null && arguments.get("foreignVehicleID") != null) {
-                foreignVehicleID = arguments.getInt("foreignVehicleID");
-                engineOilID = arguments.getInt("engineOilID");
+            else if (arguments.get("engineOil") != null) {
+                engineOil = (EngineOil) arguments.getSerializable("engineOil");
+                foreignVehicleID = engineOil.getForeignVehicleID();
+                engineOilID = engineOil.getEngineOilID();
                 addingNewEngineOil = false;
                 Log.d(TAG, "Editing mode = received foreignVehicleID = " + foreignVehicleID + ", engineOilID = " + engineOilID);
                 tv_title_engineOil.setText("Editing EngineOil Record");
             }
 
             engineOilViewModel = new EngineOilViewModel(getActivity().getApplication(), foreignVehicleID);
-
-            // if editing engineOil, need to get current engineOil data and populate in our view
-            if (!addingNewEngineOil){
-                engineOilViewModel.getEngineOilByID(foreignVehicleID, engineOilID)
-                        .observe(getActivity(), engineOil -> {
-                            Log.d(TAG, "onCreateView: engineOil.getEoil_description() = " + engineOil.getEoil_description());
-                            // need to setup edit text views with this data
-                        });
-
-            }
-
-            // set date
-            btn_setEngineOilDate.setOnClickListener(v -> {
-                datePickerDialog.show();
-            });
-
-
-            // retrieve lastEngineOilInterval from shared preferences and display in tin_eoil_interval
-            lastEngineOilInterval = AppUtils.getLastEngineOilInterval(AppUtils.lastEngineOilInterval, getActivity());
-            if (lastEngineOilInterval != null){
-                tin_eoil_interval.setText(String.valueOf(lastEngineOilInterval));
-            }
-
-
-            // button to calculate (minus) current distance with previous distance
-            btn_eoil_calculateDistance.setOnClickListener(v -> {
-                if (!tin_eoil_previousMileage.getText().toString().trim().isEmpty() && !tin_eoil_currentMileage.getText().toString().trim().isEmpty()) {
-                    currentMileage = Double.parseDouble(tin_eoil_currentMileage.getText().toString());
-                    previousMileage = Double.parseDouble(tin_eoil_previousMileage.getText().toString());
-                    totalDistance = currentMileage - previousMileage;
-                    tin_eoil_totalDistance.setText(String.valueOf(totalDistance));
-                }
-            });
-
-            // button to calculate next oil change mileage i.e; 10,3000km + 3000km interval = 10,6000km
-            btn_eoil_nextOilChangeAt.setOnClickListener(v -> {
-                if (!tin_eoil_currentMileage.getText().toString().trim().isEmpty() && !tin_eoil_interval.getText().toString().trim().isEmpty()) {
-                    Double intervalEntered = Double.parseDouble(tin_eoil_interval.getText().toString().trim());
-                    nextUpcomingMileage = (currentMileage + intervalEntered);
-                    nextUpcomingMileage = AppUtils.roundDouble(nextUpcomingMileage, 2); // round to 2 decimal places
-                    tin_eoil_nextOilChangeAt.setText(String.valueOf(nextUpcomingMileage));
-                    // store nextUpcomingMileage in SharedPreferences
-
-                }
-            });
-
-
-            fabSaveEngineOilData.setOnClickListener(saveButtonClicked);
         }
+
+        // if editing engineOil, need to get current engineOil data and populate in our view
+        if (!addingNewEngineOil) {
+            Log.d(TAG, "onCreateView: editing mode");
+
+            //populate data received from Arguments
+            populateEngineOilData(engineOil); // populate received data into edit text
+            fabSaveEngineOilData.hide(); // hide save button
+            monitorTextChange(); // monitor touch on edit text and when touched, enable save button
+
+
+        } else if (addingNewEngineOil) {
+            Log.d(TAG, "onCreateView: addingNew mode");
+            engineOilDate = AppUtils.getCurrentDateTime();
+            engineOilDateString = AppUtils.getFormattedDateString(engineOilDate);
+            tv_input_engineOil_date.setText(engineOilDateString);
+        }
+
+        // set date
+        btn_setEngineOilDate.setOnClickListener(v -> {
+            datePickerDialog.show();
+        });
+
+
+        // retrieve lastEngineOilInterval from shared preferences and display in tin_eoil_interval
+        lastEngineOilInterval = AppUtils.getLastEngineOilInterval(AppUtils.lastEngineOilInterval, getActivity());
+        if (lastEngineOilInterval != null && addingNewEngineOil) { // and not in editing mode
+            String lastEngineOilIntervalString = AppUtils.removeTrailingZero(lastEngineOilInterval.toString());
+            lastEngineOilInterval = Double.parseDouble(lastEngineOilIntervalString);
+            tin_eoil_interval.setText(String.valueOf(lastEngineOilInterval));
+        }
+
+
+        // button to calculate (minus) current distance with previous distance
+        btn_eoil_calculateDistance.setOnClickListener(v -> {
+            if (!tin_eoil_previousMileage.getText().toString().trim().isEmpty() && !tin_eoil_currentMileage.getText().toString().trim().isEmpty()) {
+                currentMileage = Double.parseDouble(tin_eoil_currentMileage.getText().toString());
+                previousMileage = Double.parseDouble(tin_eoil_previousMileage.getText().toString());
+                totalDistance = currentMileage - previousMileage;
+                tin_eoil_totalDistance.setText(String.valueOf(totalDistance));
+            }
+        });
+
+        // button to calculate next oil change mileage i.e; 10,3000km + 3000km interval = 10,6000km
+        btn_eoil_nextOilChangeAt.setOnClickListener(v -> {
+            if (!tin_eoil_currentMileage.getText().toString().trim().isEmpty() && !tin_eoil_interval.getText().toString().trim().isEmpty()) {
+                Double intervalEntered = Double.parseDouble(tin_eoil_interval.getText().toString().trim());
+                nextUpcomingMileage = (currentMileage + intervalEntered);
+                nextUpcomingMileage = AppUtils.roundDouble(nextUpcomingMileage, 2); // round to 2 decimal places
+                tin_eoil_nextOilChangeAt.setText(String.valueOf(nextUpcomingMileage));
+                // store nextUpcomingMileage in SharedPreferences
+
+            }
+        });
+
+
+        fabSaveEngineOilData.setOnClickListener(saveButtonClicked);
+
+        tin_eoil_currentMileage.addTextChangedListener(twCurrentKm);
+        tin_eoil_previousMileage.addTextChangedListener(twPreviousKm);
 
         return view;
     }
 
+
+    public TextWatcher twCurrentKm = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable currentKmString) {
+
+            if (!tin_eoil_currentMileage.getText().toString().trim().isEmpty() && !tin_eoil_previousMileage.getText().toString().trim().isEmpty()) {
+                currentMileage = Double.parseDouble(currentKmString.toString());
+                previousMileage = Double.parseDouble(tin_eoil_previousMileage.getText().toString());
+                totalDistance = currentMileage - previousMileage;
+                totalDistance = AppUtils.roundDouble(totalDistance, 2);
+                tin_eoil_totalDistance.setText(AppUtils.removeTrailingZero(String.valueOf(totalDistance)));
+            } else {
+                tin_eoil_totalDistance.setText("");
+            }
+        }
+    };
+
+
+    public TextWatcher twPreviousKm = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable previousKmString) {
+
+            if (!tin_eoil_currentMileage.getText().toString().trim().isEmpty() && !tin_eoil_previousMileage.getText().toString().trim().isEmpty()) {
+                previousMileage = Double.parseDouble(previousKmString.toString());
+                currentMileage  = Double.parseDouble(tin_eoil_currentMileage.getText().toString());
+                totalDistance = currentMileage - previousMileage;
+                totalDistance = AppUtils.roundDouble(totalDistance, 2);
+                tin_eoil_totalDistance.setText(AppUtils.removeTrailingZero(String.valueOf(totalDistance)));
+            } else {
+                tin_eoil_totalDistance.setText("");
+            }
+        }
+    };
+
+
+
+    // check for touch event on editText to enable save button
+    private void monitorTextChange() {
+
+        List<TextInputEditText> textInputEditTextList = new ArrayList<>();
+        textInputEditTextList.add(tin_eoil_description); // first line is selected automatically
+        textInputEditTextList.add(tin_eoil_quantityLitres);
+        textInputEditTextList.add(tin_eoil_totalPrice);
+        textInputEditTextList.add(tin_eoil_interval);
+        textInputEditTextList.add(tin_eoil_currentMileage);
+        textInputEditTextList.add(tin_eoil_previousMileage);
+        textInputEditTextList.add(tin_eoil_totalDistance);
+        textInputEditTextList.add(tin_eoil_nextOilChangeAt);
+
+        for (TextInputEditText item : textInputEditTextList) {
+
+
+            item.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    Log.d(TAG, "afterTextChanged: ");
+                    fabSaveEngineOilData.show();
+                }
+            });
+        }
+
+        // tv_input_fuel_date is a TextView so we need to add this seperately
+        tv_input_engineOil_date.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                fabSaveEngineOilData.show();
+            }
+        });
+    }
+
+
+    // display fuel data inside TextInputEditText
+    private void populateEngineOilData(EngineOil engineOil) {
+
+        // populate data and also remove trailing zero if any
+        engineOilDate = engineOil.getEoil_Date();
+        tv_input_engineOil_date.setText(AppUtils.getFormattedDateString(engineOilDate));
+        tin_eoil_description.setText(engineOil.getEoil_description());
+        tin_eoil_quantityLitres.setText(AppUtils.removeTrailingZero(engineOil.getEoil_quantityLitres().toString()));
+        tin_eoil_totalPrice.setText(AppUtils.removeTrailingZero(engineOil.getEoil_Price().toString()));
+        tin_eoil_interval.setText(AppUtils.removeTrailingZero(engineOil.getEoil_interval().toString()));
+        tin_eoil_currentMileage.setText(AppUtils.removeTrailingZero(engineOil.getEoil_currentMileage().toString()));
+        tin_eoil_previousMileage.setText(AppUtils.removeTrailingZero(engineOil.getEoil_previousMileage().toString()));
+        tin_eoil_totalDistance.setText(AppUtils.removeTrailingZero(engineOil.getEoil_totalDistance().toString()));
+        tin_eoil_nextOilChangeAt.setText(AppUtils.removeTrailingZero(engineOil.getNextOilChangeAt().toString()));
+        tin_eoil_totalDistance.setText(AppUtils.removeTrailingZero(engineOil.getEoil_totalDistance().toString()));
+    }
 
 
     // When Save button is clicked
@@ -229,19 +370,19 @@ public class AddEditEngineOilFragment extends DialogFragment implements DatePick
         public void onClick(View v) {
 
             // store eoil_interval to shared preferences
-            if (!tin_eoil_interval.getText().toString().trim().isEmpty()){
+            if (!tin_eoil_interval.getText().toString().trim().isEmpty()) {
                 lastEngineOilInterval = Double.parseDouble(tin_eoil_interval.getText().toString());
                 AppUtils.saveLastEngineOilIntervalSharedPreference(AppUtils.lastEngineOilInterval, lastEngineOilInterval, getActivity());
             }
 
             EngineOil engineOil = new EngineOil();
             engineOil.setForeignVehicleID(foreignVehicleID); // foreign key is available in all cases
-            if (!addingNewEngineOil){
+            if (!addingNewEngineOil) {
                 engineOil.setEngineOilID(engineOilID); // engineOil id is only set if we are editing current engineOil data with already available engineOil id
             }
 
             // if all fields are not filled
-            if ( checkForEmptyList() ) {
+            if (checkForEmptyList()) {
 
                 Log.d(TAG, "onClick: any of the parameters is empty");
                 AppUtils.showMessage(getActivity(), "Please fill all the details!");
@@ -254,13 +395,15 @@ public class AddEditEngineOilFragment extends DialogFragment implements DatePick
                 Double eoil_interval = Double.valueOf(tin_eoil_interval.getText().toString());
                 Double eoil_currentMileage = Double.valueOf(tin_eoil_currentMileage.getText().toString());
                 Double eoil_previousMileage = Double.valueOf(tin_eoil_previousMileage.getText().toString());
-                Double eoil_totalDistance= Double.valueOf(tin_eoil_totalDistance.getText().toString());
-                Double eoil_nextOilChangeAt= Double.valueOf(tin_eoil_nextOilChangeAt.getText().toString());
+                Double eoil_totalDistance = Double.valueOf(tin_eoil_totalDistance.getText().toString());
+                Double eoil_nextOilChangeAt = Double.valueOf(tin_eoil_nextOilChangeAt.getText().toString());
 
                 // set data fields for engineOil
-                if (engineOilDate == null){ // means no default date is set
-                    engineOilDate = AppUtils.getCurrentDateTime(); // set current date automatically
-                    tv_input_engineOil_date.setText(AppUtils.getFormattedDateString(engineOilDate));
+                if (engineOilDate == null) { // means no default date is set
+                    if (!addingNewEngineOil){ // set date to current date in adding new mode only, in editing mode, we want previous date to be displayed
+                        engineOilDate = AppUtils.getCurrentDateTime(); // set current date automatically
+                        tv_input_engineOil_date.setText(AppUtils.getFormattedDateString(engineOilDate));
+                    }
                 }
                 engineOil.setEoil_Date(engineOilDate);
                 engineOil.setEoil_description(eoil_description);
@@ -297,8 +440,6 @@ public class AddEditEngineOilFragment extends DialogFragment implements DatePick
     }
 
 
-
-
     // method to check for all edit text
     private Boolean checkForEmptyList() {
         Boolean emptyListAvailable = tin_eoil_description.getText().toString().trim().isEmpty() ||
@@ -307,10 +448,10 @@ public class AddEditEngineOilFragment extends DialogFragment implements DatePick
                 tin_eoil_interval.getText().toString().trim().isEmpty() ||
                 tin_eoil_currentMileage.getText().toString().trim().isEmpty() ||
                 tin_eoil_previousMileage.getText().toString().trim().isEmpty() ||
-                tin_eoil_totalDistance.getText().toString().trim().isEmpty()||
+                tin_eoil_totalDistance.getText().toString().trim().isEmpty() ||
                 tin_eoil_nextOilChangeAt.getText().toString().trim().isEmpty();
 
-        if (emptyListAvailable){
+        if (emptyListAvailable) {
             validationList(); // set error messages
         }
         Log.d(TAG, "checkForEmptyList: emptyListAvailable = " + emptyListAvailable);
@@ -345,10 +486,9 @@ public class AddEditEngineOilFragment extends DialogFragment implements DatePick
     }
 
 
-
     // Below code is used to fix small size issue of DialogFragment
     @Override
-    public void onResume () {
+    public void onResume() {
         super.onResume();
         ViewGroup.LayoutParams params = getDialog().getWindow().getAttributes();
         params.width = ViewGroup.LayoutParams.MATCH_PARENT;
@@ -357,7 +497,7 @@ public class AddEditEngineOilFragment extends DialogFragment implements DatePick
     }
 
     @Override
-    public void onDestroy () {
+    public void onDestroy() {
         super.onDestroy();
         //compositeDisposable.dispose(); // dispose disposable
     }
@@ -379,6 +519,6 @@ public class AddEditEngineOilFragment extends DialogFragment implements DatePick
 }
 
 
-        
+
 
 

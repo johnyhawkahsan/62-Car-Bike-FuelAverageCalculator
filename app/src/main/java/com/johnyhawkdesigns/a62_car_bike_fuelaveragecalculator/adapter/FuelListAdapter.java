@@ -80,9 +80,9 @@ public class FuelListAdapter extends RecyclerView.Adapter<FuelListAdapter.FuelVi
         Fuel currentFuel = mFuels.get(position);
 
         holder.fuel_date.setText(AppUtils.getFormattedDateString(currentFuel.getFuelDate()));
-        holder.totalFuelPrice.setText("Rs:" + String.valueOf(currentFuel.getTotalFuelPrice()));
-        holder.distanceCovered.setText(String.valueOf(currentFuel.getDistanceCovered()) + " km");
-        holder.calculatedAverage.setText(String.valueOf(currentFuel.getCalculatedAverage()) + " km/l");
+        holder.totalFuelPrice.setText("Rs:" + AppUtils.removeTrailingZero(String.valueOf(currentFuel.getTotalFuelPrice())));
+        holder.distanceCovered.setText(AppUtils.removeTrailingZero(String.valueOf(currentFuel.getDistanceCovered())) + " km");
+        holder.calculatedAverage.setText(AppUtils.removeTrailingZero(String.valueOf(currentFuel.getCalculatedAverage())) + " km/l");
 
 
     }

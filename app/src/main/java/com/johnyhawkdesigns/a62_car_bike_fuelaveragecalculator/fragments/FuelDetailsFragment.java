@@ -153,7 +153,7 @@ public class FuelDetailsFragment extends DialogFragment {
                     // close dialog and close fragment
                     fuelViewModel.deleteFuelWithID(foreignVehicleID, fuelID);
                     getDialog().dismiss();
-                    getParentFragmentManager().popBackStack();
+                    getParentFragmentManager().popBackStack(); // remove previous fragment as well
 
                 }
             });
@@ -174,11 +174,11 @@ public class FuelDetailsFragment extends DialogFragment {
     // display fuel data inside TextViews
     private void populateFuelData(Fuel fuel) {
         tv_fuel_date.setText(AppUtils.getFormattedDateString(fuel.getFuelDate()));
-        tv_perLitrePrice.setText("Rs:" + fuel.getPerLitrePrice().toString());
-        tv_fuelQuantityLitres.setText(fuel.getFuelQuantityLitres().toString() + " l");
-        tv_totalFuelPrice.setText("Rs:" + fuel.getTotalFuelPrice().toString());
-        tv_distanceCovered.setText(fuel.getDistanceCovered().toString() + " km" );
-        tv_calculatedAverage.setText(fuel.getCalculatedAverage().toString() + " km/l" );
+        tv_perLitrePrice.setText("Rs:" + AppUtils.removeTrailingZero(fuel.getPerLitrePrice().toString()));
+        tv_fuelQuantityLitres.setText(AppUtils.removeTrailingZero(fuel.getFuelQuantityLitres().toString()) + " l");
+        tv_totalFuelPrice.setText("Rs:" + AppUtils.removeTrailingZero(fuel.getTotalFuelPrice().toString()));
+        tv_distanceCovered.setText(AppUtils.removeTrailingZero(fuel.getDistanceCovered().toString()) + " km" );
+        tv_calculatedAverage.setText(AppUtils.removeTrailingZero(fuel.getCalculatedAverage().toString()) + " km/l" );
     }
 
 

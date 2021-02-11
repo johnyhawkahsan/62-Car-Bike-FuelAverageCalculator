@@ -2,6 +2,7 @@ package com.johnyhawkdesigns.a62_car_bike_fuelaveragecalculator.database.model;
 
 import com.johnyhawkdesigns.a62_car_bike_fuelaveragecalculator.util.DateTypeConverter;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import androidx.annotation.Nullable;
@@ -11,7 +12,7 @@ import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
 @Entity(tableName = "engineOil_table")
-public class EngineOil {
+public class EngineOil  implements Serializable {
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "engineOilID")

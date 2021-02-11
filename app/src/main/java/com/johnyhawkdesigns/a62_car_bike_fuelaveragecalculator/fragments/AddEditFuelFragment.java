@@ -86,7 +86,6 @@ public class AddEditFuelFragment extends DialogFragment implements DatePickerDia
     private ImageButton btn_calculateDistance;
     private ImageButton btn_calculateAverage;
 
-
     private FloatingActionButton fabSaveFuelData;
 
     private DatePickerDialog datePickerDialog;
@@ -206,7 +205,7 @@ public class AddEditFuelFragment extends DialogFragment implements DatePickerDia
                 fuelQuantityLitres = Double.parseDouble(tin_fuelQuantityLitres.getText().toString());
                 totalFuelPrice = fuelQuantityLitres * perLitrePrice;
                 totalFuelPrice = AppUtils.roundDouble(totalFuelPrice, 2);
-                tin_totalFuelPrice.setText(String.valueOf(totalFuelPrice));
+                tin_totalFuelPrice.setText(AppUtils.removeTrailingZero(String.valueOf(totalFuelPrice)));
 
 
             } else if (!tin_perLitrePrice.getText().toString().trim().isEmpty() && !tin_totalFuelPrice.getText().toString().trim().isEmpty()) {
@@ -214,7 +213,7 @@ public class AddEditFuelFragment extends DialogFragment implements DatePickerDia
                 totalFuelPrice = Double.parseDouble(tin_totalFuelPrice.getText().toString());
                 fuelQuantityLitres = (totalFuelPrice / perLitrePrice);
                 fuelQuantityLitres = AppUtils.roundDouble(fuelQuantityLitres, 2); // round to 2 decimal places
-                tin_fuelQuantityLitres.setText(String.valueOf(fuelQuantityLitres));
+                tin_fuelQuantityLitres.setText(AppUtils.removeTrailingZero(String.valueOf(fuelQuantityLitres)));
             }
 
             // store perLitrePrice to shared preferences
@@ -230,7 +229,7 @@ public class AddEditFuelFragment extends DialogFragment implements DatePickerDia
                 currentKm = Double.parseDouble(tin_currentKm.getText().toString());
                 startingKm = Double.parseDouble(tin_startingKm.getText().toString());
                 totalDistance = currentKm - startingKm;
-                tin_distanceCovered.setText(String.valueOf(totalDistance));
+                tin_distanceCovered.setText(AppUtils.removeTrailingZero(String.valueOf(totalDistance)));
             }
         });
 
@@ -245,7 +244,7 @@ public class AddEditFuelFragment extends DialogFragment implements DatePickerDia
 
                 calculatedAverage = (totalDistance / fuelQuantityLitres);
                 calculatedAverage = AppUtils.roundDouble(calculatedAverage, 2); // round to 2 decimal places
-                tin_calculatedAverage.setText(String.valueOf(calculatedAverage));
+                tin_calculatedAverage.setText(AppUtils.removeTrailingZero(String.valueOf(calculatedAverage)));
                 // store calculatedAverage in SharedPreferences as last vehicle mileage
 
             }
@@ -288,7 +287,7 @@ public class AddEditFuelFragment extends DialogFragment implements DatePickerDia
                 fuelQuantityLitres = Double.parseDouble(tin_fuelQuantityLitres.getText().toString());  // parse to double
                 totalFuelPrice = fuelQuantityLitres * perLitrePrice; // multiply both
                 totalFuelPrice = AppUtils.roundDouble(totalFuelPrice, 2);
-                tin_totalFuelPrice.setText(String.valueOf(totalFuelPrice));
+                tin_totalFuelPrice.setText(AppUtils.removeTrailingZero(String.valueOf(totalFuelPrice)));
             } else {
                 tin_totalFuelPrice.setText("");
             }
@@ -316,7 +315,7 @@ public class AddEditFuelFragment extends DialogFragment implements DatePickerDia
                 fuelQuantityLitres = Double.parseDouble(fuelQuantityLitresString.toString());  // parse to double
                 totalFuelPrice = fuelQuantityLitres * perLitrePrice; // multiply both
                 totalFuelPrice = AppUtils.roundDouble(totalFuelPrice, 2);
-                tin_totalFuelPrice.setText(String.valueOf(totalFuelPrice));
+                tin_totalFuelPrice.setText(AppUtils.removeTrailingZero(String.valueOf(totalFuelPrice)));
             } else {
                 tin_totalFuelPrice.setText("");
             }
@@ -346,7 +345,7 @@ public class AddEditFuelFragment extends DialogFragment implements DatePickerDia
                 startingKm = Double.parseDouble(tin_startingKm.getText().toString());
                 totalDistance = currentKm - startingKm;
                 totalDistance = AppUtils.roundDouble(totalDistance, 2);
-                tin_distanceCovered.setText(String.valueOf(totalDistance));
+                tin_distanceCovered.setText(AppUtils.removeTrailingZero(String.valueOf(totalDistance)));
             } else {
                 tin_distanceCovered.setText("");
             }
@@ -374,7 +373,7 @@ public class AddEditFuelFragment extends DialogFragment implements DatePickerDia
                 startingKm = Double.parseDouble(startingKmString.toString());
                 totalDistance = currentKm - startingKm;
                 totalDistance = AppUtils.roundDouble(totalDistance, 2);
-                tin_distanceCovered.setText(String.valueOf(totalDistance));
+                tin_distanceCovered.setText(AppUtils.removeTrailingZero(String.valueOf(totalDistance)));
             } else {
                 tin_distanceCovered.setText("");
             }
@@ -387,6 +386,8 @@ public class AddEditFuelFragment extends DialogFragment implements DatePickerDia
     private void populateFuelData(Fuel fuel) {
 
         // populate data and also remove trailing zero if any
+        fuelDate = fuel.getFuelDate();
+        tv_input_fuel_date.setText(AppUtils.getFormattedDateString(fuelDate));
         tin_perLitrePrice.setText(AppUtils.removeTrailingZero(fuel.getPerLitrePrice().toString()));
         tin_fuelQuantityLitres.setText(AppUtils.removeTrailingZero(fuel.getFuelQuantityLitres().toString()));
         tin_totalFuelPrice.setText(AppUtils.removeTrailingZero(fuel.getTotalFuelPrice().toString()));
@@ -426,10 +427,12 @@ public class AddEditFuelFragment extends DialogFragment implements DatePickerDia
                 Double distanceCovered = Double.valueOf(tin_distanceCovered.getText().toString());
                 Double calculatedAverage = Double.valueOf(tin_calculatedAverage.getText().toString());
 
-                // set data fields for fuel
-                if (fuelDate == null) { // means no default date is set
-                    fuelDate = AppUtils.getCurrentDateTime();
-                    tv_input_fuel_date.setText(AppUtils.getFormattedDateString(fuelDate));
+                // means no default date is set
+                if (fuelDate == null) {
+                    if (!addingNewFuel){ // if we are in editing mode, we don't want current date to be set instead
+                        fuelDate = AppUtils.getCurrentDateTime();
+                        tv_input_fuel_date.setText(AppUtils.getFormattedDateString(fuelDate));
+                    }
                 }
 
                 fuel.setFuelDate(fuelDate);
@@ -543,7 +546,7 @@ public class AddEditFuelFragment extends DialogFragment implements DatePickerDia
     // check for touch event on editText to enable save button
     private void monitorTextChange() {
         List<TextInputEditText> textInputEditTextList = new ArrayList<>();
-        //textInputEditTextList.add(tin_perLitrePrice); // first line is selected automatically
+        textInputEditTextList.add(tin_perLitrePrice); // first line is selected automatically
         textInputEditTextList.add(tin_fuelQuantityLitres);
         textInputEditTextList.add(tin_totalFuelPrice);
         textInputEditTextList.add(tin_currentKm);
@@ -570,9 +573,25 @@ public class AddEditFuelFragment extends DialogFragment implements DatePickerDia
                     fabSaveFuelData.show();
                 }
             });
-
-
         }
+
+        // tv_input_fuel_date is a TextView so we need to add this seperately
+        tv_input_fuel_date.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                fabSaveFuelData.show();
+            }
+        });
     }
 
 
@@ -596,7 +615,7 @@ public class AddEditFuelFragment extends DialogFragment implements DatePickerDia
         Log.d(TAG, "onDateSet: fuelDate = " + fuelDate);
 
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) { // Android Oreo 8
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) { // Android Oreo 8 and above
             localDate = getLocalDate();
             fuelDateStringLocalDate = String.valueOf(localDate);
             Log.d(TAG, "onDateSet: fuelDateStringLocalDate = " + fuelDateStringLocalDate + " , from original localDate = " + localDate);

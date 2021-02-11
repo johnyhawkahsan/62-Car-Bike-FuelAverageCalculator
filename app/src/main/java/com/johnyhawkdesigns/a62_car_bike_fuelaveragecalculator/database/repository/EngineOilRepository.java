@@ -11,6 +11,7 @@ import com.johnyhawkdesigns.a62_car_bike_fuelaveragecalculator.database.model.En
 import java.util.List;
 
 import androidx.lifecycle.LiveData;
+import io.reactivex.Maybe;
 import io.reactivex.Observable;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
@@ -35,7 +36,7 @@ public class EngineOilRepository {
     }
 
     // get single item using id
-    public LiveData<EngineOil> getEngineOilByID(int vehicleID, int EngineOilID) {
+    public Maybe<EngineOil> getEngineOilByID(int vehicleID, int EngineOilID) {
         return mEngineOilDao.getEngineOilByID(vehicleID, EngineOilID);
     }
 

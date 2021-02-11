@@ -200,7 +200,7 @@ public class VehicleDetailsFragment extends Fragment {
 
             engineOilListAdapter = new EngineOilListAdapter(getActivity(), engineOil -> {
                 Log.d(TAG, "onClick: engineOil = " + engineOil.getEngineOilID());
-                // listener.onFuelClickListener
+                displayEngineOilDetails(engineOil);
             });
             recyclerView.setAdapter(engineOilListAdapter);
 
@@ -259,6 +259,14 @@ public class VehicleDetailsFragment extends Fragment {
         // I used this fragment for everything, add, edit, view details, now I moved details fragment to separate file
         //AddEditFuelFragment addEditFuelFragment = AddEditFuelFragment.newInstance(vehicleID, fuel.getFuelID()); // launch
         //addEditFuelFragment.show(fragmentManager, "add_edit_fuel_fragment");
+    }
+
+    private void displayEngineOilDetails(EngineOil engineOil) {
+
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        EngineOilDetailsFragment engineOilDetailsFragment = EngineOilDetailsFragment.newInstance(vehicleID, engineOil.getEngineOilID()); // launch
+        engineOilDetailsFragment.show(fragmentManager, "engine_oil_detail_fragment");
+
     }
 
     private void toggleButtonBackground(Button activeButton, Button nonActiveButton) {

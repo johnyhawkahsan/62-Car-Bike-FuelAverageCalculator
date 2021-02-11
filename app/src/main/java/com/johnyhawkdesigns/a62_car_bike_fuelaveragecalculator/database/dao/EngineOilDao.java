@@ -13,6 +13,7 @@ import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
 import io.reactivex.Completable;
+import io.reactivex.Maybe;
 
 @Dao
 public interface EngineOilDao {
@@ -20,8 +21,8 @@ public interface EngineOilDao {
     LiveData<List<EngineOil>> getAllEngineOilData(int foreignVehicleID);
 
     @Query("SELECT * FROM engineOil_table WHERE foreignVehicleID == :foreignVehicleID AND engineOilID == :engineOilID")
-    //Maybe<EngineOil> getEngineOilByID(int foreignVehicleID, int engineOilID); // using Maybe because Single caused an error, I think due to the possibility of multiple returned items
-    LiveData<EngineOil> getEngineOilByID(int foreignVehicleID, int engineOilID); // LiveData also worked perfectly but not using here because of the problem caused by "delete" command in VehicleDetailFragment
+    Maybe<EngineOil> getEngineOilByID(int foreignVehicleID, int engineOilID); // using Maybe because Single caused an error, I think due to the possibility of multiple returned items
+    //LiveData<EngineOil> getEngineOilByID(int foreignVehicleID, int engineOilID); // LiveData also worked perfectly but not using here because of the problem caused by "delete" command in VehicleDetailFragment
 
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

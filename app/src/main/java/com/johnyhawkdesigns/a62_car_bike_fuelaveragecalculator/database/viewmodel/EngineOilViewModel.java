@@ -10,9 +10,9 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import io.reactivex.Maybe;
 
 public class EngineOilViewModel extends AndroidViewModel {
-
 
 
     private EngineOilRepository engineOilRepository;
@@ -31,7 +31,7 @@ public class EngineOilViewModel extends AndroidViewModel {
 
 
     // get single item using id
-    public LiveData<EngineOil> getEngineOilByID(int vehicleID, int engineOilID) {
+    public Maybe<EngineOil> getEngineOilByID(int vehicleID, int engineOilID) {
         return engineOilRepository.getEngineOilByID(vehicleID, engineOilID);
     }
 

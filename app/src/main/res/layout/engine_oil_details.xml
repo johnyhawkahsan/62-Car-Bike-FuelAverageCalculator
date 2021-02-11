@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
@@ -29,7 +30,7 @@
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="12dp"
                     android:layout_marginEnd="20dp"
-                    android:text="Fuel Record"
+                    android:text="Engine Oil Record"
                     android:textColor="@color/colorWhite"
                     android:textSize="20sp" />
 
@@ -45,7 +46,7 @@
             android:orientation="horizontal">
 
             <ImageButton
-                android:id="@+id/btn_edit_fuel"
+                android:id="@+id/btn_edit_eoil"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:backgroundTint="@color/colorPrimary"
@@ -53,7 +54,7 @@
                 android:src="@drawable/ic_edit_24dp" />
 
             <ImageButton
-                android:id="@+id/btn_delete_fuel"
+                android:id="@+id/btn_delete_eoil"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:backgroundTint="@color/colorPrimary"
@@ -79,7 +80,7 @@
                 android:textSize="18sp" />
 
             <TextView
-                android:id="@+id/tv_fuel_date"
+                android:id="@+id/tv_eoil_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -110,17 +111,17 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:fontFamily="sans-serif-condensed"
-                    android:text="Per Litre Price"
+                    android:text="Description"
                     android:textColor="@color/cardview_dark_background"
                     android:textSize="14sp" />
 
                 <TextView
-                    android:id="@+id/tv_perLitrePrice"
+                    android:id="@+id/tv_eoil_description"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:fontFamily="sans-serif-condensed"
-                    android:text="105"
+                    android:text="Zic 1040"
                     android:textColor="@color/colorPrimaryDark"
                     android:textSize="16sp" />
 
@@ -139,12 +140,12 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:fontFamily="sans-serif-condensed"
-                    android:text="Fuel Quantity"
+                    android:text="Quantity"
                     android:textColor="@color/cardview_dark_background"
                     android:textSize="14sp" />
 
                 <TextView
-                    android:id="@+id/tv_fuelQuantityLitres"
+                    android:id="@+id/tv_eoilQuantityLitres"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -168,17 +169,17 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:fontFamily="sans-serif-condensed"
-                    android:text="Fuel Price"
+                    android:text="Price"
                     android:textColor="@color/cardview_dark_background"
                     android:textSize="14sp" />
 
                 <TextView
-                    android:id="@+id/tv_totalFuelPrice"
+                    android:id="@+id/tv_totalEoilPrice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:fontFamily="sans-serif-condensed"
-                    android:text="500"
+                    android:text="2000"
                     android:textColor="@color/colorPrimaryDark"
                     android:textSize="16sp" />
 
@@ -209,17 +210,17 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:fontFamily="sans-serif-condensed"
-                    android:text="Distance Travelled"
+                    android:text="Interval"
                     android:textColor="@color/cardview_dark_background"
                     android:textSize="14sp" />
 
                 <TextView
-                    android:id="@+id/tv_distanceCovered"
+                    android:id="@+id/tv_interval"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:fontFamily="sans-serif-condensed"
-                    android:text="500 km"
+                    android:text="3000 km"
                     android:textColor="@color/colorPrimaryDark"
                     android:textSize="16sp" />
 
@@ -238,26 +239,124 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:fontFamily="sans-serif-condensed"
-                    android:text="Fuel Average"
+                    android:text="Current Mileage"
                     android:textColor="@color/cardview_dark_background"
                     android:textSize="14sp" />
 
                 <TextView
-                    android:id="@+id/tv_calculatedAverage"
+                    android:id="@+id/tv_current_mileage"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:fontFamily="sans-serif-condensed"
-                    android:text="12 km/litre"
+                    android:text="9000"
                     android:textColor="@color/colorPrimaryDark"
                     android:textSize="16sp" />
 
             </LinearLayout>
 
 
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/margin_tiny"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="sans-serif-condensed"
+                    android:text="Previous Mileage"
+                    android:textColor="@color/cardview_dark_background"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/tv_previous_mileage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="sans-serif-condensed"
+                    android:text="6000"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+
         </LinearLayout>
 
 
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_tiny"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/margin_tiny"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="sans-serif-condensed"
+                    android:text="Total Distance"
+                    android:textColor="@color/cardview_dark_background"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/tv_total_distance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="sans-serif-condensed"
+                    android:text="3000 km"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/margin_tiny"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="sans-serif-condensed"
+                    android:text="Next Oil Change"
+                    android:textColor="@color/cardview_dark_background"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/tv_next_oil_change"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="sans-serif-condensed"
+                    android:text="9000 km"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+
+
+
+        </LinearLayout>
 
     </LinearLayout>
 

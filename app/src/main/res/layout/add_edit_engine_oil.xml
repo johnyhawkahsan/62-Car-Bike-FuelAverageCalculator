@@ -81,7 +81,7 @@
                     android:id="@+id/tin_eoil_description"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="eoil_description"
+                    android:hint="Description"
                     android:inputType="text"
                     android:lines="1"
                     android:textSize="12sp" />
@@ -99,7 +99,7 @@
                     android:id="@+id/tin_eoil_quantityLitres"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Quantity in litre"
+                    android:hint="Quantity litres"
                     android:inputType="number"
                     android:lines="1"
                     android:textSize="12sp" />
@@ -116,7 +116,7 @@
                     android:id="@+id/tin_eoil_totalPrice"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="total price"
+                    android:hint="Price"
                     android:inputType="number"
                     android:lines="1"
                     android:textSize="12sp" />
@@ -142,7 +142,7 @@
                     android:id="@+id/tin_eoil_interval"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="interval (km) for next oil change i.e; 3000km"
+                    android:hint="Interval (km) for next oil change i.e; 3000km"
                     android:inputType="number"
                     android:lines="1"
                     android:textSize="12sp" />
@@ -169,7 +169,7 @@
                     android:id="@+id/tin_eoil_currentMileage"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="currentMileage"
+                    android:hint="Current Km"
                     android:inputType="number"
                     android:lines="1"
                     android:textSize="12sp" />
@@ -194,7 +194,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.20"
-                    android:hint="previousMileage"
+                    android:hint="Previous Km"
                     android:inputType="number"
                     android:lines="1"
                     android:textSize="12sp" />
@@ -220,7 +220,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.20"
-                    android:hint="totalDistance"
+                    android:hint="Distance"
                     android:inputType="number"
                     android:lines="1"
                     android:textSize="12sp" />
@@ -253,7 +253,7 @@
                     android:id="@+id/tin_eoil_nextOilChangeAt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="nextOilChangeAt"
+                    android:hint="NextOilChange"
                     android:inputType="number"
                     android:lines="1"
                     android:textSize="12sp" />

@@ -75,8 +75,6 @@ public class EngineOilDetailsFragment extends DialogFragment {
         tv_eoilQuantityLitres = view.findViewById(R.id.tv_eoilQuantityLitres);
         tv_totalEoilPrice = view.findViewById(R.id.tv_totalEoilPrice);
         tv_interval = view.findViewById(R.id.tv_interval);
-        tv_current_mileage = view.findViewById(R.id.tv_current_mileage);
-        tv_previous_mileage = view.findViewById(R.id.tv_previous_mileage);
         tv_total_distance = view.findViewById(R.id.tv_total_distance);
         tv_next_oil_change = view.findViewById(R.id.tv_next_oil_change);
         btn_edit_eoil = view.findViewById(R.id.btn_edit_eoil);
@@ -181,8 +179,8 @@ public class EngineOilDetailsFragment extends DialogFragment {
         tv_eoilQuantityLitres.setText(AppUtils.removeTrailingZero(engineOil.getEoil_quantityLitres().toString()) + " l");
         tv_totalEoilPrice.setText("Rs:" + AppUtils.removeTrailingZero(engineOil.getEoil_Price().toString()));
         tv_interval.setText(AppUtils.removeTrailingZero(engineOil.getEoil_interval().toString()) + " km" );
-        tv_current_mileage.setText(AppUtils.removeTrailingZero(engineOil.getEoil_currentMileage().toString()) + " km" );
-        tv_previous_mileage.setText(AppUtils.removeTrailingZero(engineOil.getEoil_previousMileage().toString()) + " km" );
+        //tv_current_mileage.setText(AppUtils.removeTrailingZero(engineOil.getEoil_currentMileage().toString()) + " km" );
+        //tv_previous_mileage.setText(AppUtils.removeTrailingZero(engineOil.getEoil_previousMileage().toString()) + " km" );
         tv_total_distance.setText(AppUtils.removeTrailingZero(engineOil.getEoil_totalDistance().toString()) + " km" );
         tv_next_oil_change.setText(AppUtils.removeTrailingZero(engineOil.getNextOilChangeAt().toString()) + " km" );
     }
@@ -200,6 +198,16 @@ public class EngineOilDetailsFragment extends DialogFragment {
     public void onDetach() {
         super.onDetach();
         compositeDisposable.dispose(); // dispose disposable
+    }
+
+    // Below code is used to fix small size issue of DialogFragment
+    @Override
+    public void onResume() {
+        super.onResume();
+        ViewGroup.LayoutParams params = getDialog().getWindow().getAttributes();
+        params.width = ViewGroup.LayoutParams.MATCH_PARENT;
+        params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+        getDialog().getWindow().setAttributes((android.view.WindowManager.LayoutParams) params);
     }
 
 

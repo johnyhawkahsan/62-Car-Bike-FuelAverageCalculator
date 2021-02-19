@@ -86,9 +86,26 @@
                 android:fontFamily="sans-serif-condensed"
                 android:text="14-Jan-2021"
                 android:textColor="@color/colorPrimaryDark"
-                android:textSize="24sp" />
+                android:textSize="20sp" />
 
         </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/margin_tiny"
+            android:orientation="horizontal">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/black" />
+
+        </LinearLayout>
+
+
 
 
         <LinearLayout
@@ -103,6 +120,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_margin="@dimen/margin_tiny"
+                android:layout_weight="0.33"
                 android:orientation="vertical">
 
                 <TextView
@@ -111,8 +129,7 @@
                     android:layout_gravity="center"
                     android:fontFamily="sans-serif-condensed"
                     android:text="Per Litre Price"
-                    android:textColor="@color/cardview_dark_background"
-                    android:textSize="14sp" />
+                    android:textColor="@color/cardview_dark_background" />
 
                 <TextView
                     android:id="@+id/tv_perLitrePrice"
@@ -121,10 +138,25 @@
                     android:layout_gravity="center"
                     android:fontFamily="sans-serif-condensed"
                     android:text="105"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:textSize="16sp" />
+                    android:textColor="@color/colorPrimaryDark" />
 
             </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/margin_tiny"
+                android:orientation="horizontal">
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/black" />
+
+            </LinearLayout>
+
 
 
             <LinearLayout
@@ -132,6 +164,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_margin="@dimen/margin_tiny"
+                android:layout_weight="0.33"
                 android:orientation="vertical">
 
                 <TextView
@@ -140,8 +173,7 @@
                     android:layout_gravity="center"
                     android:fontFamily="sans-serif-condensed"
                     android:text="Fuel Quantity"
-                    android:textColor="@color/cardview_dark_background"
-                    android:textSize="14sp" />
+                    android:textColor="@color/cardview_dark_background" />
 
                 <TextView
                     android:id="@+id/tv_fuelQuantityLitres"
@@ -150,17 +182,31 @@
                     android:layout_gravity="center"
                     android:fontFamily="sans-serif-condensed"
                     android:text="5"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:textSize="16sp" />
+                    android:textColor="@color/colorPrimaryDark" />
 
             </LinearLayout>
 
 
             <LinearLayout
                 android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/margin_tiny"
+                android:orientation="horizontal">
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/black" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_margin="@dimen/margin_tiny"
+                android:layout_weight="0.33"
                 android:orientation="vertical">
 
                 <TextView
@@ -169,8 +215,7 @@
                     android:layout_gravity="center"
                     android:fontFamily="sans-serif-condensed"
                     android:text="Fuel Price"
-                    android:textColor="@color/cardview_dark_background"
-                    android:textSize="14sp" />
+                    android:textColor="@color/cardview_dark_background" />
 
                 <TextView
                     android:id="@+id/tv_totalFuelPrice"
@@ -179,8 +224,7 @@
                     android:layout_gravity="center"
                     android:fontFamily="sans-serif-condensed"
                     android:text="500"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:textSize="16sp" />
+                    android:textColor="@color/colorPrimaryDark" />
 
             </LinearLayout>
 
@@ -202,6 +246,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_margin="@dimen/margin_tiny"
+                android:layout_weight="0.5"
                 android:orientation="vertical">
 
                 <TextView
@@ -210,8 +255,7 @@
                     android:layout_gravity="center"
                     android:fontFamily="sans-serif-condensed"
                     android:text="Distance Travelled"
-                    android:textColor="@color/cardview_dark_background"
-                    android:textSize="14sp" />
+                    android:textColor="@color/cardview_dark_background" />
 
                 <TextView
                     android:id="@+id/tv_distanceCovered"
@@ -220,17 +264,30 @@
                     android:layout_gravity="center"
                     android:fontFamily="sans-serif-condensed"
                     android:text="500 km"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:textSize="16sp" />
+                    android:textColor="@color/colorPrimaryDark" />
 
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/margin_tiny"
+                android:orientation="horizontal">
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/black" />
+
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_margin="@dimen/margin_tiny"
+                android:layout_weight="0.5"
                 android:orientation="vertical">
 
                 <TextView
@@ -239,8 +296,7 @@
                     android:layout_gravity="center"
                     android:fontFamily="sans-serif-condensed"
                     android:text="Fuel Average"
-                    android:textColor="@color/cardview_dark_background"
-                    android:textSize="14sp" />
+                    android:textColor="@color/cardview_dark_background" />
 
                 <TextView
                     android:id="@+id/tv_calculatedAverage"
@@ -249,8 +305,7 @@
                     android:layout_gravity="center"
                     android:fontFamily="sans-serif-condensed"
                     android:text="12 km/litre"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:textSize="16sp" />
+                    android:textColor="@color/colorPrimaryDark" />
 
             </LinearLayout>
 

@@ -196,5 +196,14 @@ public class FuelDetailsFragment extends DialogFragment {
         Log.d(TAG, "onDetach: closing FuelDetailsFragment");
     }
 
+    // Below code is used to fix small size issue of DialogFragment
+    @Override
+    public void onResume() {
+        super.onResume();
+        ViewGroup.LayoutParams params = getDialog().getWindow().getAttributes();
+        params.width = ViewGroup.LayoutParams.MATCH_PARENT;
+        params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+        getDialog().getWindow().setAttributes((android.view.WindowManager.LayoutParams) params);
+    }
 
 }

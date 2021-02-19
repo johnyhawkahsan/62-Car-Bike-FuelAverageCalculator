@@ -34,7 +34,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-light"
-                android:text="eoil_description"
+                android:text="Description"
                 android:textSize="12sp" />
 
             <TextView
@@ -43,7 +43,6 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:text="ZIC 10-40"
-                android:textAppearance="?android:textAppearanceMedium"
                 android:textColor="@color/colorPrimary" />
         </LinearLayout>
 
@@ -59,7 +58,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-light"
-                android:text="eoil_Price"
+                android:text="Price"
                 android:textSize="12sp" />
 
             <TextView
@@ -68,7 +67,6 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:text="1800"
-                android:textAppearance="?android:textAppearanceMedium"
                 android:textColor="@color/colorPrimary" />
         </LinearLayout>
 
@@ -83,7 +81,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-light"
-                android:text="nextOilChangeAt"
+                android:text="NextOilChange"
                 android:textSize="12sp" />
 
             <TextView
@@ -92,7 +90,6 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:text="10,6000"
-                android:textAppearance="?android:textAppearanceMedium"
                 android:textColor="@color/colorPrimary" />
         </LinearLayout>
 

@@ -44,7 +44,7 @@ public class VehicleListAdapter extends RecyclerView.Adapter<VehicleListAdapter.
     // Provide a reference to the views for each data item
     public class VehicleViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView tv_make, tv_model;
+        private TextView tv_make, tv_model, tv_fuelCapacity;
         private ImageView iv_iconVehicle;
 
         public VehicleViewHolder(@NonNull View itemView) {
@@ -52,11 +52,13 @@ public class VehicleListAdapter extends RecyclerView.Adapter<VehicleListAdapter.
             iv_iconVehicle = itemView.findViewById(R.id.iv_iconVehicle);
             tv_make = itemView.findViewById(R.id.tv_make);
             tv_model = itemView.findViewById(R.id.tv_model);
+            tv_fuelCapacity = itemView.findViewById(R.id.tv_fuelCapacity);
 
             itemView.setOnClickListener(v -> {
                 Vehicle vehicle = mVehicles.get(getAdapterPosition()); // get vehicle at specific position
                 mVehicleClickListener.onClick(vehicle);  // This interface method sends ID to MainActivity's Adapter constructor method
                 Log.d(TAG, "onClick: clicked on item with id = " + vehicle.getVehicleID());
+                Log.d(TAG, "onClick: clicked on item with getVehicleFuelCapacity = " + vehicle.getVehicleFuelCapacity());
 
             });
 
@@ -86,6 +88,7 @@ public class VehicleListAdapter extends RecyclerView.Adapter<VehicleListAdapter.
 
         holder.tv_make.setText(currentVehicle.getVehicleMake());
         holder.tv_model.setText(currentVehicle.getVehicleModel());
+        holder.tv_fuelCapacity.setText(String.valueOf(currentVehicle.getVehicleFuelCapacity()));
     }
 
     @Override

@@ -81,7 +81,8 @@ public class AddEditFuelFragment extends DialogFragment implements DatePickerDia
     private TextInputEditText tin_currentKm;
     private TextInputEditText tin_startingKm;
     private TextInputEditText tin_distanceCovered;
-    private TextInputEditText tin_calculatedAverage;
+    private TextView tv_calculatedAverage;
+    private TextView tv_nextFuelFill;
     private ImageButton btn_calculateFuelPrice;
     private ImageButton btn_calculateDistance;
     private ImageButton btn_calculateAverage;
@@ -125,7 +126,8 @@ public class AddEditFuelFragment extends DialogFragment implements DatePickerDia
         btn_calculateDistance = view.findViewById(R.id.btn_calculateDistance);
         tin_distanceCovered = view.findViewById(R.id.tin_distanceCovered);
         btn_calculateAverage = view.findViewById(R.id.btn_calculateAverage);
-        tin_calculatedAverage = view.findViewById(R.id.tin_calculatedAverage);
+        tv_calculatedAverage = view.findViewById(R.id.tv_calculatedAverage);
+        tv_nextFuelFill = view.findViewById(R.id.tv_nextFuelFill);
         fabSaveFuelData = view.findViewById(R.id.fabSaveFuelData);
 
         calendar = Calendar.getInstance();
@@ -244,7 +246,7 @@ public class AddEditFuelFragment extends DialogFragment implements DatePickerDia
 
                 calculatedAverage = (totalDistance / fuelQuantityLitres);
                 calculatedAverage = AppUtils.roundDouble(calculatedAverage, 2); // round to 2 decimal places
-                tin_calculatedAverage.setText(AppUtils.removeTrailingZero(String.valueOf(calculatedAverage)));
+                tv_calculatedAverage.setText(AppUtils.removeTrailingZero(String.valueOf(calculatedAverage)));
                 // store calculatedAverage in SharedPreferences as last vehicle mileage
 
             }
@@ -394,7 +396,7 @@ public class AddEditFuelFragment extends DialogFragment implements DatePickerDia
         tin_currentKm.setText(AppUtils.removeTrailingZero(fuel.getCurrentKm().toString()));
         tin_startingKm.setText(AppUtils.removeTrailingZero(fuel.getStartingKm().toString()));
         tin_distanceCovered.setText(AppUtils.removeTrailingZero(fuel.getDistanceCovered().toString()));
-        tin_calculatedAverage.setText(AppUtils.removeTrailingZero(fuel.getCalculatedAverage().toString()));
+        tv_calculatedAverage.setText(AppUtils.removeTrailingZero(fuel.getCalculatedAverage().toString()));
 
     }
 
@@ -425,7 +427,7 @@ public class AddEditFuelFragment extends DialogFragment implements DatePickerDia
                 Double startingKm = Double.valueOf(tin_startingKm.getText().toString());
                 Double currentKm = Double.valueOf(tin_currentKm.getText().toString());
                 Double distanceCovered = Double.valueOf(tin_distanceCovered.getText().toString());
-                Double calculatedAverage = Double.valueOf(tin_calculatedAverage.getText().toString());
+                Double calculatedAverage = Double.valueOf(tv_calculatedAverage.getText().toString());
 
                 // means no default date is set
                 if (fuelDate == null) {
@@ -476,7 +478,7 @@ public class AddEditFuelFragment extends DialogFragment implements DatePickerDia
                 tin_currentKm.getText().toString().trim().isEmpty() ||
                 tin_startingKm.getText().toString().trim().isEmpty() ||
                 tin_distanceCovered.getText().toString().trim().isEmpty() ||
-                tin_calculatedAverage.getText().toString().trim().isEmpty();
+                tv_calculatedAverage.getText().toString().trim().isEmpty();
 
         if (emptyListAvailable) {
             validationList(); // set error messages
@@ -494,7 +496,6 @@ public class AddEditFuelFragment extends DialogFragment implements DatePickerDia
         textInputValidationList.add(tin_currentKm);
         textInputValidationList.add(tin_startingKm);
         textInputValidationList.add(tin_distanceCovered);
-        textInputValidationList.add(tin_calculatedAverage);
 
         for (int i = 0; i < textInputValidationList.size(); i++) {
 
@@ -520,7 +521,6 @@ public class AddEditFuelFragment extends DialogFragment implements DatePickerDia
         textInputEditTextList.add(tin_currentKm);
         textInputEditTextList.add(tin_startingKm);
         textInputEditTextList.add(tin_distanceCovered);
-        textInputEditTextList.add(tin_calculatedAverage);
 
         for (TextInputEditText item : textInputEditTextList) {
             item.setEnabled(false);
@@ -536,7 +536,6 @@ public class AddEditFuelFragment extends DialogFragment implements DatePickerDia
         textInputEditTextList.add(tin_currentKm);
         textInputEditTextList.add(tin_startingKm);
         textInputEditTextList.add(tin_distanceCovered);
-        textInputEditTextList.add(tin_calculatedAverage);
 
         for (TextInputEditText item : textInputEditTextList) {
             item.setEnabled(true);
@@ -552,7 +551,6 @@ public class AddEditFuelFragment extends DialogFragment implements DatePickerDia
         textInputEditTextList.add(tin_currentKm);
         textInputEditTextList.add(tin_startingKm);
         textInputEditTextList.add(tin_distanceCovered);
-        textInputEditTextList.add(tin_calculatedAverage);
 
         for (TextInputEditText item : textInputEditTextList) {
 

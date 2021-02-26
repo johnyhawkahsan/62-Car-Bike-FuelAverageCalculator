@@ -22,12 +22,7 @@
 
             <LinearLayout style="@style/Item.Layout.Info">
 
-                <TextView
-                    android:id="@+id/tv_vehicleID"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:hint="Vehicle ID" />
+
 
                 <TextView
                     android:id="@+id/tv_vehicle_make"
@@ -43,6 +38,13 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:hint="Model" />
+
+                <TextView
+                    android:id="@+id/tv_fuel_capacity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:hint="Fuel Capacity" />
 
             </LinearLayout>
 

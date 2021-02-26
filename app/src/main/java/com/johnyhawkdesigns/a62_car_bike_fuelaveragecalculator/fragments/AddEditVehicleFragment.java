@@ -47,6 +47,7 @@ public class AddEditVehicleFragment extends DialogFragment {
     private TextView textViewTitle;
     private TextInputEditText textInputMake;
     private TextInputEditText textInputModel;
+    private TextInputEditText textInputFuelCapacity;
     private RadioGroup radioButtonGroupVehicle;
     private RadioButton radioButton_car;
     private RadioButton radioButton_bike;
@@ -58,6 +59,7 @@ public class AddEditVehicleFragment extends DialogFragment {
     private String vehicleType;
     private String vehicleMake = "";
     private String vehicleModel = "";
+    private String vehicleFuelCapacity = "";
 
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
@@ -71,6 +73,7 @@ public class AddEditVehicleFragment extends DialogFragment {
         textViewTitle = view.findViewById(R.id.text_title);
         textInputMake = view.findViewById(R.id.textInputMake);
         textInputModel = view.findViewById(R.id.textInputModel);
+        textInputFuelCapacity = view.findViewById(R.id.textInputFuelCapacity);
         radioButtonGroupVehicle = view.findViewById(R.id.radioButtonGroupVehicle);
         radioButton_car = view.findViewById(R.id.radioButton_car);
         radioButton_bike = view.findViewById(R.id.radioButton_bike);
@@ -124,6 +127,7 @@ public class AddEditVehicleFragment extends DialogFragment {
                         // worked after adding composite disposable
                         textInputMake.setText(vehicle.getVehicleMake());
                         textInputModel.setText(vehicle.getVehicleModel());
+                        textInputFuelCapacity.setText(String.valueOf(vehicle.getVehicleFuelCapacity()));
 
                     });
 
@@ -181,8 +185,9 @@ public class AddEditVehicleFragment extends DialogFragment {
 
             vehicleMake = textInputMake.getText().toString();
             vehicleModel = textInputModel.getText().toString();
+            vehicleFuelCapacity = textInputFuelCapacity.getText().toString();
 
-            if (vehicleType.isEmpty() || vehicleMake.trim().isEmpty() || vehicleModel.trim().isEmpty()) { // vehicleMake.length() == 0  old approach
+            if (vehicleType.isEmpty() || vehicleMake.trim().isEmpty() || vehicleModel.trim().isEmpty() || vehicleFuelCapacity.trim().isEmpty()) { // vehicleMake.length() == 0  old approach
                 Log.d(TAG, "onClick: any of the parameters is empty");
                 AppUtils.showMessage(getActivity(), "Please fill all details!");
             }
@@ -191,6 +196,7 @@ public class AddEditVehicleFragment extends DialogFragment {
                 vehicle.setVehicleType(vehicleType);
                 vehicle.setVehicleMake(vehicleMake);
                 vehicle.setVehicleModel(vehicleModel);
+                vehicle.setVehicleFuelCapacity(Double.parseDouble(vehicleFuelCapacity));
 
 
                 Log.d(TAG, "onClick: vehicleType = " + vehicleType + ", vehicleMake = " + vehicleMake + ", vehicleModel =" + vehicleModel);

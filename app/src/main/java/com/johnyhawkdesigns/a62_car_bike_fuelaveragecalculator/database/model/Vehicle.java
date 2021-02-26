@@ -22,6 +22,10 @@ public class Vehicle {
     @ColumnInfo(name = "vehicleModel")
     private String vehicleModel;
 
+    @Nullable
+    @ColumnInfo(name = "vehicleFuelCapacity")
+    private int vehicleFuelCapacity;
+
 
 
     public int getVehicleID() {
@@ -58,4 +62,14 @@ public class Vehicle {
     public void setVehicleModel(@Nullable String vehicleModel) {
         this.vehicleModel = vehicleModel;
     }
+
+    @Nullable
+    public int getVehicleFuelCapacity() {
+        return vehicleFuelCapacity;
+    }
+
+    public void setVehicleFuelCapacity(@Nullable int vehicleFuelCapacity) {
+        this.vehicleFuelCapacity = vehicleFuelCapacity;
+    }
+
 }

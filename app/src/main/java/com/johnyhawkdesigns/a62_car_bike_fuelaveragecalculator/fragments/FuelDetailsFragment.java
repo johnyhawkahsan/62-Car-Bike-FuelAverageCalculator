@@ -8,15 +8,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.johnyhawkdesigns.a62_car_bike_fuelaveragecalculator.R;
 import com.johnyhawkdesigns.a62_car_bike_fuelaveragecalculator.database.model.Fuel;
 import com.johnyhawkdesigns.a62_car_bike_fuelaveragecalculator.database.viewmodel.FuelViewModel;
 import com.johnyhawkdesigns.a62_car_bike_fuelaveragecalculator.util.AppUtils;
-
-import java.time.LocalDate;
-import java.util.Date;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -56,8 +54,8 @@ public class FuelDetailsFragment extends DialogFragment {
     private TextView tv_distanceCovered;
     private TextView tv_calculatedAverage;
 
-    private ImageButton btn_edit_fuel;
-    private ImageButton btn_delete_fuel;
+    private ImageView btn_edit_fuel;
+    private ImageView btn_delete_fuel;
 
 
     @Nullable
@@ -175,7 +173,7 @@ public class FuelDetailsFragment extends DialogFragment {
     private void populateFuelData(Fuel fuel) {
         tv_fuel_date.setText(AppUtils.getFormattedDateString(fuel.getFuelDate()));
         tv_perLitrePrice.setText("Rs:" + AppUtils.removeTrailingZero(fuel.getPerLitrePrice().toString()));
-        tv_fuelQuantityLitres.setText(AppUtils.removeTrailingZero(fuel.getFuelQuantityLitres().toString()) + " l");
+        tv_fuelQuantityLitres.setText(AppUtils.removeTrailingZero(fuel.getFuelQuantityLitres().toString()) + " litre");
         tv_totalFuelPrice.setText("Rs:" + AppUtils.removeTrailingZero(fuel.getTotalFuelPrice().toString()));
         tv_distanceCovered.setText(AppUtils.removeTrailingZero(fuel.getDistanceCovered().toString()) + " km" );
         tv_calculatedAverage.setText(AppUtils.removeTrailingZero(fuel.getCalculatedAverage().toString()) + " km/l" );

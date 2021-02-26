@@ -34,6 +34,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -59,9 +60,9 @@ public class VehicleDetailsFragment extends Fragment {
     public int vehicleID;
 
     private ImageView detail_fragment_vehicle_icon;
-    private TextView tv_vehicleID;
     private TextView tv_vehicle_make;
     private TextView tv_vehicle_model;
+    private TextView tv_fuel_capacity;
     private Button btn_mobilOil;
     private Button btn_fuel;
     private FloatingActionButton fabAdd;
@@ -97,9 +98,9 @@ public class VehicleDetailsFragment extends Fragment {
         emptyTextView.setVisibility(View.GONE); // by default, we don't want to display this
 
         detail_fragment_vehicle_icon = view.findViewById(R.id.detail_fragment_vehicle_icon);
-        tv_vehicleID = view.findViewById(R.id.tv_vehicleID);
         tv_vehicle_make = view.findViewById(R.id.tv_vehicle_make);
         tv_vehicle_model = view.findViewById(R.id.tv_vehicle_model);
+        tv_fuel_capacity = view.findViewById(R.id.tv_fuel_capacity);
         btn_fuel = view.findViewById(R.id.btn_fuel);
         btn_mobilOil = view.findViewById(R.id.btn_mobilOil);
         fabAdd = view.findViewById(R.id.fabAdd);
@@ -130,7 +131,7 @@ public class VehicleDetailsFragment extends Fragment {
                     } else {
                         detail_fragment_vehicle_icon.setImageResource(R.drawable.ic_bike);
                     }
-                    tv_vehicleID.setText("VehicleID = " + String.valueOf(vehicle.getVehicleID()));
+                    tv_fuel_capacity.setText("FuelCapacity = " + String.valueOf(vehicle.getVehicleFuelCapacity()));
                     tv_vehicle_make.setText(vehicle.getVehicleMake());
                     tv_vehicle_model.setText(vehicle.getVehicleModel());
                 });
@@ -254,11 +255,8 @@ public class VehicleDetailsFragment extends Fragment {
 
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         FuelDetailsFragment fuelDetailsFragment = FuelDetailsFragment.newInstance(vehicleID, fuel.getFuelID()); // launch
-        fuelDetailsFragment.show(fragmentManager, "fuel_detail_fragment");
+        fuelDetailsFragment.show(fragmentManager, "fuel_detail_fragment"); // used for dialog
 
-        // I used this fragment for everything, add, edit, view details, now I moved details fragment to separate file
-        //AddEditFuelFragment addEditFuelFragment = AddEditFuelFragment.newInstance(vehicleID, fuel.getFuelID()); // launch
-        //addEditFuelFragment.show(fragmentManager, "add_edit_fuel_fragment");
     }
 
     private void displayEngineOilDetails(EngineOil engineOil) {

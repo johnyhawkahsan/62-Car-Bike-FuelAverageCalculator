@@ -39,7 +39,6 @@
         </com.google.android.material.appbar.AppBarLayout>
 
 
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -74,16 +73,16 @@
             android:orientation="horizontal">
 
             <com.google.android.material.textfield.TextInputLayout
-                android:layout_weight="0.20"
                 android:layout_width="100sp"
                 android:layout_height="wrap_content"
+                android:layout_weight="0.20"
                 app:errorEnabled="true">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/tin_perLitrePrice"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="perLitrePrice"
+                    android:hint="Per Litre Price"
                     android:inputType="numberDecimal"
                     android:lines="1"
                     android:textSize="12sp" />
@@ -92,23 +91,23 @@
 
 
             <ImageButton
-                android:layout_weight="0.20"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="0.20"
                 android:src="@drawable/ic_multiply_sign_24dp" />
 
 
             <com.google.android.material.textfield.TextInputLayout
-                android:layout_weight="0.20"
                 android:layout_width="100sp"
                 android:layout_height="wrap_content"
+                android:layout_weight="0.20"
                 app:errorEnabled="true">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/tin_fuelQuantityLitres"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="fuelQuantity"
+                    android:hint="Fuel Quantity"
                     android:inputType="numberDecimal"
                     android:lines="1"
                     android:textSize="12sp" />
@@ -116,23 +115,23 @@
 
 
             <ImageButton
-                android:layout_weight="0.20"
                 android:id="@+id/btn_calculateFuelPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="0.20"
                 android:src="@drawable/ic_equal_sign_24dp" />
 
             <com.google.android.material.textfield.TextInputLayout
-                android:layout_weight="0.20"
                 android:layout_width="100sp"
                 android:layout_height="wrap_content"
+                android:layout_weight="0.20"
                 app:errorEnabled="true">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/tin_totalFuelPrice"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="fuel price"
+                    android:hint="Fuel Price"
                     android:inputType="numberDecimal"
                     android:lines="1"
                     android:textSize="12sp" />
@@ -140,7 +139,6 @@
 
 
         </LinearLayout>
-
 
 
         <LinearLayout
@@ -151,16 +149,16 @@
             android:orientation="horizontal">
 
             <com.google.android.material.textfield.TextInputLayout
-                android:layout_weight="0.20"
                 android:layout_width="100sp"
                 android:layout_height="wrap_content"
+                android:layout_weight="0.20"
                 app:errorEnabled="true">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/tin_currentKm"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="currentKm"
+                    android:hint="Current KM"
                     android:inputType="numberDecimal"
                     android:lines="1"
                     android:textSize="12sp" />
@@ -168,17 +166,16 @@
             </com.google.android.material.textfield.TextInputLayout>
 
 
-
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_minus_sign_24dp"
-                android:layout_weight="0.20"/>
+                android:layout_weight="0.20"
+                android:src="@drawable/ic_minus_sign_24dp" />
 
             <com.google.android.material.textfield.TextInputLayout
-                android:layout_weight="0.20"
                 android:layout_width="100sp"
                 android:layout_height="wrap_content"
+                android:layout_weight="0.20"
                 app:errorEnabled="true">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -186,7 +183,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.20"
-                    android:hint="startingKm"
+                    android:hint="Starting Km"
                     android:inputType="numberDecimal"
                     android:lines="1"
                     android:textSize="12sp" />
@@ -194,18 +191,17 @@
             </com.google.android.material.textfield.TextInputLayout>
 
 
-
             <ImageButton
                 android:id="@+id/btn_calculateDistance"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_equal_sign_24dp"
-                android:layout_weight="0.20"/>
+                android:layout_weight="0.20"
+                android:src="@drawable/ic_equal_sign_24dp" />
 
             <com.google.android.material.textfield.TextInputLayout
-                android:layout_weight="0.20"
                 android:layout_width="100sp"
                 android:layout_height="wrap_content"
+                android:layout_weight="0.20"
                 app:errorEnabled="true">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -213,13 +209,31 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.20"
-                    android:hint="distanceCovered"
+                    android:hint="Distance Covered"
                     android:inputType="numberDecimal"
                     android:lines="1"
                     android:textSize="12sp" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_tiny"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_calculateAverage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/robotobold"
+                android:text="Calculate"
+                android:textColor="@color/cardview_dark_background"
+                android:textSize="22sp" />
 
 
         </LinearLayout>
@@ -229,34 +243,56 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_tiny"
-            android:gravity="center_horizontal"
+            android:gravity="center"
             android:orientation="horizontal">
 
-            <ImageButton
-                android:id="@+id/btn_calculateAverage"
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_equal_sign_24dp" />
+                android:fontFamily="@font/robotobold"
+                android:text="Fuel Average"
+                android:textColor="@color/cardview_dark_background"
+                android:textSize="22sp" />
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="120sp"
+            <TextView
+                android:id="@+id/tv_calculatedAverage"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:errorEnabled="true">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/tin_calculatedAverage"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="calculatedAverage"
-                    android:inputType="numberDecimal"
-                    android:lines="1"
-                    android:textSize="12sp" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-
+                android:layout_marginStart="@dimen/big_padding"
+                android:fontFamily="@font/robotoregular"
+                android:text="12 km/l"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="20sp" />
 
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_tiny"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/robotobold"
+                android:text="Next Fill"
+                android:textColor="@color/cardview_dark_background"
+                android:textSize="22sp" />
+
+            <TextView
+                android:id="@+id/tv_nextFuelFill"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/big_padding"
+                android:fontFamily="@font/robotoregular"
+                android:text="2000 km"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="20sp" />
+
+        </LinearLayout>
+
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fabSaveFuelData"

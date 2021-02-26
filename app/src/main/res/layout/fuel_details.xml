@@ -1,327 +1,392 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent"
+    android:background="#F8F8F8"
+    android:gravity="start"
+    android:orientation="vertical">
 
-    <LinearLayout
+    <RelativeLayout
+        android:id="@+id/details-header"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="start"
-        android:orientation="vertical"
-        android:padding="@dimen/default_padding">
+        android:layout_height="200dp"
+        android:background="@drawable/bg_purple_rectangle">
 
-        <com.google.android.material.appbar.AppBarLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:theme="@style/AppTheme.AppBarOverlay">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="@dimen/margin_tiny">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="12dp"
-                    android:layout_marginEnd="20dp"
-                    android:text="Fuel Record"
-                    android:textColor="@color/colorWhite"
-                    android:textSize="20sp" />
-
-            </RelativeLayout>
-
-        </com.google.android.material.appbar.AppBarLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_tiny"
-            android:gravity="end"
-            android:orientation="horizontal">
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/margin_tiny"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
 
-            <ImageButton
-                android:id="@+id/btn_edit_fuel"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:backgroundTint="@color/colorPrimary"
-                android:contentDescription="Edit"
-                android:src="@drawable/ic_edit_24dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="20dp"
+                android:fontFamily="@font/robotobold"
+                android:text="Fuel Record"
+                android:textColor="@color/colorWhite"
+                android:textSize="30dp" />
 
-            <ImageButton
-                android:id="@+id/btn_delete_fuel"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:backgroundTint="@color/colorPrimary"
-                android:contentDescription="Delete"
-                android:src="@drawable/ic_delete_24dp" />
+            <View
+                android:layout_width="180dp"
+                android:layout_height="1dp"
+                android:layout_margin="@dimen/margin_tiny"
+                android:background="@android:color/white" />
+
 
         </LinearLayout>
+
+        <ImageView
+            android:id="@+id/btn_edit_fuel"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="300dp"
+            android:layout_marginTop="30dp"
+            android:contentDescription="Edit"
+            android:src="@drawable/ic_edit_24dp" />
+
+        <ImageView
+            android:id="@+id/btn_delete_fuel"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="320dp"
+            android:layout_marginTop="30dp"
+            android:contentDescription="Delete"
+            android:layerType="software"
+            android:src="@drawable/ic_delete_24dp" />
+
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="120dp"
+            android:layout_marginTop="140dp"
+            android:layout_marginEnd="120dp"
+            android:layerType="software"
+            android:src="@drawable/dashed_line" />
+
+        <ImageView
+            android:id="@+id/car_white"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="140dp"
+            android:src="@drawable/ic_car_white" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="@dimen/margin_tiny"
+            android:layout_marginTop="75dp"
             android:orientation="vertical">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:fontFamily="sans-serif-condensed"
-                android:text="Date"
-                android:textColor="@color/cardview_dark_background"
-                android:textSize="18sp" />
+                android:fontFamily="@font/robotobold"
+                android:text="Distane"
+                android:textColor="#FFF"
+                android:textSize="22sp" />
 
             <TextView
-                android:id="@+id/tv_fuel_date"
+                android:id="@+id/tv_distanceCovered"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:fontFamily="sans-serif-condensed"
-                android:text="14-Jan-2021"
-                android:textColor="@color/colorPrimaryDark"
+                android:text="1000km"
+                android:textColor="#FFF"
                 android:textSize="20sp" />
 
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="100dp"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/robotobold"
+                android:text="From"
+                android:textColor="#FFF"
+                android:textSize="22sp" />
+
+            <TextView
+                android:id="@+id/tv_previousKm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/robotoregular"
+                android:text="3000km"
+                android:textColor="#FFF"
+                android:textSize="16sp" />
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="@dimen/margin_tiny"
-            android:orientation="horizontal">
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="100dp"
+            android:layout_marginEnd="40dp"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
 
-            <View
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/robotobold"
+                android:text="To"
+                android:textColor="#FFF"
+                android:textSize="22sp" />
+
+            <TextView
+                android:id="@+id/tv_currentKm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/robotoregular"
+                android:text="4000km"
+                android:textColor="#FFF"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/details-header">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <LinearLayout
+                android:id="@+id/Reservation_options"
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@android:color/black" />
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/Detailed_info"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="30dp"
+                android:background="@drawable/bg_white_box"
+                android:elevation="2.5dp"
+                android:orientation="vertical"
+                android:visibility="visible">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/margin_tiny"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:fontFamily="@font/robotobold"
+                        android:text="Date"
+                        android:textColor="@color/cardview_dark_background"
+                        android:textSize="22sp" />
+
+                    <TextView
+                        android:id="@+id/tv_fuel_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:fontFamily="@font/robotoregular"
+                        android:text="14-Jan-2021"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="20sp" />
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="20dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:background="@drawable/bg_white_box"
+                        android:fontFamily="@font/robotoregular"
+                        android:padding="10dp"
+                        android:text="Per Litre Price"
+                        android:textAllCaps="false"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/tv_perLitrePrice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="10dp"
+                        android:layout_marginTop="10dp"
+                        android:fontFamily="@font/robotobold"
+                        android:text="Rs: 110"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="20sp" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="20dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:background="@drawable/bg_white_box"
+                        android:fontFamily="@font/robotoregular"
+                        android:padding="10dp"
+                        android:text="Fuel Quantity"
+                        android:textAllCaps="false"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/tv_fuelQuantityLitres"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="20dp"
+                        android:layout_marginTop="10dp"
+                        android:fontFamily="@font/robotobold"
+                        android:text="5 litre"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="20sp" />
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="20dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:background="@drawable/bg_white_box"
+                        android:fontFamily="@font/robotoregular"
+                        android:padding="10dp"
+                        android:text="Total Fuel Price"
+                        android:textAllCaps="false"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/tv_totalFuelPrice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="8dp"
+                        android:layout_marginTop="10dp"
+                        android:fontFamily="@font/robotobold"
+                        android:text="Rs: 1000"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="20sp" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/Detailed_info"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_marginHorizontal="20dp"
+                android:background="@drawable/bg_white_box"
+                android:elevation="2.5dp"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="@dimen/margin_tiny"
+                    android:layout_weight="0.5"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:fontFamily="@font/robotoregular"
+                        android:text="Fuel Average"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="16sp" />
+
+
+                    <TextView
+                        android:id="@+id/tv_calculatedAverage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:fontFamily="@font/robotomedium"
+                        android:text="12 km/l"
+                        android:textColor="#000"
+                        android:textSize="16sp" />
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="@dimen/margin_tiny"
+                    android:layout_weight="0.5"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:fontFamily="@font/robotoregular"
+                        android:text="Next Fuel Fill"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/tv_nextFuelFill"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:fontFamily="@font/robotomedium"
+                        android:text="8000km"
+                        android:textColor="#000"
+                        android:textSize="16sp" />
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
 
         </LinearLayout>
 
-
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_tiny"
-            android:gravity="center_horizontal"
-            android:orientation="horizontal">
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_margin="@dimen/margin_tiny"
-                android:layout_weight="0.33"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:fontFamily="sans-serif-condensed"
-                    android:text="Per Litre Price"
-                    android:textColor="@color/cardview_dark_background" />
-
-                <TextView
-                    android:id="@+id/tv_perLitrePrice"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:fontFamily="sans-serif-condensed"
-                    android:text="105"
-                    android:textColor="@color/colorPrimaryDark" />
-
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_margin="@dimen/margin_tiny"
-                android:orientation="horizontal">
-
-                <View
-                    android:layout_width="1dp"
-                    android:layout_height="wrap_content"
-                    android:background="@android:color/black" />
-
-            </LinearLayout>
-
-
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_margin="@dimen/margin_tiny"
-                android:layout_weight="0.33"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:fontFamily="sans-serif-condensed"
-                    android:text="Fuel Quantity"
-                    android:textColor="@color/cardview_dark_background" />
-
-                <TextView
-                    android:id="@+id/tv_fuelQuantityLitres"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:fontFamily="sans-serif-condensed"
-                    android:text="5"
-                    android:textColor="@color/colorPrimaryDark" />
-
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_margin="@dimen/margin_tiny"
-                android:orientation="horizontal">
-
-                <View
-                    android:layout_width="1dp"
-                    android:layout_height="wrap_content"
-                    android:background="@android:color/black" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_margin="@dimen/margin_tiny"
-                android:layout_weight="0.33"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:fontFamily="sans-serif-condensed"
-                    android:text="Fuel Price"
-                    android:textColor="@color/cardview_dark_background" />
-
-                <TextView
-                    android:id="@+id/tv_totalFuelPrice"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:fontFamily="sans-serif-condensed"
-                    android:text="500"
-                    android:textColor="@color/colorPrimaryDark" />
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_tiny"
-            android:gravity="center_horizontal"
-            android:orientation="horizontal">
-
-
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_margin="@dimen/margin_tiny"
-                android:layout_weight="0.5"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:fontFamily="sans-serif-condensed"
-                    android:text="Distance Travelled"
-                    android:textColor="@color/cardview_dark_background" />
-
-                <TextView
-                    android:id="@+id/tv_distanceCovered"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:fontFamily="sans-serif-condensed"
-                    android:text="500 km"
-                    android:textColor="@color/colorPrimaryDark" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_margin="@dimen/margin_tiny"
-                android:orientation="horizontal">
-
-                <View
-                    android:layout_width="1dp"
-                    android:layout_height="wrap_content"
-                    android:background="@android:color/black" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_margin="@dimen/margin_tiny"
-                android:layout_weight="0.5"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:fontFamily="sans-serif-condensed"
-                    android:text="Fuel Average"
-                    android:textColor="@color/cardview_dark_background" />
-
-                <TextView
-                    android:id="@+id/tv_calculatedAverage"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:fontFamily="sans-serif-condensed"
-                    android:text="12 km/litre"
-                    android:textColor="@color/colorPrimaryDark" />
-
-            </LinearLayout>
-
-
-        </LinearLayout>
-
-
-
-    </LinearLayout>
-
-
-</ScrollView>
-
-
-
-
-
-
-
+    </ScrollView>
+</RelativeLayout>

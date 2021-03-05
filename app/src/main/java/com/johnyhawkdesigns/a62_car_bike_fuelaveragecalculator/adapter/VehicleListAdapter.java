@@ -58,7 +58,6 @@ public class VehicleListAdapter extends RecyclerView.Adapter<VehicleListAdapter.
                 Vehicle vehicle = mVehicles.get(getAdapterPosition()); // get vehicle at specific position
                 mVehicleClickListener.onClick(vehicle);  // This interface method sends ID to MainActivity's Adapter constructor method
                 Log.d(TAG, "onClick: clicked on item with id = " + vehicle.getVehicleID());
-                Log.d(TAG, "onClick: clicked on item with getVehicleFuelCapacity = " + vehicle.getVehicleFuelCapacity());
 
             });
 
@@ -88,7 +87,7 @@ public class VehicleListAdapter extends RecyclerView.Adapter<VehicleListAdapter.
 
         holder.tv_make.setText(currentVehicle.getVehicleMake());
         holder.tv_model.setText(currentVehicle.getVehicleModel());
-        holder.tv_fuelCapacity.setText(String.valueOf(currentVehicle.getVehicleFuelCapacity()));
+        holder.tv_fuelCapacity.setText(String.valueOf(currentVehicle.getVehicleFuelCapacity()) + " l");
     }
 
     @Override

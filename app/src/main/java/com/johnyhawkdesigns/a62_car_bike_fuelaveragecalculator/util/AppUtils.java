@@ -69,7 +69,7 @@ public class AppUtils {
     }
 
     // round double to specific places : i.e; 10.00000 -> 10.00
-    public static double roundDouble(double value, int places) {
+    public static double roundDoubleOld(double value, int places) {
 
         /*
         // -------------------- Method 1 --------------------//
@@ -90,6 +90,12 @@ public class AppUtils {
         bd = bd.setScale(places, RoundingMode.HALF_UP);
         return bd.doubleValue();
 
+    }
+
+    // Stackoverflow comment = worked for me double pi = 3.14159265; round(pi, 1) --> 3.1 round(pi, 4) --> 3.1416
+    public static double roundDouble (double value, int precision) {
+        int scale = (int) Math.pow(10, precision);
+        return (double) Math.round(value * scale) / scale;
     }
 
     // convert 10.0 -> 10

@@ -72,6 +72,35 @@ public class Fuel implements Serializable {
     @ColumnInfo(name = "calculatedAverage")
     private Double calculatedAverage; // Total distance covered in km divided by total petrol in litres i.e; 172km/ 5 ltr = 43 km per litre average
 
+    @Nullable
+    @ColumnInfo(name = "coverableDistance")
+    private Double coverableDistance; // coverableDistance = fuel capacity(litre) x fuel average (km/litre) i.e; 10 litre capacity x 12 km/litre = 120 km
+
+    @Nullable
+    @ColumnInfo(name = "nextFuelFill")
+    private Double nextFuelFill; // nextFuelFill = coverableDistance + currentKm
+
+    @Nullable
+    public Double getCoverableDistance() {
+        return coverableDistance;
+    }
+
+    public void setCoverableDistance(@Nullable Double coverableDistance) {
+        this.coverableDistance = coverableDistance;
+    }
+
+    @Nullable
+    public Double getNextFuelFill() {
+        return nextFuelFill;
+    }
+
+    public void setNextFuelFill(@Nullable Double nextFuelFill) {
+        this.nextFuelFill = nextFuelFill;
+    }
+
+
+
+
     public int getFuelID() {
         return fuelID;
     }

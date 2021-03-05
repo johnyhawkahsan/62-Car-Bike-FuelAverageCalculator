@@ -196,7 +196,7 @@ public class AddEditVehicleFragment extends DialogFragment {
                 vehicle.setVehicleType(vehicleType);
                 vehicle.setVehicleMake(vehicleMake);
                 vehicle.setVehicleModel(vehicleModel);
-                vehicle.setVehicleFuelCapacity(Double.parseDouble(vehicleFuelCapacity));
+                vehicle.setVehicleFuelCapacity(Integer.parseInt(vehicleFuelCapacity));
 
 
                 Log.d(TAG, "onClick: vehicleType = " + vehicleType + ", vehicleMake = " + vehicleMake + ", vehicleModel =" + vehicleModel);

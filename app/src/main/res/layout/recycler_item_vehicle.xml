@@ -15,20 +15,42 @@
             style="@style/Item.Title"
             tools:text="Suzuki Every" />
 
-
         <TextView
             android:id="@+id/tv_model"
-            style="@style/Item.Info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/robotoregular"
+            android:text="2006"
             android:textColor="@color/colorPrimaryDark"
-            android:textStyle=""
-            tools:text="2006 660cc" />
+            android:textSize="16sp" />
 
-        <TextView
-            android:id="@+id/tv_fuelCapacity"
-            style="@style/Item.Info"
-            android:textSize="12sp"
-            android:textColor="@color/colorPrimaryDark"
-            tools:text="Tank Capcity : 10 litre" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/robotoregular"
+                android:text="Fuel Capacity"
+                android:textColor="@color/colorPrimary"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_fuelCapacity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/robotoregular"
+                android:layout_marginStart="@dimen/margin_tiny"
+                tools:text="10 litre"
+                android:textColor="#000"
+                android:textSize="16sp" />
+
+
+
+        </LinearLayout>
+
 
 
     </LinearLayout>

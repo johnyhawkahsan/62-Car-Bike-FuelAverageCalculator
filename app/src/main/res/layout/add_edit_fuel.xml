@@ -222,18 +222,18 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_tiny"
             android:gravity="center"
             android:orientation="horizontal">
 
             <Button
                 android:id="@+id/btn_calculateAverage"
+                android:elevation="1dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/robotobold"
                 android:text="Calculate"
                 android:textColor="@color/cardview_dark_background"
-                android:textSize="22sp" />
+                android:textSize="20sp" />
 
 
         </LinearLayout>
@@ -252,7 +252,7 @@
                 android:fontFamily="@font/robotobold"
                 android:text="Fuel Average"
                 android:textColor="@color/cardview_dark_background"
-                android:textSize="22sp" />
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/tv_calculatedAverage"
@@ -260,7 +260,34 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/big_padding"
                 android:fontFamily="@font/robotoregular"
-                android:text="12 km/l"
+                android:text="-- km/l"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="20sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_tiny"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/robotobold"
+                android:text="Coverable Distance"
+                android:textColor="@color/cardview_dark_background"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/tv_coverableDistance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/big_padding"
+                android:fontFamily="@font/robotoregular"
+                android:text="-- km"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="20sp" />
 
@@ -279,7 +306,7 @@
                 android:fontFamily="@font/robotobold"
                 android:text="Next Fill"
                 android:textColor="@color/cardview_dark_background"
-                android:textSize="22sp" />
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/tv_nextFuelFill"
@@ -287,7 +314,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/big_padding"
                 android:fontFamily="@font/robotoregular"
-                android:text="2000 km"
+                android:text="-- km"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="20sp" />
 

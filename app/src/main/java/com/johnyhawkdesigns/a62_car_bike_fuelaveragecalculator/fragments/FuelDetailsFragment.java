@@ -123,7 +123,7 @@ public class FuelDetailsFragment extends DialogFragment {
 
             // Launch AddEditFuelFragment
             FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-            AddEditFuelFragment addEditFuelFragment = AddEditFuelFragment.newInstance(fuel); // launch
+            AddEditFuelFragment addEditFuelFragment = AddEditFuelFragment.editInstance(fuel); // launch
             addEditFuelFragment.show(fragmentManager, "add_edit_fuel_fragment");
 
             // close current fragment

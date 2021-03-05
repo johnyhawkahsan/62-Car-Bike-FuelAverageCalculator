@@ -66,6 +66,7 @@ public class VehicleDetailsFragment extends Fragment {
     private Button btn_mobilOil;
     private Button btn_fuel;
     private FloatingActionButton fabAdd;
+
     private RecyclerView recyclerView;
     private FuelListAdapter fuelListAdapter;
     private EngineOilListAdapter engineOilListAdapter;
@@ -74,6 +75,7 @@ public class VehicleDetailsFragment extends Fragment {
     private FuelViewModel fuelViewModel;
     private EngineOilViewModel engineOilViewModel;
     private Vehicle vehicle;
+    private int vehicleFuelCapacity;
 
     private TextView emptyTextView;
     private Boolean showFuelData;
@@ -131,9 +133,11 @@ public class VehicleDetailsFragment extends Fragment {
                     } else {
                         detail_fragment_vehicle_icon.setImageResource(R.drawable.ic_bike);
                     }
-                    tv_fuel_capacity.setText("FuelCapacity = " + String.valueOf(vehicle.getVehicleFuelCapacity()));
                     tv_vehicle_make.setText(vehicle.getVehicleMake());
                     tv_vehicle_model.setText(vehicle.getVehicleModel());
+
+                    vehicleFuelCapacity = vehicle.getVehicleFuelCapacity();
+                    tv_fuel_capacity.setText("FuelCapacity: " + vehicleFuelCapacity);
                 });
 
         compositeDisposable.add(disposable);
@@ -234,7 +238,7 @@ public class VehicleDetailsFragment extends Fragment {
             // if current show fuel data is checked
             if (showFuelData && !showEngineOilData){
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                AddEditFuelFragment addEditFuelFragment = AddEditFuelFragment.newInstance(vehicleID);
+                AddEditFuelFragment addEditFuelFragment = AddEditFuelFragment.newInstance(vehicleID, vehicleFuelCapacity);
                 addEditFuelFragment.show(fragmentManager, "add_edit_fuel_fragment");
             }
             // if current show engine oil data is checked

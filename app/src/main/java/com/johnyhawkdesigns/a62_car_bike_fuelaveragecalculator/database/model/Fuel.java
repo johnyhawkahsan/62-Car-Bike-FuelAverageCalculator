@@ -52,6 +52,7 @@ public class Fuel implements Serializable {
     @ColumnInfo(name = "totalFuelPrice")
     private Double totalFuelPrice; // i.e; 5 litre x 105 rs = 525 rs (Need to add x button to calculate this as well)
 
+
     @Nullable
     @ColumnInfo(name = "averageCalculationMethod")
     private String averageCalculationMethod; // Tank full to full calculation or empty to empty calculation
@@ -79,6 +80,34 @@ public class Fuel implements Serializable {
     @Nullable
     @ColumnInfo(name = "nextFuelFill")
     private Double nextFuelFill; // nextFuelFill = coverableDistance + currentKm
+
+    @Nullable
+    @ColumnInfo(name = "totalFuelCapacity")
+    private int totalFuelCapacity; // same as vehicleFuelCapacity in "vehicle" i.e; 40 litre
+
+
+    @Nullable
+    @ColumnInfo(name = "tankFull")
+    private Boolean tankFull;
+
+    @Nullable
+    public Boolean getTankFull() {
+        return tankFull;
+    }
+
+    public void setTankFull(@Nullable Boolean tankFull) {
+        this.tankFull = tankFull;
+    }
+
+
+
+    public int getTotalFuelCapacity() {
+        return totalFuelCapacity;
+    }
+
+    public void setTotalFuelCapacity(int totalFuelCapacity) {
+        this.totalFuelCapacity = totalFuelCapacity;
+    }
 
     @Nullable
     public Double getCoverableDistance() {

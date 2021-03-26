@@ -83,8 +83,8 @@ public class EngineOilListAdapter extends RecyclerView.Adapter<EngineOilListAdap
 
         holder.eoil_Date.setText(AppUtils.getFormattedDateString(currentEngineOil.getEoil_Date()));
         holder.eoil_description.setText(String.valueOf(currentEngineOil.getEoil_description()));
-        holder.eoil_Price.setText(String.valueOf(currentEngineOil.getEoil_Price()));
-        holder.nextOilChangeAt.setText(String.valueOf(currentEngineOil.getNextOilChangeAt()));
+        holder.eoil_Price.setText("Rs:" + AppUtils.removeTrailingZero(String.valueOf(currentEngineOil.getEoil_Price())));
+        holder.nextOilChangeAt.setText(AppUtils.removeTrailingZero(String.valueOf(currentEngineOil.getNextOilChangeAt())) + " km");
 
     }
 

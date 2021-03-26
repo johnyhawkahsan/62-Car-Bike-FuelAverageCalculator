@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.johnyhawkdesigns.a62_car_bike_fuelaveragecalculator.R;
@@ -51,11 +52,17 @@ public class FuelDetailsFragment extends DialogFragment {
     private TextView tv_perLitrePrice;
     private TextView tv_fuelQuantityLitres;
     private TextView tv_totalFuelPrice;
+    private TextView tv_previousKm;
+    private TextView tv_currentKm;
     private TextView tv_distanceCovered;
     private TextView tv_calculatedAverage;
+    private TextView tv_coverableDistance;
+    private TextView tv_nextFuelFill;
 
     private ImageView btn_edit_fuel;
     private ImageView btn_delete_fuel;
+
+    private LinearLayout detailsLayout;
 
 
     @Nullable
@@ -71,10 +78,15 @@ public class FuelDetailsFragment extends DialogFragment {
         tv_totalFuelPrice = view.findViewById(R.id.tv_totalFuelPrice);
         tv_distanceCovered = view.findViewById(R.id.tv_distanceCovered);
         tv_calculatedAverage = view.findViewById(R.id.tv_calculatedAverage);
+        tv_previousKm = view.findViewById(R.id.tv_previousKm);
+        tv_currentKm = view.findViewById(R.id.tv_currentKm);
+        tv_coverableDistance = view.findViewById(R.id.tv_coverableDistance);
+        tv_nextFuelFill = view.findViewById(R.id.tv_nextFuelFill);
         btn_edit_fuel = view.findViewById(R.id.btn_edit_fuel);
         btn_delete_fuel = view.findViewById(R.id.btn_delete_fuel);
         btn_edit_fuel.setOnClickListener(editButtonClicked);
         btn_delete_fuel.setOnClickListener(deleteButtonClicked);
+        detailsLayout= view.findViewById(R.id.detailsLayout);
 
 
         // get Bundle of arguments
@@ -176,7 +188,22 @@ public class FuelDetailsFragment extends DialogFragment {
         tv_fuelQuantityLitres.setText(AppUtils.removeTrailingZero(fuel.getFuelQuantityLitres().toString()) + " litre");
         tv_totalFuelPrice.setText("Rs:" + AppUtils.removeTrailingZero(fuel.getTotalFuelPrice().toString()));
         tv_distanceCovered.setText(AppUtils.removeTrailingZero(fuel.getDistanceCovered().toString()) + " km" );
+        tv_previousKm.setText(AppUtils.removeTrailingZero((fuel.getStartingKm().toString())) + " km");
+        tv_currentKm.setText(AppUtils.removeTrailingZero((fuel.getCurrentKm().toString())) + " km");
         tv_calculatedAverage.setText(AppUtils.removeTrailingZero(fuel.getCalculatedAverage().toString()) + " km/l" );
+        Log.d(TAG, "populateFuelData: fuel.getTotalFuelCapacity() = " + fuel.getTotalFuelCapacity() );
+
+        if (fuel.getTankFull()){ // if tankFull = true, then show tv_coverableDistance and tv_nextFuelFill
+            tv_coverableDistance.setText(AppUtils.removeTrailingZero(fuel.getCoverableDistance().toString()) + " km" );
+            tv_nextFuelFill.setText(AppUtils.removeTrailingZero(fuel.getNextFuelFill().toString()) + " km" );
+        } else {
+            detailsLayout.setVisibility(View.GONE);
+        }
+
+
+
+
+
     }
 
 

@@ -52,10 +52,10 @@ public class EngineOilDetailsFragment extends DialogFragment {
     private TextView tv_eoil_description;
     private TextView tv_eoilQuantityLitres;
     private TextView tv_totalEoilPrice;
-    private TextView tv_interval;
-    private TextView tv_current_mileage;
-    private TextView tv_previous_mileage;
-    private TextView tv_total_distance;
+    private TextView tv_eoil_interval;
+    private TextView tv_currentKm_eoil;
+    private TextView tv_previousKm_eoil;
+    private TextView tv_total_distance_eoil;
     private TextView tv_next_oil_change;
 
 
@@ -67,15 +67,17 @@ public class EngineOilDetailsFragment extends DialogFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.engine_oil_details, container, false);
+        View view = inflater.inflate(R.layout.engine_oil_details_new, container, false);
 
 
         tv_eoil_date = view.findViewById(R.id.tv_eoil_date);
         tv_eoil_description = view.findViewById(R.id.tv_eoil_description);
         tv_eoilQuantityLitres = view.findViewById(R.id.tv_eoilQuantityLitres);
         tv_totalEoilPrice = view.findViewById(R.id.tv_totalEoilPrice);
-        tv_interval = view.findViewById(R.id.tv_interval);
-        tv_total_distance = view.findViewById(R.id.tv_total_distance);
+        tv_eoil_interval = view.findViewById(R.id.tv_eoil_interval);
+        tv_currentKm_eoil = view.findViewById(R.id.tv_currentKm_eoil);
+        tv_previousKm_eoil = view.findViewById(R.id.tv_previousKm_eoil);
+        tv_total_distance_eoil = view.findViewById(R.id.tv_total_distance_eoil);
         tv_next_oil_change = view.findViewById(R.id.tv_next_oil_change);
         btn_edit_eoil = view.findViewById(R.id.btn_edit_eoil);
         btn_delete_eoil = view.findViewById(R.id.btn_delete_eoil);
@@ -178,10 +180,10 @@ public class EngineOilDetailsFragment extends DialogFragment {
         tv_eoil_description.setText(engineOil.getEoil_description());
         tv_eoilQuantityLitres.setText(AppUtils.removeTrailingZero(engineOil.getEoil_quantityLitres().toString()) + " l");
         tv_totalEoilPrice.setText("Rs:" + AppUtils.removeTrailingZero(engineOil.getEoil_Price().toString()));
-        tv_interval.setText(AppUtils.removeTrailingZero(engineOil.getEoil_interval().toString()) + " km" );
-        //tv_current_mileage.setText(AppUtils.removeTrailingZero(engineOil.getEoil_currentMileage().toString()) + " km" );
-        //tv_previous_mileage.setText(AppUtils.removeTrailingZero(engineOil.getEoil_previousMileage().toString()) + " km" );
-        tv_total_distance.setText(AppUtils.removeTrailingZero(engineOil.getEoil_totalDistance().toString()) + " km" );
+        tv_eoil_interval.setText(AppUtils.removeTrailingZero(engineOil.getEoil_interval().toString()) + " km" );
+        tv_currentKm_eoil.setText(AppUtils.removeTrailingZero(engineOil.getEoil_currentMileage().toString()) + " km" );
+        tv_previousKm_eoil.setText(AppUtils.removeTrailingZero(engineOil.getEoil_previousMileage().toString()) + " km" );
+        tv_total_distance_eoil.setText(AppUtils.removeTrailingZero(engineOil.getEoil_totalDistance().toString()) + " km" );
         tv_next_oil_change.setText(AppUtils.removeTrailingZero(engineOil.getNextOilChangeAt().toString()) + " km" );
     }
 

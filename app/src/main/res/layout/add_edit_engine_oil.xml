@@ -230,38 +230,52 @@
 
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_calculateNextOilChange"
+                android:elevation="1dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/robotobold"
+                android:text="Calculate"
+                android:textColor="@color/cardview_dark_background"
+                android:textSize="20sp" />
+
+
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_tiny"
-            android:gravity="center_horizontal"
+            android:gravity="center"
             android:orientation="horizontal">
 
-            <ImageButton
-                android:id="@+id/btn_eoil_nextOilChangeAt"
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_equal_sign_24dp" />
+                android:fontFamily="@font/robotobold"
+                android:text="Next Oil Change"
+                android:textColor="@color/cardview_dark_background"
+                android:textSize="20sp" />
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="120sp"
+            <TextView
+                android:id="@+id/tv_eoil_nextOilChangeAt"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:errorEnabled="true">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/tin_eoil_nextOilChangeAt"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="NextOilChange"
-                    android:inputType="number"
-                    android:lines="1"
-                    android:textSize="12sp" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
+                android:layout_marginStart="@dimen/big_padding"
+                android:fontFamily="@font/robotoregular"
+                android:text="-- km"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="20sp" />
 
         </LinearLayout>
+
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fabSaveEngineOilData"

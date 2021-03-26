@@ -11,7 +11,7 @@
     <RelativeLayout
         android:id="@+id/eoil_detailsHeader"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="250dp"
         android:background="@drawable/bg_purple_rectangle">
 
 
@@ -30,9 +30,9 @@
                 android:layout_marginTop="12dp"
                 android:layout_marginEnd="20dp"
                 android:fontFamily="@font/robotobold"
-                android:text="Fuel Record"
+                android:text="Engine Oil Record"
                 android:textColor="@color/colorWhite"
-                android:textSize="30dp" />
+                android:textSize="26sp" />
 
             <View
                 android:layout_width="180dp"
@@ -44,19 +44,19 @@
         </LinearLayout>
 
         <ImageView
-            android:id="@+id/btn_edit_fuel"
+            android:id="@+id/btn_edit_eoil"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:layout_marginStart="300dp"
+            android:layout_marginStart="320dp"
             android:layout_marginTop="30dp"
             android:contentDescription="Edit"
             android:src="@drawable/ic_edit_24dp" />
 
         <ImageView
-            android:id="@+id/btn_delete_fuel"
+            android:id="@+id/btn_delete_eoil"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:layout_marginStart="320dp"
+            android:layout_marginStart="350dp"
             android:layout_marginTop="30dp"
             android:contentDescription="Delete"
             android:layerType="software"
@@ -84,6 +84,34 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="200dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/robotomedium"
+                android:text="Oil Change Interval : "
+                android:textColor="#ADABAB"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_eoil_interval"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/robotoregular"
+                android:text="3000km"
+                android:textColor="#ADABAB"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="75dp"
             android:orientation="vertical">
@@ -93,17 +121,17 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:fontFamily="@font/robotobold"
-                android:text="Distane"
+                android:text="Distance Covered"
                 android:textColor="#FFF"
                 android:textSize="22sp" />
 
             <TextView
-                android:id="@+id/tv_distanceCovered"
+                android:id="@+id/tv_total_distance_eoil"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:fontFamily="sans-serif-condensed"
-                android:text="1000km"
+                android:text="3000km"
                 android:textColor="#FFF"
                 android:textSize="20sp" />
 
@@ -127,7 +155,7 @@
                 android:textSize="22sp" />
 
             <TextView
-                android:id="@+id/tv_previousKm"
+                android:id="@+id/tv_previousKm_eoil"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/robotoregular"
@@ -154,7 +182,7 @@
                 android:textSize="22sp" />
 
             <TextView
-                android:id="@+id/tv_currentKm"
+                android:id="@+id/tv_currentKm_eoil"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/robotoregular"
@@ -205,7 +233,7 @@
                         android:textSize="22sp" />
 
                     <TextView
-                        android:id="@+id/tv_fuel_date"
+                        android:id="@+id/tv_eoil_date"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -231,18 +259,18 @@
                         android:background="@drawable/bg_white_box"
                         android:fontFamily="@font/robotoregular"
                         android:padding="10dp"
-                        android:text="Per Litre Price"
+                        android:text="Description"
                         android:textAllCaps="false"
                         android:textSize="15sp" />
 
                     <TextView
-                        android:id="@+id/tv_perLitrePrice"
+                        android:id="@+id/tv_eoil_description"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="10dp"
                         android:layout_marginTop="10dp"
                         android:fontFamily="@font/robotobold"
-                        android:text="Rs: 110"
+                        android:text="Zic 1040"
                         android:textColor="@color/colorPrimary"
                         android:textSize="20sp" />
 
@@ -263,12 +291,12 @@
                         android:background="@drawable/bg_white_box"
                         android:fontFamily="@font/robotoregular"
                         android:padding="10dp"
-                        android:text="Fuel Quantity"
+                        android:text="Quantity"
                         android:textAllCaps="false"
                         android:textSize="15sp" />
 
                     <TextView
-                        android:id="@+id/tv_fuelQuantityLitres"
+                        android:id="@+id/tv_eoilQuantityLitres"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="20dp"
@@ -294,12 +322,12 @@
                         android:background="@drawable/bg_white_box"
                         android:fontFamily="@font/robotoregular"
                         android:padding="10dp"
-                        android:text="Total Fuel Price"
+                        android:text="Total Price"
                         android:textAllCaps="false"
                         android:textSize="15sp" />
 
                     <TextView
-                        android:id="@+id/tv_totalFuelPrice"
+                        android:id="@+id/tv_totalEoilPrice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="8dp"
@@ -324,95 +352,24 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:fontFamily="@font/robotoregular"
-                    android:text="Fuel Average"
+                    android:text="Next Oil Change"
                     android:textColor="@color/colorPrimary"
                     android:textSize="18sp" />
 
 
                 <TextView
-                    android:id="@+id/tv_calculatedAverage"
+                    android:id="@+id/tv_next_oil_change"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:fontFamily="@font/robotomedium"
-                    android:text="12 km/l"
+                    android:text="12000 km"
                     android:textColor="#000"
                     android:textSize="18sp" />
 
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/detailsLayout"
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:layout_marginHorizontal="20dp"
-                android:background="@drawable/bg_white_box"
-                android:elevation="2.5dp"
-                android:gravity="center_horizontal"
-                android:baselineAligned="false"
-                android:orientation="horizontal">
 
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_margin="@dimen/margin_tiny"
-                    android:layout_weight="0.5"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:fontFamily="@font/robotoregular"
-                        android:text="Coverable Distance"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="12sp" />
-
-                    <TextView
-                        android:id="@+id/tv_coverableDistance"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:fontFamily="@font/robotomedium"
-                        android:text="8000km"
-                        android:textColor="#000"
-                        android:textSize="14sp" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_margin="@dimen/margin_tiny"
-                    android:layout_weight="0.5"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:fontFamily="@font/robotoregular"
-                        android:text="Next Fuel Fill"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="12sp" />
-
-                    <TextView
-                        android:id="@+id/tv_nextFuelFill"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:fontFamily="@font/robotomedium"
-                        android:text="8000km"
-                        android:textColor="#000"
-                        android:textSize="14sp" />
-
-                </LinearLayout>
-
-
-            </LinearLayout>
 
 
         </LinearLayout>

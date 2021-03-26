@@ -100,9 +100,9 @@ public class AddEditEngineOilFragment extends DialogFragment implements DatePick
     private TextInputEditText tin_eoil_currentMileage;
     private TextInputEditText tin_eoil_previousMileage;
     private TextInputEditText tin_eoil_totalDistance;
-    private TextInputEditText tin_eoil_nextOilChangeAt;
+    private TextView tv_eoil_nextOilChangeAt;
     private ImageButton btn_eoil_calculateDistance;
-    private ImageButton btn_eoil_nextOilChangeAt;
+    private Button btn_calculateNextOilChange;
 
     private FloatingActionButton fabSaveEngineOilData;
 
@@ -136,10 +136,11 @@ public class AddEditEngineOilFragment extends DialogFragment implements DatePick
         tin_eoil_currentMileage = view.findViewById(R.id.tin_eoil_currentMileage);
         tin_eoil_previousMileage = view.findViewById(R.id.tin_eoil_previousMileage);
         tin_eoil_totalDistance = view.findViewById(R.id.tin_eoil_totalDistance);
-        tin_eoil_nextOilChangeAt = view.findViewById(R.id.tin_eoil_nextOilChangeAt);
+        tv_eoil_nextOilChangeAt = view.findViewById(R.id.tv_eoil_nextOilChangeAt);
         btn_eoil_calculateDistance = view.findViewById(R.id.btn_eoil_calculateDistance);
-        btn_eoil_nextOilChangeAt = view.findViewById(R.id.btn_eoil_nextOilChangeAt);
+        btn_calculateNextOilChange = view.findViewById(R.id.btn_calculateNextOilChange);
         fabSaveEngineOilData = view.findViewById(R.id.fabSaveEngineOilData);
+        fabSaveEngineOilData.hide(); // hide save button
 
         calendar = Calendar.getInstance();
         datePickerDialog = new DatePickerDialog(getActivity(), this, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
@@ -179,7 +180,6 @@ public class AddEditEngineOilFragment extends DialogFragment implements DatePick
 
             //populate data received from Arguments
             populateEngineOilData(engineOil); // populate received data into edit text
-            fabSaveEngineOilData.hide(); // hide save button
             monitorTextChange(); // monitor touch on edit text and when touched, enable save button
 
 
@@ -216,12 +216,13 @@ public class AddEditEngineOilFragment extends DialogFragment implements DatePick
         });
 
         // button to calculate next oil change mileage i.e; 10,3000km + 3000km interval = 10,6000km
-        btn_eoil_nextOilChangeAt.setOnClickListener(v -> {
+        btn_calculateNextOilChange.setOnClickListener(v -> {
+            fabSaveEngineOilData.show(); // show when calculate button is pressed
             if (!tin_eoil_currentMileage.getText().toString().trim().isEmpty() && !tin_eoil_interval.getText().toString().trim().isEmpty()) {
                 Double intervalEntered = Double.parseDouble(tin_eoil_interval.getText().toString().trim());
                 nextUpcomingMileage = (currentMileage + intervalEntered);
                 nextUpcomingMileage = AppUtils.roundDouble(nextUpcomingMileage, 2); // round to 2 decimal places
-                tin_eoil_nextOilChangeAt.setText(String.valueOf(nextUpcomingMileage));
+                tv_eoil_nextOilChangeAt.setText(String.valueOf(nextUpcomingMileage));
                 // store nextUpcomingMileage in SharedPreferences
 
             }
@@ -303,7 +304,6 @@ public class AddEditEngineOilFragment extends DialogFragment implements DatePick
         textInputEditTextList.add(tin_eoil_currentMileage);
         textInputEditTextList.add(tin_eoil_previousMileage);
         textInputEditTextList.add(tin_eoil_totalDistance);
-        textInputEditTextList.add(tin_eoil_nextOilChangeAt);
 
         for (TextInputEditText item : textInputEditTextList) {
 
@@ -359,7 +359,7 @@ public class AddEditEngineOilFragment extends DialogFragment implements DatePick
         tin_eoil_currentMileage.setText(AppUtils.removeTrailingZero(engineOil.getEoil_currentMileage().toString()));
         tin_eoil_previousMileage.setText(AppUtils.removeTrailingZero(engineOil.getEoil_previousMileage().toString()));
         tin_eoil_totalDistance.setText(AppUtils.removeTrailingZero(engineOil.getEoil_totalDistance().toString()));
-        tin_eoil_nextOilChangeAt.setText(AppUtils.removeTrailingZero(engineOil.getNextOilChangeAt().toString()));
+        tv_eoil_nextOilChangeAt.setText(AppUtils.removeTrailingZero(engineOil.getNextOilChangeAt().toString()));
         tin_eoil_totalDistance.setText(AppUtils.removeTrailingZero(engineOil.getEoil_totalDistance().toString()));
     }
 
@@ -396,7 +396,7 @@ public class AddEditEngineOilFragment extends DialogFragment implements DatePick
                 Double eoil_currentMileage = Double.valueOf(tin_eoil_currentMileage.getText().toString());
                 Double eoil_previousMileage = Double.valueOf(tin_eoil_previousMileage.getText().toString());
                 Double eoil_totalDistance = Double.valueOf(tin_eoil_totalDistance.getText().toString());
-                Double eoil_nextOilChangeAt = Double.valueOf(tin_eoil_nextOilChangeAt.getText().toString());
+                Double eoil_nextOilChangeAt = Double.valueOf(tv_eoil_nextOilChangeAt.getText().toString());
 
                 // set data fields for engineOil
                 if (engineOilDate == null) { // means no default date is set
@@ -449,7 +449,7 @@ public class AddEditEngineOilFragment extends DialogFragment implements DatePick
                 tin_eoil_currentMileage.getText().toString().trim().isEmpty() ||
                 tin_eoil_previousMileage.getText().toString().trim().isEmpty() ||
                 tin_eoil_totalDistance.getText().toString().trim().isEmpty() ||
-                tin_eoil_nextOilChangeAt.getText().toString().trim().isEmpty();
+                tv_eoil_nextOilChangeAt.getText().toString().trim().isEmpty();
 
         if (emptyListAvailable) {
             validationList(); // set error messages
@@ -469,7 +469,6 @@ public class AddEditEngineOilFragment extends DialogFragment implements DatePick
         textInputValidationList.add(tin_eoil_currentMileage);
         textInputValidationList.add(tin_eoil_previousMileage);
         textInputValidationList.add(tin_eoil_totalDistance);
-        textInputValidationList.add(tin_eoil_nextOilChangeAt);
 
         for (int i = 0; i < textInputValidationList.size(); i++) {
 

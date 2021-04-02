@@ -32,7 +32,7 @@
                 android:fontFamily="@font/robotobold"
                 android:text="Engine Oil Record"
                 android:textColor="@color/colorWhite"
-                android:textSize="26sp" />
+                android:textSize="22sp" />
 
             <View
                 android:layout_width="180dp"
@@ -45,18 +45,18 @@
 
         <ImageView
             android:id="@+id/btn_edit_eoil"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_marginStart="320dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginStart="280dp"
             android:layout_marginTop="30dp"
             android:contentDescription="Edit"
             android:src="@drawable/ic_edit_24dp" />
 
         <ImageView
             android:id="@+id/btn_delete_eoil"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_marginStart="350dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginStart="310dp"
             android:layout_marginTop="30dp"
             android:contentDescription="Delete"
             android:layerType="software"
@@ -91,8 +91,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/robotomedium"
-                android:text="Oil Change Interval : "
+                android:fontFamily="@font/robotobold"
+                android:text="Oil Change Interval "
                 android:textColor="#ADABAB"
                 android:textSize="16sp" />
 

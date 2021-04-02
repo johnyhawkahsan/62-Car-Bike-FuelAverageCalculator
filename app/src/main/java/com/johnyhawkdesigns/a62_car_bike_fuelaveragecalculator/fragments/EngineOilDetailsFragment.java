@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.johnyhawkdesigns.a62_car_bike_fuelaveragecalculator.R;
@@ -59,8 +60,9 @@ public class EngineOilDetailsFragment extends DialogFragment {
     private TextView tv_next_oil_change;
 
 
-    private ImageButton btn_edit_eoil;
-    private ImageButton btn_delete_eoil;
+    private ImageView btn_edit_eoil;
+    private ImageView btn_delete_eoil;
+
 
 
     @Nullable

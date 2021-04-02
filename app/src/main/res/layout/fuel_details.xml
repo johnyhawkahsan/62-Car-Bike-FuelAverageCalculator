@@ -45,18 +45,18 @@
 
         <ImageView
             android:id="@+id/btn_edit_fuel"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_marginStart="300dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginStart="280dp"
             android:layout_marginTop="30dp"
             android:contentDescription="Edit"
             android:src="@drawable/ic_edit_24dp" />
 
         <ImageView
             android:id="@+id/btn_delete_fuel"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_marginStart="320dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginStart="310dp"
             android:layout_marginTop="30dp"
             android:contentDescription="Delete"
             android:layerType="software"

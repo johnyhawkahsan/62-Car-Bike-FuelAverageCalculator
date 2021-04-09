@@ -18,6 +18,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.johnyhawkdesigns.a62_car_bike_fuelaveragecalculator.R;
 import com.johnyhawkdesigns.a62_car_bike_fuelaveragecalculator.database.model.Vehicle;
@@ -40,6 +43,13 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        MobileAds.initialize(this, new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(InitializationStatus initializationStatus) {
+            }
+        });
+
+
         vehicleViewModel = new VehicleViewModel(getApplication());
 
         vehicleListFragment = new VehicleListFragment();
@@ -47,6 +57,8 @@ public class MainActivity extends AppCompatActivity
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.add(R.id.vehicleFragmentContainer, vehicleListFragment);
         transaction.commit();
+
+
 
     }
 

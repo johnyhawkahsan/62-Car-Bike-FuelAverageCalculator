@@ -68,5 +68,6 @@ dependencies {
     implementation "io.reactivex.rxjava2:rxandroid:$rxAndroid_Version"
 
     // Android ads SDK
-    implementation 'com.google.android.gms:play-services-ads:20.0.0'
+    // 20.0.0 is for Android 11
+    implementation 'com.google.android.gms:play-services-ads:19.3.0'
 }

@@ -56,8 +56,14 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+        // Sample AdMob app ID: ca-app-pub-3940256099942544~3347511713
+        // actual AdMob app id (To be added to manifest) = ca-app-pub-5736402802184272~3006012451
+
+        // test AdMob adUnitId (To be added to adView) = ca-app-pub-3940256099942544/6300978111
+        // actual AdMob adUnitId (To be added to adView) = ca-app-pub-5736402802184272/3524408273
 
         mAdView = findViewById(R.id.adView);
+        // mAdView.setAdUnitId(); // we can also set adUnitID here programmatically
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
 
@@ -99,10 +105,10 @@ public class MainActivity extends AppCompatActivity
 
         vehicleViewModel = new VehicleViewModel(getApplication());
 
-        vehicleListFragment = new VehicleListFragment();
+        vehicleListFragment = new VehicleListFragment(); // load vehicleListFragment inside frame
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.add(R.id.vehicleFragmentContainer, vehicleListFragment);
+        transaction.add(R.id.vehicleFragmentContainer, vehicleListFragment); // add list fragment inside container
         transaction.commit();
 
 

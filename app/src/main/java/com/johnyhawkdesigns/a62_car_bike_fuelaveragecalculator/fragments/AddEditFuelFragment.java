@@ -37,6 +37,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.DialogFragment;
+import androidx.lifecycle.Observer;
 
 
 public class AddEditFuelFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
@@ -71,6 +72,7 @@ public class AddEditFuelFragment extends DialogFragment implements DatePickerDia
     private int fuelID = 0;
     private Fuel fuel;
 
+    private double lastODOreading = 0;
 
     private FuelViewModel fuelViewModel;
     private VehicleViewModel vehicleViewModel;
@@ -205,7 +207,12 @@ public class AddEditFuelFragment extends DialogFragment implements DatePickerDia
             fuelDateString = AppUtils.getFormattedDateString(fuelDate);
             Log.d(TAG, "onDateSet: fuelDateString = " + fuelDateString + " , from original fuelDate = " + fuelDate);
             tv_input_fuel_date.setText(fuelDateString);
+
+            // trying to populate previous odo meter reading for ease of calculation
+            populatePreviousODOReading();
         }
+
+
 
         // set date
         btn_setFuelDate.setOnClickListener(v -> {
@@ -465,6 +472,33 @@ public class AddEditFuelFragment extends DialogFragment implements DatePickerDia
         tv_nextFuelFill_addEdit.setText(AppUtils.removeTrailingZero(fuel.getNextFuelFill().toString()) + " km");
         vehicleFuelCapacity = fuel.getTotalFuelCapacity(); // in editing mode, we want to get fuel capacity and store to variable so we can use it in calculating (coverableDistance and nextFuelFill)
         Log.d(TAG, "populateFuelData: vehicleFuelCapacity = " + vehicleFuelCapacity);
+    }
+
+    // populate previous recent fuel data
+    private void populatePreviousODOReading() {
+
+        fuelViewModel.getAllFuel()
+                .observe(getActivity(), new Observer<List<Fuel>>() {
+                    @Override
+                    public void onChanged(List<Fuel> fuels) {
+
+                        // if list is not empty
+                        if (!fuels.isEmpty()){
+
+                            Log.d(TAG, "onChanged: fuels.size() = " + fuels.size());
+
+                            Fuel mostRecentFuel = fuels.get(fuels.size()-1); // most recent item is one less than total items in list
+                            Log.d(TAG, "onChanged: mostRecentFuel.getFuelID() = " + mostRecentFuel.getFuelID());
+
+                            lastODOreading = mostRecentFuel.getCurrentKm();
+                            tin_startingKm.setText(String.valueOf(lastODOreading));
+
+                        }
+
+
+                    }
+                });
+
     }
 
 

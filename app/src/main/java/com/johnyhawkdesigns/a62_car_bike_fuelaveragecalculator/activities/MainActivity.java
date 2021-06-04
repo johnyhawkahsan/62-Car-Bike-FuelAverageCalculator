@@ -64,15 +64,22 @@ public class MainActivity extends AppCompatActivity
 
         mAdView = findViewById(R.id.adView);
         // mAdView.setAdUnitId(); // we can also set adUnitID here programmatically
+        // mAdView.setBannerSize(); // if setting ad id programmatically, we should set banner programmatically also
+
+        // Create an ad request.
         AdRequest adRequest = new AdRequest.Builder().build();
+
+        // Start loading the ad in the background.
         mAdView.loadAd(adRequest);
 
+        // if want to perform some task on ad activity, we need to implement adListener
         mAdView.setAdListener(new AdListener() {
             @Override
             public void onAdLoaded() {
                 // Code to be executed when an ad finishes loading.
                 super.onAdLoaded();
-                Toast.makeText(MainActivity.this, "Ad loaded", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(MainActivity.this, "Ad loaded", Toast.LENGTH_SHORT).show();
+                Log.d(TAG, "onAdLoaded: Ad loaded");
             }
 
             @Override
@@ -202,6 +209,14 @@ public class MainActivity extends AppCompatActivity
     }
 */
 
+    /** Called before the activity is destroyed */
+    @Override
+    public void onDestroy() {
+        if (mAdView != null) {
+            mAdView.destroy();
+        }
+        super.onDestroy();
+    }
 
 
 

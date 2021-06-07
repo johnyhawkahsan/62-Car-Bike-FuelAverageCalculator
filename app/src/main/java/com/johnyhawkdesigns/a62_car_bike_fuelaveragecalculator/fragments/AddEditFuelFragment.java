@@ -487,7 +487,8 @@ public class AddEditFuelFragment extends DialogFragment implements DatePickerDia
 
                             Log.d(TAG, "onChanged: fuels.size() = " + fuels.size());
 
-                            Fuel mostRecentFuel = fuels.get(fuels.size()-1); // most recent item is one less than total items in list
+                            //  fuels.size()-1 displayed last item in the list, so I tested and found that 0 item is the first item
+                            Fuel mostRecentFuel = fuels.get(0); // most recent item is zero item on the list means first item
                             Log.d(TAG, "onChanged: mostRecentFuel.getFuelID() = " + mostRecentFuel.getFuelID());
 
                             lastODOreading = mostRecentFuel.getCurrentKm();

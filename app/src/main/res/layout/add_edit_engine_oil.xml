@@ -169,7 +169,7 @@
                     android:id="@+id/tin_eoil_currentMileage"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Current Km"
+                    android:hint="Current ODO Km"
                     android:inputType="number"
                     android:lines="1"
                     android:textSize="12sp" />
@@ -194,7 +194,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.20"
-                    android:hint="Previous Km"
+                    android:hint="Previous ODO Km"
                     android:inputType="number"
                     android:lines="1"
                     android:textSize="12sp" />

@@ -1,6 +1,7 @@
 package com.johnyhawkdesigns.a62_car_bike_fuelaveragecalculator.fragments;
 
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
@@ -9,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageButton;
@@ -218,6 +220,7 @@ public class AddEditEngineOilFragment extends DialogFragment implements DatePick
         // button to calculate next oil change mileage i.e; 10,3000km + 3000km interval = 10,6000km
         btn_calculateNextOilChange.setOnClickListener(v -> {
             fabSaveEngineOilData.show(); // show when calculate button is pressed
+            hideKeyboard();
             if (!tin_eoil_currentMileage.getText().toString().trim().isEmpty() && !tin_eoil_interval.getText().toString().trim().isEmpty()) {
                 Double intervalEntered = Double.parseDouble(tin_eoil_interval.getText().toString().trim());
                 nextUpcomingMileage = (currentMileage + intervalEntered);
@@ -481,6 +484,16 @@ public class AddEditEngineOilFragment extends DialogFragment implements DatePick
                 textInputValidationList.get(i).setError(null);
             }
 
+        }
+    }
+
+    // hide keyboard once "calculate" button is pressed
+    private void hideKeyboard() {
+        // Check if no view has focus:
+        View view = this.getView();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager)getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
     }
 

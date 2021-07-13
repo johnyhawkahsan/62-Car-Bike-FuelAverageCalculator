@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
@@ -263,6 +264,8 @@ public class AddEditFuelFragment extends DialogFragment implements DatePickerDia
         // button to calculate average Total distance covered in km divided by total petrol in litres i.e; 172km/ 5 ltr = 43 km per litre average
         btn_calculateAverage.setOnClickListener(v -> {
 
+            // need to hide keyboard when this button is pressed
+            hideKeyboard();
 
             if (checkForEmptyList()) { // if empty list available, we need to display error message
 
@@ -341,6 +344,16 @@ public class AddEditFuelFragment extends DialogFragment implements DatePickerDia
         fabSaveFuelData.setOnClickListener(saveButtonClicked);
 
         return view;
+    }
+
+    // hide keyboard once "calculate" button is pressed
+    private void hideKeyboard() {
+        // Check if no view has focus:
+        View view = this.getView();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager)getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
     }
 
 
